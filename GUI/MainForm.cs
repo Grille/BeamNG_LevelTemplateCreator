@@ -1,19 +1,19 @@
 using System.Diagnostics;
-using LevelTemplateCreator.Packages;
+using LevelTemplateCreator.Assets;
 
 namespace LevelTemplateCreator
 {
     public partial class MainForm : Form
     {
-        PackageLibary Ressources { get; set; }
+        AssetLibary AssetLibary { get; set; }
         Level Level { get; set; }
 
         public MainForm()
         {
             InitializeComponent();
 
-            Level = new Level();
-            Ressources = new PackageLibary();
+            AssetLibary = new AssetLibary();
+            Level = new Level(AssetLibary);
         }
 
         private void groupBox2_Enter(object sender, EventArgs e)
@@ -29,11 +29,11 @@ namespace LevelTemplateCreator
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!SystemInfo.IsValid) {
+            if (!EnvironmentInfo.IsValid) {
                 new SettingsForm().ShowDialog(this);
             }
 
-            Export(SystemInfo.UserDirLevelsPath);
+            Export(EnvironmentInfo.UserData.LevelsPath);
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -66,12 +66,13 @@ namespace LevelTemplateCreator
             Directory.CreateDirectory(fullPath);
 
             Level.Materials.Clear();
-            foreach (var material in Ressources.TerrainMaterials)
+            foreach (var material in AssetLibary.TerrainMaterials)
             {
                 Level.Materials.Add(material.Material);
             }
 
-            Level.LevelPreset = (LevelPreset)comboBoxPreset.SelectedItem;
+            Level.LevelPreset = LevelSettings.SelectedLevelPreset;
+            Level.Preview = AssetLibary.Preview;
             Level.Export(fullPath);
 
             if (MessageBox.Show(this, $"Level '{Level.Namespace}' at '{path}' successfully created, do you want to open it now?", "Template successfully created", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -92,26 +93,28 @@ namespace LevelTemplateCreator
         private void MainForm_Load(object sender, EventArgs e)
         {
 
-            SystemInfo.Load();
+            EnvironmentInfo.Load();
 
-            if (!SystemInfo.IsValid)
+            if (!EnvironmentInfo.IsValid)
             {
                 new SettingsForm().ShowDialog(this);
             }
 
-            Ressources.LoadDirectory(SystemInfo.PackagesDirPath);
-
-            foreach (var item in Ressources.LevelPresets)
+            try
             {
-                comboBoxPreset.Items.Add(item);
+                AssetLibary.LoadDirectory(EnvironmentInfo.Packages.Path);
             }
-            comboBoxPreset.SelectedIndex = 0;
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}\n\n{ex.StackTrace}", ex.GetType().FullName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
-            terainSettings1.Terrain = Level.Terrain;
+            LevelSettings.Level = Level;
 
-            textBoxNamespace.Text = Level.Namespace;
-            textBoxTitle.Text = Level.Info.Title;
-            textBoxAuthors.Text = Level.Info.Authors;
+            foreach (var item in AssetLibary.TerrainMaterials)
+            {
+                contentManager1.AssetListBoxAvailable.Items.Add(item);
+            }
         }
     }
 }

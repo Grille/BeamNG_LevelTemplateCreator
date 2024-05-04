@@ -1,6 +1,7 @@
-﻿using LevelTemplateCreator.IO;
+﻿using LevelTemplateCreator.IO.Resources;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -9,6 +10,8 @@ using System.Threading.Tasks;
 namespace LevelTemplateCreator.SceneTree;
 internal class TerrainMaterial : SimItem
 {
+    public const string ClassName = "TerrainMaterial";
+
     public string GroundModel { get => (string)this["groundmodelName"]; set => this["groundmodelName"] = value; }
 
     public TerrainMaterialTexture BaseColor { get; }
@@ -20,9 +23,11 @@ internal class TerrainMaterial : SimItem
     public TerrainMaterialDistances MacroDistances { get; }
     public TerrainMaterialDistances DetailDistances { get; }
 
+    public ReadOnlyCollection<TerrainMaterialTextureLayer> Levels { get; }
+
     public TerrainMaterial()
     {
-        Class = "TerrainMaterial";
+        Class = ClassName;
 
         BaseColor = new(this, "baseColor");
         Normal = new(this, "normal");
@@ -32,15 +37,43 @@ internal class TerrainMaterial : SimItem
 
         MacroDistances = new(this, "macro", [0, 10, 100, 1000], Vector2.UnitY);
         DetailDistances = new(this, "detail", [0, 0, 50, 100], Vector2.One);
+
+        Levels = new ReadOnlyCollection<TerrainMaterialTextureLayer>([
+            BaseColor.Base, BaseColor.Macro, BaseColor.Detail,
+            Normal.Base, Normal.Macro, Normal.Detail,
+            Roughness.Base, Roughness.Macro, Roughness.Detail,
+            AmbientOcclusion.Base, AmbientOcclusion.Macro, AmbientOcclusion.Detail,
+            Height.Base, Height.Macro, Height.Detail,
+        ]);
     }
 
-    public void IndexTextures(RessourceFileManager ressources)
+    public void NormalizeSquareSize(float squareSize)
     {
-        BaseColor.IndexTextures(ressources);
-        Normal.IndexTextures(ressources); 
-        Roughness.IndexTextures(ressources);
-        AmbientOcclusion.IndexTextures(ressources);
-        Height.IndexTextures(ressources);
+
+    }
+
+    public void IndexTextures(ResourceManager ressources)
+    {
+        foreach (var level in Levels)
+        {
+            if (level.IsEmpty) return;
+            level.Texture = ressources.Register(level.Texture);
+        }
+    }
+
+    public void AddTexturePath(string path)
+    {
+        foreach (var level in Levels)
+        {
+            if (level.IsEmpty) return;
+            level.Texture = Path.Combine(path, level.Texture);
+        }
+    }
+
+    public void CreatePersistentId()
+    {
+        PersistentId = "id";
+        Name = $"{InternalName}_{PersistentId}";
     }
 }
 
@@ -81,9 +114,9 @@ internal class TerrainMaterialTexture
     public string Prefix { get; }
     public TerrainMaterial Owner { get; }
 
-    public TerrainMaterialTextureLevel Base { get; }
-    public TerrainMaterialTextureLevel Macro { get; }
-    public TerrainMaterialTextureLevel Detail { get; }
+    public TerrainMaterialTextureLayer Base { get; }
+    public TerrainMaterialTextureLayer Macro { get; }
+    public TerrainMaterialTextureLayer Detail { get; }
 
     public TerrainMaterialTexture(TerrainMaterial owner, string prefix)
     {
@@ -94,15 +127,9 @@ internal class TerrainMaterialTexture
         Macro = new(this, "Macro");
         Detail = new(this, "Detail");
     }
-
-    public void IndexTextures(RessourceFileManager ressources) {
-        Base.IndexTexture(ressources);
-        Macro.IndexTexture(ressources);
-        Detail.IndexTexture(ressources);
-    }
 }
 
-internal class TerrainMaterialTextureLevel
+internal class TerrainMaterialTextureLayer
 {
     public string Prefix { get; }
     public TerrainMaterial Owner { get; }
@@ -111,7 +138,7 @@ internal class TerrainMaterialTextureLevel
     readonly string _texSizeKey;
     readonly string _texKey;
 
-    public TerrainMaterialTextureLevel(TerrainMaterialTexture owner, string prefix)
+    public TerrainMaterialTextureLayer(TerrainMaterialTexture owner, string prefix)
     {
         Owner = owner.Owner;
         Prefix = owner.Prefix + prefix;
@@ -127,8 +154,5 @@ internal class TerrainMaterialTextureLevel
     public int MappingScale { get => (int)Owner[_texSizeKey]; set => Owner[_texSizeKey] = value; }
     public Vector2 Strength { get => Owner.GetVec2(_strengthKey); set => Owner.SetVec2(_strengthKey, value); }
 
-    public void IndexTexture(RessourceFileManager ressources)
-    {
-        Texture = ressources.Register(Texture);
-    }
+    public bool IsEmpty => string.IsNullOrEmpty(Texture);
 }

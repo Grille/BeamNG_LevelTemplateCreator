@@ -47,7 +47,7 @@ internal class TerrainInfo
         set
         {
             size = value;
-            squareSize = resolution / size;
+            squareSize = size / resolution;
         }
     }
 

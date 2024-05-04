@@ -6,10 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LevelTemplateCreator.Packages;
+namespace LevelTemplateCreator.Assets;
 
-internal class LevelPreset : Package
+internal class LevelPreset : Asset
 {
+    public const string ClassName = "LevelPreset";
+
     Collection<SimItem> Items;
 
     public LevelPreset(Dictionary<string, object> data)

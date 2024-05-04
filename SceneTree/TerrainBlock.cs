@@ -12,6 +12,8 @@ internal class TerrainBlock : SimItem
     public string TerrainFile { get => (string)this["terrainFile"]; set => this["terrainFile"] = value; }
     public int BaseTexSize { get => (int)this["baseTexSize"]; set => this["baseTexSize"] = value; }
     public int MaxHeight { get => (int)this["maxHeight"]; set => this["maxHeight"] = value; }
+    public float SquareSize { get => (float)this["squareSize"]; set => this["squareSize"] = value; }
+
     public TerrainBlock()
     {
         Name = "theTerrain";
@@ -23,5 +25,6 @@ internal class TerrainBlock : SimItem
         int offset = (int)info.WorldSize / 2;
         Position = new System.Numerics.Vector3(-offset, -offset, 0);
         MaxHeight = info.MaxHeight;
+        SquareSize = info.SquareSize;
     }
 }

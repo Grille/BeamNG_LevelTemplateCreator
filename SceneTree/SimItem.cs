@@ -81,6 +81,16 @@ internal class SimItem
         return false;
     }
 
+    public bool TryPopValue<T>(string key, out T value)
+    {
+        if (TryGetValue(key, out value))
+        {
+            Dict.Remove(key);
+            return true;
+        }
+        return false;
+    }
+
     public void SetVec2(string key, Vector2 vec)
     {
         if (TryGetValue<float[]>(key, out var array)) {
@@ -126,4 +136,5 @@ internal class SimItem
             target[pair.Key] = pair.Value;
         }
     }
+
 }

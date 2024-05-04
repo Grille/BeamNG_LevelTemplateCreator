@@ -10,6 +10,7 @@ namespace LevelTemplateCreator.IO;
 
 static class JsonDictSerializer
 {
+    public const string ArrayClassName = "Template_Array";
     public static void Serialize<T>(Stream stream, T value, bool intended = false) where T : IDictionary<string, object>
     {
         var options = new JsonSerializerOptions()
@@ -43,7 +44,7 @@ static class JsonDictSerializer
         }
         else if (json.ValueKind == JsonValueKind.Array)
         {
-            dst["class"] = "Template_Array";
+            dst["class"] = ArrayClassName;
             dst["items"] = GetArray(json);
         }
         else
@@ -62,7 +63,7 @@ static class JsonDictSerializer
             JsonValueKind.True => json.GetBoolean(),
             JsonValueKind.False => json.GetBoolean(),
             JsonValueKind.Null => null!,
-            _ => throw new Exception("Unexpected type " + json.ValueKind)
+            _ => throw new JsonException($"Unexpected type {json.ValueKind}.")
         };
 
         return value;
@@ -73,7 +74,7 @@ static class JsonDictSerializer
     {
         int count = json.GetArrayLength();
         if (count == 0)
-            throw new Exception();
+            throw new JsonException("Array length is 0.");
 
         var first = json[0];
 
@@ -92,11 +93,11 @@ static class JsonDictSerializer
         Array? array = first.ValueKind switch
         {
             JsonValueKind.Number => json.Deserialize<float[]>(),
-            _ => throw new Exception(),
+            _ => throw new JsonException($"Unexpected type {json.ValueKind}."),
         };
 
         if (array == null)
-            throw new Exception();
+            throw new JsonException("Array is null.");
 
         return array;
     }
@@ -112,7 +113,7 @@ static class JsonDictSerializer
     {
         var jdict = json.Deserialize<Dictionary<string, JsonElement>>();
         if (jdict == null)
-            throw new Exception();
+            throw new JsonException("Dict is null.");
 
         var result = dst;
 

@@ -22,7 +22,7 @@ static class LevelInfoSerializer
             ["defaultSpawnPointName"] = "spawn_default",
 
             ["size"] = new[] { level.Terrain.WorldSize, level.Terrain.WorldSize },
-            ["previews"] = new[] { "preview.jpg" },
+            ["previews"] = new[] { "preview.png" },
 
             ["spawnPoints"] = new Dictionary<string, object>[]
             {

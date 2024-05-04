@@ -1,4 +1,5 @@
 ﻿using LevelTemplateCreator.IO;
+using LevelTemplateCreator.IO.Resources;
 using LevelTemplateCreator.SceneTree;
 using System;
 using System.Collections.Generic;
@@ -7,23 +8,23 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace LevelTemplateCreator.Packages;
+namespace LevelTemplateCreator.Assets;
 
-internal class PackageLibary
+internal class AssetLibary
 {
-    //public static Dictionary<string, Texture> Textures { get; }
     public List<LevelPreset> LevelPresets { get; }
 
-    public RessourceFileManager RessourceFiles { get; }
+    public ResourceManager TextureFiles { get; }
 
-    public List<TerrainMaterialTemplate> TerrainMaterials { get; }
+    public List<TerrainMaterialAsset> TerrainMaterials { get; }
 
-    public PackageLibary()
+    public Bitmap? Preview { get; private set; }
+
+    public AssetLibary()
     {
         LevelPresets = new List<LevelPreset>();
-        RessourceFiles = new RessourceFileManager();
-        TerrainMaterials = new List<TerrainMaterialTemplate>();
-        //Textures = new Dictionary<string, Texture>();
+        TextureFiles = new ResourceManager();
+        TerrainMaterials = new List<TerrainMaterialAsset>();
     }
 
     public void LoadDirectory(string path)
@@ -41,6 +42,15 @@ internal class PackageLibary
                 LoadFile(file);
             }
         }
+
+        var previewPath = Path.Combine(path, "preview.png");
+        if (File.Exists(previewPath))
+        {
+            using (var stream = new FileStream(previewPath, FileMode.Open))
+            {
+                Preview = new Bitmap(stream);
+            }
+        }
     }
 
     public void LoadFile(string path)
@@ -56,25 +66,27 @@ internal class PackageLibary
         var item = new SimItem();
         item.Dict = dict;
 
-        ParseFile(item);
+        ParseObject(item);
     }
 
-    void ParseFile(SimItem item)
+    void ParseObject(SimItem item)
     {
         switch (item.Class)
         {
-            case "Template_Array":
+            case JsonDictSerializer.ArrayClassName:
                 ParseArray(item);
                 break;
-            case "Template_LevelPreset":
+            case LevelPreset.ClassName:
                 var preset = new LevelPreset(item.Dict);
                 LevelPresets.Add(preset);
                 break;
-            case "Template_TerrainMaterial":
-                ParseMaterialLib(item);
+            case TerrainMaterialAsset.ClassName:
+                var material = new TerrainMaterialAsset(item);
+                material.Material.IndexTextures(TextureFiles);
+                TerrainMaterials.Add(material);
                 break;
             default:
-                throw new Exception();
+                throw new Exception($"Unsupported class {item.Class}.");
         }
     }
 
@@ -86,23 +98,7 @@ internal class PackageLibary
             var si = new SimItem();
             si.Dict = item;
 
-            ParseFile(si);
+            ParseObject(si);
         }
-    }
-
-    void ParseMaterialLib(SimItem item)
-    {
-        var material = new TerrainMaterial();
-        material.Dict = item.Dict;
-
-        material.Class = "TerrainMaterial";
-        material.PersistentId = "id";
-        material.InternalName = material.Name;
-        material.Name = $"{material.InternalName}_{material.PersistentId}";
-
-        var template = new TerrainMaterialTemplate();
-        template.Material = material;
-
-        TerrainMaterials.Add(template);
     }
 }
