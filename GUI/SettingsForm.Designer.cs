@@ -1,0 +1,158 @@
+﻿namespace LevelTemplateCreator
+{
+    partial class SettingsForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            label2 = new Label();
+            label1 = new Label();
+            buttonCancel = new Button();
+            buttonOk = new Button();
+            label3 = new Label();
+            pathBoxPack = new PathBox();
+            pathBoxUser = new PathBox();
+            pathBoxGame = new PathBox();
+            buttonFind = new Button();
+            SuspendLayout();
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(13, 44);
+            label2.Name = "label2";
+            label2.Size = new Size(80, 15);
+            label2.TabIndex = 9;
+            label2.Text = "Userdata Path";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(13, 15);
+            label1.Name = "label1";
+            label1.Size = new Size(88, 15);
+            label1.TabIndex = 7;
+            label1.Text = "Gamedata Path";
+            // 
+            // buttonCancel
+            // 
+            buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            buttonCancel.Location = new Point(397, 105);
+            buttonCancel.Name = "buttonCancel";
+            buttonCancel.Size = new Size(75, 23);
+            buttonCancel.TabIndex = 12;
+            buttonCancel.Text = "Cancel";
+            buttonCancel.UseVisualStyleBackColor = true;
+            buttonCancel.Click += buttonCancel_Click;
+            // 
+            // buttonOk
+            // 
+            buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            buttonOk.Location = new Point(316, 105);
+            buttonOk.Name = "buttonOk";
+            buttonOk.Size = new Size(75, 23);
+            buttonOk.TabIndex = 14;
+            buttonOk.Text = "OK";
+            buttonOk.UseVisualStyleBackColor = true;
+            buttonOk.Click += buttonOk_Click;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(13, 73);
+            label3.Name = "label3";
+            label3.Size = new Size(83, 15);
+            label3.TabIndex = 17;
+            label3.Text = "Packages Path";
+            // 
+            // pathBoxPack
+            // 
+            pathBoxPack.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            pathBoxPack.Location = new Point(132, 70);
+            pathBoxPack.Name = "pathBoxPack";
+            pathBoxPack.Size = new Size(340, 23);
+            pathBoxPack.TabIndex = 19;
+            // 
+            // pathBoxUser
+            // 
+            pathBoxUser.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            pathBoxUser.Location = new Point(132, 41);
+            pathBoxUser.Name = "pathBoxUser";
+            pathBoxUser.Size = new Size(340, 23);
+            pathBoxUser.TabIndex = 20;
+            // 
+            // pathBoxGame
+            // 
+            pathBoxGame.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            pathBoxGame.Location = new Point(132, 12);
+            pathBoxGame.Name = "pathBoxGame";
+            pathBoxGame.Size = new Size(340, 23);
+            pathBoxGame.TabIndex = 21;
+            // 
+            // buttonFind
+            // 
+            buttonFind.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            buttonFind.Location = new Point(12, 105);
+            buttonFind.Name = "buttonFind";
+            buttonFind.Size = new Size(75, 23);
+            buttonFind.TabIndex = 22;
+            buttonFind.Text = "Autodetect";
+            buttonFind.UseVisualStyleBackColor = true;
+            buttonFind.Click += buttonFind_Click;
+            // 
+            // SettingsForm
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(484, 136);
+            Controls.Add(buttonFind);
+            Controls.Add(pathBoxGame);
+            Controls.Add(pathBoxUser);
+            Controls.Add(pathBoxPack);
+            Controls.Add(label3);
+            Controls.Add(buttonOk);
+            Controls.Add(buttonCancel);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            MinimumSize = new Size(500, 175);
+            Name = "SettingsForm";
+            Text = "Settings";
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+        private Label label2;
+        private Label label1;
+        private Button buttonCancel;
+        private Button buttonOk;
+        private Label label3;
+        private PathBox pathBoxPack;
+        private PathBox pathBoxUser;
+        private PathBox pathBoxGame;
+        private Button buttonFind;
+    }
+}
