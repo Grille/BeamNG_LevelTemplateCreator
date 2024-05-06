@@ -39,6 +39,14 @@ internal class MaterialLibary
         Materials.Add(material);
     }
 
+    public void AddAssets(IEnumerable<MaterialAsset> assets)
+    {
+        foreach (var asset in assets)
+        {
+            AddAsset(asset);
+        }
+    }
+
 
     public string[] GetMaterialNames()
     {

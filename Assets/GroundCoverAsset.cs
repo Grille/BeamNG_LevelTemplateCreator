@@ -12,10 +12,15 @@ internal class GroundCoverAsset : Asset
 {
     public const string ClassName = "GroundCover";
 
-    public GroundCoverDefinition Definition { get; }
+    public GroundCover GroundCover { get; }
 
     public GroundCoverAsset(JsonDictWrapper item, string file) : base(item, file)
     {
-        Definition = new GroundCoverDefinition(item.Dict);
+        GroundCover = new GroundCover(item.Dict);
+    }
+
+    public void CreateNew(AssetCollection<GroundCoverInstanceAsset> instances)
+    {
+
     }
 }

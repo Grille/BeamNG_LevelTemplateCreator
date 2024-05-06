@@ -20,7 +20,7 @@ static class JsonDictSerializer
         JsonSerializer.Serialize(stream, value, options);
     }
 
-    public static Dictionary<string, object> Deserialize(Stream stream) => Deserialize<Dictionary<string, object>>(stream);
+    public static JsonDict Deserialize(Stream stream) => Deserialize<JsonDict>(stream);
 
     public static T Deserialize<T>(Stream stream) where T : IDictionary<string, object>, new()
     {
@@ -80,7 +80,7 @@ static class JsonDictSerializer
 
         if (first.ValueKind == JsonValueKind.Object)
         {
-            var objarray = new Dictionary<string, object>[count];
+            var objarray = new JsonDict[count];
 
             for (int i = 0; i < count; i++)
             {
@@ -102,9 +102,9 @@ static class JsonDictSerializer
         return array;
     }
 
-    public static Dictionary<string, object> GetDict(JsonElement json)
+    public static JsonDict GetDict(JsonElement json)
     {
-        var result = new Dictionary<string, object>();
+        var result = new JsonDict();
         GetDict(json, result);
         return result;
     }

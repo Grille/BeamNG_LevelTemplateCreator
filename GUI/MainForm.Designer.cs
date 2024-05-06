@@ -30,8 +30,6 @@
         {
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
-            newToolStripMenuItem = new ToolStripMenuItem();
-            toolStripSeparator1 = new ToolStripSeparator();
             saveToolStripMenuItem = new ToolStripMenuItem();
             saveAsToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator3 = new ToolStripSeparator();
@@ -40,9 +38,14 @@
             systemToolStripMenuItem = new ToolStripMenuItem();
             utilsToolStripMenuItem = new ToolStripMenuItem();
             createTexturePackFromLevelToolStripMenuItem = new ToolStripMenuItem();
+            displayToolStripMenuItem = new ToolStripMenuItem();
+            itemSizeToolStripMenuItem = new ToolStripMenuItem();
+            toolStripMenuItem2 = new ToolStripMenuItem();
+            toolStripMenuItem3 = new ToolStripMenuItem();
+            toolStripMenuItem4 = new ToolStripMenuItem();
             splitContainer1 = new SplitContainer();
             LevelSettings = new GUI.LevelSettings();
-            contentManager1 = new GUI.ContentManager();
+            ContentManager = new GUI.ContentManager();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -52,7 +55,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, settingsToolStripMenuItem, utilsToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, settingsToolStripMenuItem, displayToolStripMenuItem, utilsToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(1335, 24);
@@ -61,22 +64,10 @@
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { newToolStripMenuItem, toolStripSeparator1, saveToolStripMenuItem, saveAsToolStripMenuItem, toolStripSeparator3, exitToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { saveToolStripMenuItem, saveAsToolStripMenuItem, toolStripSeparator3, exitToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(37, 20);
             fileToolStripMenuItem.Text = "File";
-            // 
-            // newToolStripMenuItem
-            // 
-            newToolStripMenuItem.Name = "newToolStripMenuItem";
-            newToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.N;
-            newToolStripMenuItem.Size = new Size(186, 22);
-            newToolStripMenuItem.Text = "New";
-            // 
-            // toolStripSeparator1
-            // 
-            toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(183, 6);
             // 
             // saveToolStripMenuItem
             // 
@@ -117,13 +108,14 @@
             // systemToolStripMenuItem
             // 
             systemToolStripMenuItem.Name = "systemToolStripMenuItem";
-            systemToolStripMenuItem.Size = new Size(144, 22);
+            systemToolStripMenuItem.Size = new Size(180, 22);
             systemToolStripMenuItem.Text = "System Paths";
             systemToolStripMenuItem.Click += systemToolStripMenuItem_Click;
             // 
             // utilsToolStripMenuItem
             // 
             utilsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { createTexturePackFromLevelToolStripMenuItem });
+            utilsToolStripMenuItem.Enabled = false;
             utilsToolStripMenuItem.Name = "utilsToolStripMenuItem";
             utilsToolStripMenuItem.Size = new Size(42, 20);
             utilsToolStripMenuItem.Text = "Utils";
@@ -134,6 +126,41 @@
             createTexturePackFromLevelToolStripMenuItem.Size = new Size(238, 22);
             createTexturePackFromLevelToolStripMenuItem.Text = "Create Texture Pack From Level";
             createTexturePackFromLevelToolStripMenuItem.Click += createTexturePackFromLevelToolStripMenuItem_Click;
+            // 
+            // displayToolStripMenuItem
+            // 
+            displayToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { itemSizeToolStripMenuItem });
+            displayToolStripMenuItem.Name = "displayToolStripMenuItem";
+            displayToolStripMenuItem.Size = new Size(57, 20);
+            displayToolStripMenuItem.Text = "Display";
+            // 
+            // itemSizeToolStripMenuItem
+            // 
+            itemSizeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem2, toolStripMenuItem3, toolStripMenuItem4 });
+            itemSizeToolStripMenuItem.Name = "itemSizeToolStripMenuItem";
+            itemSizeToolStripMenuItem.Size = new Size(121, 22);
+            itemSizeToolStripMenuItem.Text = "Item Size";
+            // 
+            // toolStripMenuItem2
+            // 
+            toolStripMenuItem2.Name = "toolStripMenuItem2";
+            toolStripMenuItem2.Size = new Size(180, 22);
+            toolStripMenuItem2.Text = "Small Icons";
+            toolStripMenuItem2.Click += toolStripMenuItem2_Click;
+            // 
+            // toolStripMenuItem3
+            // 
+            toolStripMenuItem3.Name = "toolStripMenuItem3";
+            toolStripMenuItem3.Size = new Size(180, 22);
+            toolStripMenuItem3.Text = "Medium Icons";
+            toolStripMenuItem3.Click += toolStripMenuItem3_Click;
+            // 
+            // toolStripMenuItem4
+            // 
+            toolStripMenuItem4.Name = "toolStripMenuItem4";
+            toolStripMenuItem4.Size = new Size(180, 22);
+            toolStripMenuItem4.Text = "Large Icons";
+            toolStripMenuItem4.Click += toolStripMenuItem4_Click;
             // 
             // splitContainer1
             // 
@@ -148,7 +175,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(contentManager1);
+            splitContainer1.Panel2.Controls.Add(ContentManager);
             splitContainer1.Size = new Size(1335, 558);
             splitContainer1.SplitterDistance = 346;
             splitContainer1.TabIndex = 10;
@@ -156,19 +183,18 @@
             // LevelSettings
             // 
             LevelSettings.Dock = DockStyle.Fill;
-            LevelSettings.Level = null;
             LevelSettings.Location = new Point(0, 0);
             LevelSettings.Name = "LevelSettings";
             LevelSettings.Size = new Size(346, 558);
             LevelSettings.TabIndex = 11;
             // 
-            // contentManager1
+            // ContentManager
             // 
-            contentManager1.Dock = DockStyle.Fill;
-            contentManager1.Location = new Point(0, 0);
-            contentManager1.Name = "contentManager1";
-            contentManager1.Size = new Size(985, 558);
-            contentManager1.TabIndex = 0;
+            ContentManager.Dock = DockStyle.Fill;
+            ContentManager.Location = new Point(0, 0);
+            ContentManager.Name = "ContentManager";
+            ContentManager.Size = new Size(985, 558);
+            ContentManager.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -177,6 +203,7 @@
             ClientSize = new Size(1335, 582);
             Controls.Add(splitContainer1);
             Controls.Add(menuStrip1);
+            DoubleBuffered = true;
             MainMenuStrip = menuStrip1;
             Name = "MainForm";
             Text = "Template Creator";
@@ -194,8 +221,6 @@
         #endregion
         private MenuStrip menuStrip1;
         private ToolStripMenuItem fileToolStripMenuItem;
-        private ToolStripMenuItem newToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem saveToolStripMenuItem;
         private ToolStripMenuItem saveAsToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator3;
@@ -207,6 +232,11 @@
         private Label label1;
         private SplitContainer splitContainer1;
         private GUI.LevelSettings LevelSettings;
-        private GUI.ContentManager contentManager1;
+        private GUI.ContentManager ContentManager;
+        private ToolStripMenuItem displayToolStripMenuItem;
+        private ToolStripMenuItem itemSizeToolStripMenuItem;
+        private ToolStripMenuItem toolStripMenuItem2;
+        private ToolStripMenuItem toolStripMenuItem3;
+        private ToolStripMenuItem toolStripMenuItem4;
     }
 }

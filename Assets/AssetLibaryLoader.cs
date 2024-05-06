@@ -110,7 +110,7 @@ internal class AssetLibaryLoader
             case GroundCoverAsset.ClassName:
             {
                 var groundcover = new GroundCoverAsset(item, currentFile);
-                Libary.GroundCoverAssets.Add(groundcover);
+                Libary.GroundCoverDefinitions.Add(groundcover);
                 break;
             }
             default:
@@ -129,5 +129,28 @@ internal class AssetLibaryLoader
 
             ParseObject(si);
         }
+    }
+
+    public void PrintErrors()
+    {
+        if (Errors.Count == 0)
+            return;
+
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"{Errors.Count} errors while loading assets.");
+        Console.ForegroundColor = ConsoleColor.Gray;
+
+        Console.WriteLine();
+
+        for (int i = 0; i < Errors.Count; i++)
+        {
+            var error = Errors[i];
+
+            Console.WriteLine($"At {error.File}");
+            Console.WriteLine(error.Exception.Message);
+
+            Console.WriteLine();
+        }
+
     }
 }

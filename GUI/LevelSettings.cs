@@ -14,54 +14,50 @@ namespace LevelTemplateCreator.GUI;
 
 internal partial class LevelSettings : UserControl
 {
-    Level _level;
+    Level? _level;
 
-    public Level Level { get => _level; set => SetLevel(value); }
-
-    public AssetLibary AssetLibary => Level.Libary;
-
-    public LevelPreset SelectedLevelPreset => (LevelPreset)comboBoxPreset.SelectedItem;
-
-    void SetLevel(Level level)
+    public void SetLevel(Level level)
     {
         _level = level;
 
         if (_level == null)
             return;
 
-        if (AssetLibary.LevelPresets.Count > 0)
-        {
-            foreach (var item in AssetLibary.LevelPresets)
-            {
-                comboBoxPreset.Items.Add(item);
-            }
-            comboBoxPreset.SelectedIndex = 0;
-        }
+        TerainSettings.Terrain = _level.Terrain;
 
-        TerainSettings.Terrain = Level.Terrain;
-
-        textBoxNamespace.Text = Level.Namespace;
-        textBoxTitle.Text = Level.Info.Title;
-        textBoxAuthors.Text = Level.Info.Authors;
+        TextBoxNamespace.Text = _level.Namespace;
+        TextBoxTitle.Text = _level.Info.Title;
+        TextBoxAuthor.Text = _level.Info.Authors;
     }
 
     public LevelSettings()
     {
         InitializeComponent();
+
+
     }
 
     private void textBoxNamespace_TextChanged(object sender, EventArgs e)
     {
-        Level.Namespace = textBoxNamespace.Text;
+        if (_level == null)
+            return;
+
+        _level.Namespace = TextBoxNamespace.Text;
     }
 
     private void textBoxTitle_TextChanged(object sender, EventArgs e)
     {
-        Level.Info.Title = textBoxTitle.Text;
+        if (_level == null)
+            return;
+
+        _level.Info.Title = TextBoxTitle.Text;
     }
 
     private void textBoxAuthors_TextChanged(object sender, EventArgs e)
     {
-        Level.Info.Authors = textBoxAuthors.Text;
+        if (_level == null)
+            return;
+
+        _level.Info.Authors = TextBoxAuthor.Text;
     }
 }

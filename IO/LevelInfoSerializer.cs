@@ -17,14 +17,14 @@ static class LevelInfoSerializer
 
     public static void Serialize(Level level, Stream stream)
     {
-        var dict = new Dictionary<string, object>()
+        var dict = new JsonDict()
         {
             ["defaultSpawnPointName"] = "spawn_default",
 
             ["size"] = new[] { level.Terrain.WorldSize, level.Terrain.WorldSize },
             ["previews"] = new[] { "preview.png" },
 
-            ["spawnPoints"] = new Dictionary<string, object>[]
+            ["spawnPoints"] = new JsonDict[]
             {
                 new()
                 {

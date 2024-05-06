@@ -13,12 +13,17 @@ abstract class Asset
 {
     public string Name { get; set; } = string.Empty;
 
+    public string Description { get; set; } = string.Empty;
+
     public Image Preview { get; set; }
 
     public string SourceFile { get; }
 
+    public JsonDictWrapper Object { get; }
+
     public Asset(JsonDictWrapper obj, string source)
     {
+        Object = obj;
         SourceFile = source;
 
         if (obj.TryPopValue("preview", out string path))
@@ -29,13 +34,19 @@ abstract class Asset
                 var bitmap = new Bitmap(stream);
                 Preview = bitmap;
             }
-            catch { 
+            catch
+            {
                 Preview = Properties.Resources.InvalidPreview;
             }
         }
         else
         {
             Preview = Properties.Resources.NoPreview;
+        }
+
+        if (obj.TryPopValue("description", out string desc))
+        {
+            Description = desc;
         }
     }
 

@@ -16,21 +16,15 @@ namespace LevelTemplateCreator;
 
 internal class Level
 {
-    public AssetLibary Libary { get; }
+    public AssetLibary Content { get; }
 
     public string Namespace { get; set; }
 
     public LevelInfo Info { get; set; }
 
-    public List<TerrainPbrMaterialAsset> TerrainMaterials { get; set; }
-
     public TerrainInfo Terrain { get; set; }
 
-    public LevelPreset? LevelPreset { get; set; }
-
-    public Bitmap? Preview { get; set; }
-
-    public Level(AssetLibary libary)
+    public Level()
     {
         Namespace = "new_pbr_template";
         Info = new LevelInfo();
@@ -38,8 +32,7 @@ internal class Level
         {
             Resolution = 1024,
         };
-        TerrainMaterials = new();
-        Libary = libary;
+        Content = new AssetLibary();
     }
 
     public TerrainBlock BuildTerrainBlock()
@@ -54,11 +47,7 @@ internal class Level
     {
         var path = $"/levels/{Namespace}/art/terrains";
         var lib = new MaterialLibary(path);
-
-        foreach (var asset in TerrainMaterials)
-        {
-            lib.AddAsset(asset);
-        }
+        lib.AddAssets(Content.TerrainMaterials);
 
         lib.CreateTerrainMaterialTextureSet($"{Namespace}_TerrainMaterialTextureSet");
 
@@ -74,11 +63,14 @@ internal class Level
         var terrain = BuildTerrainBlock();
         levelObject.Terrain.Items.Add(terrain);
 
-        LevelPreset?.Apply(levelObject);
-
-        foreach (var cover in Libary.GroundCoverAssets)
+        foreach (var preset in Content.LevelPresets)
         {
-            levelObject.Vegatation.Items.Add(cover.Definition);
+            preset.Apply(levelObject);
+        }
+
+        foreach (var cover in Content.GroundCoverDefinitions)
+        {
+            levelObject.Vegatation.Items.Add(cover.GroundCover);
         }
 
         return root;
@@ -92,11 +84,7 @@ internal class Level
 
         var objpath = $"/levels/{Namespace}/art/objects";
         var lib = new MaterialLibary(objpath);
-
-        foreach (var asset in Libary.ObjectMaterials)
-        {
-            lib.AddAsset(asset);
-        }
+        lib.AddAssets(Content.ObjectMaterials);
 
         lib.SerializeItems(Path.Combine(path, "art/objects/" + MaterialLibary.FileName));
         lib.Textures.Save(Path.Combine(path, "art/objects"));
@@ -110,7 +98,7 @@ internal class Level
         terrainMaterials.Textures.Save(texturespath);
 
 
-        Preview?.Save(Path.Combine(path, "preview.png"));
+        Content.Preview?.Save(Path.Combine(path, "preview.png"));
 
 
         BuildMissionGroup().SaveTree(Path.Combine(path, "main"));
@@ -120,5 +108,7 @@ internal class Level
         TerrainV9Serializer.Serialize(Terrain, names, Path.Combine(path, "terrain.ter"));
 
         LevelInfoSerializer.Serialize(this, Path.Combine(path, "info.json"));
+
+        ZipFileManager.Clear();
     }
 }

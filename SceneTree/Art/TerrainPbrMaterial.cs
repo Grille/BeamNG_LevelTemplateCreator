@@ -30,8 +30,6 @@ internal class TerrainPbrMaterial : Material
     {
         GroundModel = new(this, "groundmodelName");
 
-        Class.Value = ClassName;
-
         BaseColor = new(this, "baseColor");
         Normal = new(this, "normal");
         Roughness = new(this, "roughness");

@@ -1,4 +1,5 @@
-﻿using LevelTemplateCreator.SceneTree;
+﻿using LevelTemplateCreator.IO.Resources;
+using LevelTemplateCreator.SceneTree;
 using LevelTemplateCreator.SceneTree.Art;
 using System;
 using System.Collections.Generic;
@@ -31,17 +32,11 @@ internal class TerrainPbrMaterialAsset : MaterialAsset
 
         Name = Material.InternalName.Value;
 
-        /*
-        if (material.TryPopValue("groundcover", out Dictionary<string, object>[] groundcover))
-        {
-
-        }
-        */
-
-        SetLayerIfEmpty(Material.AmbientOcclusion.Base, "#ffffff");
-        SetLayerIfEmpty(Material.Normal.Base, "#7f7fff");
-        SetLayerIfEmpty(Material.Height.Base, "#000000");
-        SetLayerIfEmpty(Material.BaseColor.Base, "#515151");
+        SetLayerIfEmpty(Material.AmbientOcclusion.Base, SolidColorNames.BaseAmbientOcclusion);
+        SetLayerIfEmpty(Material.Normal.Base, SolidColorNames.BaseNormal);
+        SetLayerIfEmpty(Material.Height.Base, SolidColorNames.BaseHeight);
+        SetLayerIfEmpty(Material.BaseColor.Base, SolidColorNames.BaseColor);
+        SetLayerIfEmpty(Material.Roughness.Base, SolidColorNames.BaseRoughness);
     }
 
     void SetLayerIfEmpty(TerrainMaterialTextureLayer layer, string value)

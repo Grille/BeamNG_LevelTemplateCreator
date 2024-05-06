@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             tableLayoutPanel1 = new TableLayoutPanel();
-            AssetListBoxAvailable = new AssetListBox();
-            AssetListBoxSelected = new AssetListBox();
+            AssetListBoxAvailable = new AssetViewBox();
+            AssetListBoxSelected = new AssetViewBox();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -53,28 +53,18 @@
             // AssetListBoxAvailable
             // 
             AssetListBoxAvailable.Dock = DockStyle.Fill;
-            AssetListBoxAvailable.DrawMode = DrawMode.OwnerDrawFixed;
-            AssetListBoxAvailable.FormattingEnabled = true;
-            AssetListBoxAvailable.IntegralHeight = false;
-            AssetListBoxAvailable.ItemHeight = 128;
             AssetListBoxAvailable.Location = new Point(612, 0);
             AssetListBoxAvailable.Margin = new Padding(0);
             AssetListBoxAvailable.Name = "AssetListBoxAvailable";
-            AssetListBoxAvailable.ScrollAlwaysVisible = true;
             AssetListBoxAvailable.Size = new Size(592, 701);
             AssetListBoxAvailable.TabIndex = 0;
             // 
             // AssetListBoxSelected
             // 
             AssetListBoxSelected.Dock = DockStyle.Fill;
-            AssetListBoxSelected.DrawMode = DrawMode.OwnerDrawFixed;
-            AssetListBoxSelected.FormattingEnabled = true;
-            AssetListBoxSelected.IntegralHeight = false;
-            AssetListBoxSelected.ItemHeight = 64;
             AssetListBoxSelected.Location = new Point(0, 0);
             AssetListBoxSelected.Margin = new Padding(0);
             AssetListBoxSelected.Name = "AssetListBoxSelected";
-            AssetListBoxSelected.ScrollAlwaysVisible = true;
             AssetListBoxSelected.Size = new Size(592, 701);
             AssetListBoxSelected.TabIndex = 1;
             // 
@@ -92,7 +82,7 @@
         #endregion
 
         private TableLayoutPanel tableLayoutPanel1;
-        public AssetListBox AssetListBoxAvailable;
-        public AssetListBox AssetListBoxSelected;
+        public AssetViewBox AssetListBoxAvailable;
+        public AssetViewBox AssetListBoxSelected;
     }
 }

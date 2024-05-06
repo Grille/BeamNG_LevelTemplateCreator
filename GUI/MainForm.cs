@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text;
 using LevelTemplateCreator.Assets;
 
 namespace LevelTemplateCreator
@@ -13,7 +14,7 @@ namespace LevelTemplateCreator
             InitializeComponent();
 
             AssetLibary = new AssetLibary();
-            Level = new Level(AssetLibary);
+            Level = new Level();
         }
 
         private void groupBox2_Enter(object sender, EventArgs e)
@@ -29,11 +30,7 @@ namespace LevelTemplateCreator
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!EnvironmentInfo.IsValid) {
-                new SettingsForm().ShowDialog(this);
-            }
-
-            Export(EnvironmentInfo.UserData.LevelsPath);
+            Export();
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -47,8 +44,41 @@ namespace LevelTemplateCreator
             }
         }
 
+        bool AssertEnvironmentInfo()
+        {
+            if (EnvironmentInfo.IsValid)
+                return true;
+
+            new SettingsForm().ShowDialog(this);
+
+            if (EnvironmentInfo.IsValid)
+                return true;
+
+            var sb = new StringBuilder();
+            sb.AppendLine("Some of the paths are not correctly set, the program will not work correctly until this is fixed.");
+            sb.AppendLine();
+            sb.AppendLine($"BeamNG-gamdata path valid: {EnvironmentInfo.GameData.IsValid}");
+            sb.AppendLine($"BeamNG-userdata path valid: {EnvironmentInfo.UserData.IsValid}");
+            sb.AppendLine($"Content path valid: {EnvironmentInfo.Packages.IsValid}");
+
+            MessageBox.Show(this, sb.ToString(), "Invalid Paths.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            return false;
+        }
+
+        void Export()
+        {
+            if (!AssertEnvironmentInfo())
+                return;
+
+            Export(EnvironmentInfo.UserData.LevelsPath);
+        }
+
         void Export(string path)
         {
+            if (!AssertEnvironmentInfo())
+                return;
+
             var fullPath = Path.Combine(path, Level.Namespace);
 
             if (Directory.Exists(fullPath))
@@ -65,14 +95,11 @@ namespace LevelTemplateCreator
 
             Directory.CreateDirectory(fullPath);
 
-            Level.TerrainMaterials.Clear();
-            foreach (var material in AssetLibary.TerrainMaterials)
-            {
-                Level.TerrainMaterials.Add(material);
-            }
+            Level.Content.Clear();
+            Level.Content.Add(ContentManager.GetSelectedAssets());
+            Level.Content.Preview = AssetLibary.Preview;
+            Level.Content.PrintSumary();
 
-            Level.LevelPreset = LevelSettings.SelectedLevelPreset;
-            Level.Preview = AssetLibary.Preview;
             Level.Export(fullPath);
 
             if (MessageBox.Show(this, $"Level '{Level.Namespace}' at '{path}' successfully created, do you want to open it now?", "Template successfully created", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -94,45 +121,41 @@ namespace LevelTemplateCreator
         {
 
             EnvironmentInfo.Load();
+            AssertEnvironmentInfo();
 
-            if (!EnvironmentInfo.IsValid)
+            if (!EnvironmentInfo.Packages.IsValid)
             {
-                new SettingsForm().ShowDialog(this);
+                Close();
+                return;
             }
 
-            var sw = Stopwatch.StartNew();
+            EnvironmentInfo.PrintSumary();
 
             var loader = new AssetLibaryLoader(AssetLibary);
             loader.LoadDirectory(EnvironmentInfo.Packages.Path);
+            loader.PrintErrors();
 
-            if (loader.Errors.Count > 0)
-            {
-                var error = loader.Errors[0];
-                var exception = error.Exception;
-                MessageBox.Show($"Error at '{error.File}'\n\n{exception.Message}\n\n{exception.StackTrace}", exception.GetType().FullName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            AssetLibary.SeperateGroundCoverInstances();
+            AssetLibary.PrintSumary();
 
-            /*
-            try
-            {
-                //AssetLibary.LoadDirectory(EnvironmentInfo.Packages.Path);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"{ex.Message}\n\n{ex.StackTrace}", ex.GetType().FullName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            */
+            LevelSettings.SetLevel(Level);
 
-            Console.WriteLine(sw.ElapsedMilliseconds);
+            ContentManager.SetLibary(AssetLibary);
+        }
 
-            LevelSettings.Level = Level;
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            ContentManager.SetItemHeight(64);
+        }
 
-            foreach (var item in AssetLibary.TerrainMaterials)
-            {
-                contentManager1.AssetListBoxAvailable.Items.Add(item);
-            }
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            ContentManager.SetItemHeight(128);
+        }
 
-
+        private void toolStripMenuItem4_Click(object sender, EventArgs e)
+        {
+            ContentManager.SetItemHeight(256);
         }
     }
 }

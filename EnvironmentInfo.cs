@@ -164,4 +164,9 @@ public static class EnvironmentInfo
         using var stream = new FileStream(ConfigFilePath, FileMode.Create);
         JsonDictSerializer.Serialize(stream, dict, true);
     }
+
+    public static void PrintSumary()
+    {
+        Console.WriteLine();
+    }
 }

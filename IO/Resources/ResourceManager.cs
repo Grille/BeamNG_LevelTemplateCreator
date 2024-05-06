@@ -14,6 +14,14 @@ internal class ResourceManager : IEnumerable<Resource>
 {
     public Dictionary<string, Resource> Files { get; }
 
+
+    static readonly Dictionary<string, string> _colors;
+
+    static ResourceManager()
+    {
+        _colors = new();
+    }
+
     public ResourceManager()
     {
         Files = new Dictionary<string, Resource>();
@@ -69,19 +77,16 @@ internal class ResourceManager : IEnumerable<Resource>
 
         if (entry.StartsWith('#'))
         {
-            var hex = entry.Substring(1);
+            var name = entry.Substring(1);
 
+            var key = $"#{name}.png";
 
             int color;
-            try
-            {
-                color = int.Parse(hex, NumberStyles.HexNumber);
-            }
-            catch { 
-                throw new Exception($"Could not parse color '{entry}'");
-            }
 
-            var key = $"rgb#{hex}.png";
+            if (!int.TryParse(name, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out color))
+            {
+                SolidColorNames.TryGet(entry, out color);
+            }
 
             var resource = new SolidColorResource(key, color);
             return resource;
@@ -120,8 +125,7 @@ internal class ResourceManager : IEnumerable<Resource>
     {
         foreach (var resource in Files.Values)
         {
-            var dstpath = Path.Combine(path, resource.Name);
-            resource.Save(dstpath);
+            resource.SaveToDirectory(path);
         }
     }
 
