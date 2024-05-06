@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
+using System.Globalization;
 using System.Collections.Generic;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LevelTemplateCreator.SceneTree.Art;
 
 namespace LevelTemplateCreator.IO.Resources;
 
@@ -38,6 +40,29 @@ internal class ResourceManager : IEnumerable<Resource>
         return resource.Name;
     }
 
+    public string Register(string entry, string file)
+    {
+        var resource = Parse(entry, file);
+        Add(resource);
+        return resource.Name;
+    }
+
+    public static Resource Parse(string entry, string file)
+    {
+        if (entry.StartsWith('.'))
+        {
+            var abspackpath = Path.GetFullPath(EnvironmentInfo.Packages.Path);
+            var dirpath = Path.GetDirectoryName(file);
+            if (dirpath == null)
+                throw new Exception();
+            var path = Path.GetFullPath(Path.Combine(dirpath, entry));
+            var subpath = path.Substring(abspackpath.Length);
+
+            return Parse(subpath);
+        }
+        return Parse(entry);
+    }
+
     public static Resource Parse(string entry)
     {
         entry = entry.Replace("\\", "/");
@@ -46,7 +71,15 @@ internal class ResourceManager : IEnumerable<Resource>
         {
             var hex = entry.Substring(1);
 
-            int color = int.Parse(hex, System.Globalization.NumberStyles.HexNumber);
+
+            int color;
+            try
+            {
+                color = int.Parse(hex, NumberStyles.HexNumber);
+            }
+            catch { 
+                throw new Exception($"Could not parse color '{entry}'");
+            }
 
             var key = $"rgb#{hex}.png";
 
@@ -81,6 +114,15 @@ internal class ResourceManager : IEnumerable<Resource>
         }
 
         throw new Exception();
+    }
+
+    public void Save(string path)
+    {
+        foreach (var resource in Files.Values)
+        {
+            var dstpath = Path.Combine(path, resource.Name);
+            resource.Save(dstpath);
+        }
     }
 
     public IEnumerator<Resource> GetEnumerator()

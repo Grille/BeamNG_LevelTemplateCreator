@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LevelTemplateCreator.SceneTree;
 using GGL.IO;
+using LevelTemplateCreator.SceneTree.Art;
 
 namespace LevelTemplateCreator.IO;
 
 static class TerrainV9Serializer
 {
-    public static void Serialize(TerrainInfo info, ICollection<TerrainMaterial> materials, string path)
+    public static void Serialize(TerrainInfo info, string[] materials, string path)
     {
         using var stream = new FileStream(path, FileMode.Create);
         Serialize(info, materials, stream);
     }
 
-    public static void Serialize(TerrainInfo info, ICollection<TerrainMaterial> materials, Stream stream)
+    public static void Serialize(TerrainInfo info, string[] materials, Stream stream)
     {
         using var bw = new BinaryViewWriter(stream);
 
@@ -27,11 +27,11 @@ static class TerrainV9Serializer
 
         bw.Seek(size * 3L, SeekOrigin.Current);
 
-        bw.WriteUInt32((uint)materials.Count);
+        bw.WriteUInt32((uint)materials.Length);
 
         foreach (var material in materials)
         {
-            bw.WriteString(material.InternalName, LengthPrefix.Byte, Encoding.UTF8);
+            bw.WriteString(material, LengthPrefix.Byte, Encoding.UTF8);
         }
     }
 }

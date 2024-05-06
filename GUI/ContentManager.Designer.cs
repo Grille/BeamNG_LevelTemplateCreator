@@ -56,7 +56,7 @@
             AssetListBoxAvailable.DrawMode = DrawMode.OwnerDrawFixed;
             AssetListBoxAvailable.FormattingEnabled = true;
             AssetListBoxAvailable.IntegralHeight = false;
-            AssetListBoxAvailable.ItemHeight = 64;
+            AssetListBoxAvailable.ItemHeight = 128;
             AssetListBoxAvailable.Location = new Point(612, 0);
             AssetListBoxAvailable.Margin = new Padding(0);
             AssetListBoxAvailable.Name = "AssetListBoxAvailable";

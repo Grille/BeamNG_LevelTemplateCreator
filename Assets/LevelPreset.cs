@@ -1,4 +1,5 @@
 ﻿using LevelTemplateCreator.SceneTree;
+using LevelTemplateCreator.SceneTree.Main;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,17 +15,17 @@ internal class LevelPreset : Asset
 
     Collection<SimItem> Items;
 
-    public LevelPreset(Dictionary<string, object> data)
+    public LevelPreset(JsonDictWrapper data, string file) : base(data, file)
     {
         Items = new Collection<SimItem>();
 
-        Name = (string)data["name"];
+        Name = data.Name.Value;
 
-        var rawitems = (Dictionary<string, object>[])data["items"];
+        var rawitems = (JsonDict[])data["items"];
 
         foreach (var rawitem in rawitems)
         {
-            var item = new SimItem();
+            var item = new SimItem(rawitem);
             foreach (var pair in rawitem)
             {
                 item[pair.Key] = pair.Value;
@@ -37,7 +38,7 @@ internal class LevelPreset : Asset
     {
         foreach (var item in Items)
         {
-            switch (item.Class)
+            switch (item.Class.Value)
             {
                 case "TimeOfDay":
                     group.Time.Items.Add(item);
@@ -53,6 +54,9 @@ internal class LevelPreset : Asset
                     break;
                 case "ForestWindEmitter":
                     group.Vegatation.Items.Add(item);
+                    break;
+                default:
+                    group.Misc.Items.Add(item);
                     break;
             }
         }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LevelTemplateCreator.SceneTree;
+namespace LevelTemplateCreator.SceneTree.Main;
 
 internal class SimGroupLevelObject : SimGroup
 {
@@ -20,15 +20,18 @@ internal class SimGroupLevelObject : SimGroup
 
     public SimGroup Vegatation { get; }
 
+    public SimGroup Misc { get; }
+
     public SimGroupLevelObject() : base("Level_object")
     {
         Cloud = new("cloud");
-        Infos = new("Infos");
-        Sky = new("Sky");
+        Infos = new("infos");
+        Sky = new("sky");
         Terrain = new("terrain");
         Time = new("time");
         Vegatation = new("vegatation");
+        Misc = new("misc");
 
-        Items.Add(Cloud, Infos, Sky, Terrain, Time, Vegatation);
+        Items.Add(Cloud, Infos, Sky, Terrain, Time, Vegatation, Misc);
     }
 }

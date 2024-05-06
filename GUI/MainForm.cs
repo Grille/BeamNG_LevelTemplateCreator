@@ -65,10 +65,10 @@ namespace LevelTemplateCreator
 
             Directory.CreateDirectory(fullPath);
 
-            Level.Materials.Clear();
+            Level.TerrainMaterials.Clear();
             foreach (var material in AssetLibary.TerrainMaterials)
             {
-                Level.Materials.Add(material.Material);
+                Level.TerrainMaterials.Add(material);
             }
 
             Level.LevelPreset = LevelSettings.SelectedLevelPreset;
@@ -100,14 +100,30 @@ namespace LevelTemplateCreator
                 new SettingsForm().ShowDialog(this);
             }
 
+            var sw = Stopwatch.StartNew();
+
+            var loader = new AssetLibaryLoader(AssetLibary);
+            loader.LoadDirectory(EnvironmentInfo.Packages.Path);
+
+            if (loader.Errors.Count > 0)
+            {
+                var error = loader.Errors[0];
+                var exception = error.Exception;
+                MessageBox.Show($"Error at '{error.File}'\n\n{exception.Message}\n\n{exception.StackTrace}", exception.GetType().FullName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            /*
             try
             {
-                AssetLibary.LoadDirectory(EnvironmentInfo.Packages.Path);
+                //AssetLibary.LoadDirectory(EnvironmentInfo.Packages.Path);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}\n\n{ex.StackTrace}", ex.GetType().FullName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            */
+
+            Console.WriteLine(sw.ElapsedMilliseconds);
 
             LevelSettings.Level = Level;
 
@@ -115,6 +131,8 @@ namespace LevelTemplateCreator
             {
                 contentManager1.AssetListBoxAvailable.Items.Add(item);
             }
+
+
         }
     }
 }

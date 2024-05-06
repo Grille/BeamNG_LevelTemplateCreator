@@ -1,0 +1,1 @@
+﻿global using JsonDict = System.Collections.Generic.Dictionary<string, object>;

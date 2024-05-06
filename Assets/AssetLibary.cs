@@ -16,89 +16,20 @@ internal class AssetLibary
 
     public ResourceManager TextureFiles { get; }
 
-    public List<TerrainMaterialAsset> TerrainMaterials { get; }
+    public List<TerrainPbrMaterialAsset> TerrainMaterials { get; }
 
-    public Bitmap? Preview { get; private set; }
+    public List<ObjectPbrMaterialAsset> ObjectMaterials { get; }
+
+    public List<GroundCoverAsset> GroundCoverAssets { get; }
+
+    public Bitmap? Preview { get; set; }
 
     public AssetLibary()
     {
-        LevelPresets = new List<LevelPreset>();
-        TextureFiles = new ResourceManager();
-        TerrainMaterials = new List<TerrainMaterialAsset>();
-    }
-
-    public void LoadDirectory(string path)
-    {
-        foreach (var dir in Directory.EnumerateDirectories(path))
-        {
-            LoadDirectory(dir);
-        }
-
-        foreach (var file in Directory.EnumerateFiles(path))
-        {
-            var ext = Path.GetExtension(file).ToLower();
-            if (ext == ".json" || ext == ".cjson")
-            {
-                LoadFile(file);
-            }
-        }
-
-        var previewPath = Path.Combine(path, "preview.png");
-        if (File.Exists(previewPath))
-        {
-            using (var stream = new FileStream(previewPath, FileMode.Open))
-            {
-                Preview = new Bitmap(stream);
-            }
-        }
-    }
-
-    public void LoadFile(string path)
-    {
-        using var stream = new FileStream(path, FileMode.Open, FileAccess.Read);
-        LoadFile(stream);
-    }
-
-    public void LoadFile(Stream stream)
-    {
-        var dict = JsonDictSerializer.Deserialize(stream);
-
-        var item = new SimItem();
-        item.Dict = dict;
-
-        ParseObject(item);
-    }
-
-    void ParseObject(SimItem item)
-    {
-        switch (item.Class)
-        {
-            case JsonDictSerializer.ArrayClassName:
-                ParseArray(item);
-                break;
-            case LevelPreset.ClassName:
-                var preset = new LevelPreset(item.Dict);
-                LevelPresets.Add(preset);
-                break;
-            case TerrainMaterialAsset.ClassName:
-                var material = new TerrainMaterialAsset(item);
-                material.Material.IndexTextures(TextureFiles);
-                TerrainMaterials.Add(material);
-                break;
-            default:
-                throw new Exception($"Unsupported class {item.Class}.");
-        }
-    }
-
-    void ParseArray(SimItem array)
-    {
-        var items = (Dictionary<string, object>[])array["items"];
-        foreach (var item in items)
-        {
-            var si = new SimItem();
-            si.Dict = item;
-
-            ParseObject(si);
-        }
+        LevelPresets = new();
+        TextureFiles = new();
+        TerrainMaterials = new();
+        ObjectMaterials = new();
+        GroundCoverAssets = new();
     }
 }

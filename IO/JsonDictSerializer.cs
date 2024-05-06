@@ -93,7 +93,7 @@ static class JsonDictSerializer
         Array? array = first.ValueKind switch
         {
             JsonValueKind.Number => json.Deserialize<float[]>(),
-            _ => throw new JsonException($"Unexpected type {json.ValueKind}."),
+            _ => throw new JsonException($"Unexpected type in array {json.ValueKind}."),
         };
 
         if (array == null)

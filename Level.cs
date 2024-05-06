@@ -1,6 +1,5 @@
 ﻿using LevelTemplateCreator.IO;
 using LevelTemplateCreator.Assets;
-using LevelTemplateCreator.SceneTree;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,17 +7,22 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using LevelTemplateCreator.SceneTree.Art;
+using LevelTemplateCreator.SceneTree.Main;
+using LevelTemplateCreator.IO.Resources;
+using LevelTemplateCreator.Properties;
 
 namespace LevelTemplateCreator;
 
 internal class Level
 {
     public AssetLibary Libary { get; }
+
     public string Namespace { get; set; }
 
     public LevelInfo Info { get; set; }
 
-    public List<TerrainMaterial> Materials { get; set; }
+    public List<TerrainPbrMaterialAsset> TerrainMaterials { get; set; }
 
     public TerrainInfo Terrain { get; set; }
 
@@ -34,74 +38,76 @@ internal class Level
         {
             Resolution = 1024,
         };
-        Materials = new List<TerrainMaterial>();
+        TerrainMaterials = new();
         Libary = libary;
     }
 
     public TerrainBlock BuildTerrainBlock()
     {
         var terrain = new TerrainBlock(Terrain);
-        terrain.TerrainFile = $"\\levels\\{Namespace}\\terrain.ter";
-        terrain.MaterialTextureSet = $"{Namespace}_TerrainMaterialTextureSet";
+        terrain.TerrainFile.Value = $"\\levels\\{Namespace}\\terrain.ter";
+        terrain.MaterialTextureSet.Value = $"{Namespace}_TerrainMaterialTextureSet";
         return terrain;
     }
 
-    public TerrainMaterialLibary BuildMaterialLibary()
+    public MaterialLibary BuildTerrainMaterialLibary()
     {
-        var lib = new TerrainMaterialLibary(this);
+        var path = $"/levels/{Namespace}/art/terrains";
+        var lib = new MaterialLibary(path);
 
-        foreach (var material in Materials) {
-            lib.AddTemplate(material);
+        foreach (var asset in TerrainMaterials)
+        {
+            lib.AddAsset(asset);
         }
 
-        lib.GetTextures();
-        lib.ResolvePaths();
+        lib.CreateTerrainMaterialTextureSet($"{Namespace}_TerrainMaterialTextureSet");
 
         return lib;
     }
 
     public SimGroup BuildMissionGroup()
     {
-        var root = new SimGroup("main")
-        {
-            IsMain = true
-        };
+        var root = new SimGroupRoot();
+        var group = root.MissionGroup;
+        var levelObject = group.LevelObject;
 
-        var group = new SimGroup("MissionGroup");
-
-        var playerDropPoints = new SimGroup("PlayerDropPoints");
-
-        var levelObject = new SimGroupLevelObject();
-
-        var theTerrain = BuildTerrainBlock();
-        levelObject.Terrain.Items.Add(theTerrain);
-
-        root.Items.Add(group);
-        group.Items.Add(levelObject);
-        group.Items.Add(playerDropPoints);
+        var terrain = BuildTerrainBlock();
+        levelObject.Terrain.Items.Add(terrain);
 
         LevelPreset?.Apply(levelObject);
+
+        foreach (var cover in Libary.GroundCoverAssets)
+        {
+            levelObject.Vegatation.Items.Add(cover.Definition);
+        }
 
         return root;
     }
 
     public void Export(string path)
     {
-
-
         Directory.CreateDirectory(Path.Combine(path, "art/terrains"));
 
-        var matirials = BuildMaterialLibary();
+        Directory.CreateDirectory(Path.Combine(path, "art/objects"));
 
-        matirials.SerializeItems(Path.Combine(path, "art/terrains/" + TerrainMaterialLibary.FileName));
+        var objpath = $"/levels/{Namespace}/art/objects";
+        var lib = new MaterialLibary(objpath);
+
+        foreach (var asset in Libary.ObjectMaterials)
+        {
+            lib.AddAsset(asset);
+        }
+
+        lib.SerializeItems(Path.Combine(path, "art/objects/" + MaterialLibary.FileName));
+        lib.Textures.Save(Path.Combine(path, "art/objects"));
+
+        var terrainMaterials = BuildTerrainMaterialLibary();
+
+        terrainMaterials.SerializeItems(Path.Combine(path, "art/terrains/" + MaterialLibary.FileName));
 
         var texturespath = Path.Combine(path, "art/terrains");
 
-        foreach (var texure in matirials.Textures)
-        {
-            var texpath = Path.Combine(texturespath, texure.Name);
-            texure.Save(texpath);
-        }
+        terrainMaterials.Textures.Save(texturespath);
 
 
         Preview?.Save(Path.Combine(path, "preview.png"));
@@ -109,7 +115,9 @@ internal class Level
 
         BuildMissionGroup().SaveTree(Path.Combine(path, "main"));
 
-        TerrainV9Serializer.Serialize(Terrain, Materials, Path.Combine(path, "terrain.ter"));
+        var names = terrainMaterials.GetMaterialNames();
+
+        TerrainV9Serializer.Serialize(Terrain, names, Path.Combine(path, "terrain.ter"));
 
         LevelInfoSerializer.Serialize(this, Path.Combine(path, "info.json"));
     }
