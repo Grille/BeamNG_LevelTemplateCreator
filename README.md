@@ -23,6 +23,8 @@ Path to the BeamNG installation files, the folder should contain the BeamNG.driv
 BeamNG user data folder that contains settings and mods, path should point to the folder containing the version.txt
 Can usually be found under User\AppData\Local\BeamNG.drive
 
+* Packages:
+Must point to the packages folder that comes with the download.
 
 ## Assets
 If you want to create custom template assets, you’re can mostly use the same file structure as in BeamNG.
