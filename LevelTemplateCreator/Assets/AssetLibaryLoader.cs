@@ -3,6 +3,7 @@ using LevelTemplateCreator.IO.Resources;
 using LevelTemplateCreator.SceneTree;
 using LevelTemplateCreator.SceneTree.Art;
 using LevelTemplateCreator.SceneTree.Main;
+using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
@@ -10,7 +11,13 @@ namespace LevelTemplateCreator.Assets;
 
 internal class AssetLibaryLoader
 {
-    public record class Error(string File, Exception Exception);
+    public record class Error(string File, Exception Exception)
+    {
+        public override string ToString()
+        {
+            return $"At {File}\n{Exception.Message}";
+        }
+    }
 
     public bool Debug {  get; set; }
 
@@ -24,7 +31,7 @@ internal class AssetLibaryLoader
 
     bool _include = false;
 
-    public List<Error> Errors { get; }
+    public ErrorLogger Errors { get; }
 
     public AssetLibary Libary { get; }
 
@@ -49,7 +56,7 @@ internal class AssetLibaryLoader
     public AssetLibaryLoader(AssetLibary libary)
     {
         Libary = libary;
-        Errors = new List<Error>();
+        Errors = new ErrorLogger();
 
 
     }
@@ -70,46 +77,13 @@ internal class AssetLibaryLoader
         _currentNamespace = @namespace;
 
         if (_exit)
+        {
             return;
+        }
 
         foreach (var file in Directory.EnumerateFiles(path))
         {
-            var ext = Path.GetExtension(file).ToLower();
-            if (ext == ".json" || ext == ".cjson")
-            {
-                try
-                {
-                    LoadFile(file);
-                }
-                catch (Exception e)
-                {
-                    LogException(e);
-                    if (Debug)
-                        throw;
-                }
-            }
-            else if (ext == ".cfg")
-            {
-                try
-                {
-                    LoadCfgFile(file);
-                }
-                catch (Exception e)
-                {
-                    LogException(e);
-                    if (Debug)
-                        throw;
-                }
-            }
-            else if (!_ignore.Contains(ext))
-            {
-                Errors.Add(new(file, new Exception("Unsupported file type.")));
-                _wrongFileCount += 1;
-                if (_wrongFileCount > MaxWrongFileCount)
-                {
-                    _exit = true;
-                }
-            }
+            LoadFile(file);
         }
 
         foreach (var dir in Directory.EnumerateDirectories(path))
@@ -131,9 +105,43 @@ internal class AssetLibaryLoader
         }
     }
 
-    public void LoadFile(string path)
+    void LoadFile(string path)
     {
         _currentFile = path;
+        var ext = Path.GetExtension(path).ToLower();
+
+        try
+        {
+            if (ext == ".json" || ext == ".cjson")
+            {
+                LoadJsonFile(path);
+            }
+            else if (ext == ".cfg")
+            {
+                LoadCfgFile(path);
+            }
+            else if (!_ignore.Contains(ext))
+            {
+                Errors.Add(new Error(path, new Exception("Unsupported file type.")));
+                _wrongFileCount += 1;
+                if (_wrongFileCount > MaxWrongFileCount)
+                {
+                    _exit = true;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            LogException(e);
+            if (Debug)
+            {
+                throw;
+            }
+        }
+    }
+
+    void LoadJsonFile(string path)
+    {
         using var stream = new FileStream(path, FileMode.Open, FileAccess.Read);
         Deserialize(stream);
     }
@@ -172,8 +180,6 @@ internal class AssetLibaryLoader
         catch (Exception e)
         {
             LogException(e);
-            if (Debug)
-                throw;
         }
     }
 
@@ -281,24 +287,9 @@ internal class AssetLibaryLoader
         SetConstant(key, value);
     }
 
-    public void PrintErrors()
+    public void Print()
     {
-        if (Errors.Count == 0)
-            return;
-
-        Logger.WriteLine($"{Errors.Count} errors while loading assets.", LoggerColor.Red);
-
-        Logger.WriteLine();
-
-        for (int i = 0; i < Errors.Count; i++)
-        {
-            var error = Errors[i];
-
-            Logger.WriteLine($"At {error.File}");
-            Logger.WriteLine(error.Exception.Message);
-
-            Logger.WriteLine();
-        }
+        Errors.Print();
 
         if (_exit)
         {
@@ -309,8 +300,6 @@ internal class AssetLibaryLoader
 
     public void LoadCfgFile(string path)
     {
-        _currentFile = path;
-
         var lines = File.ReadAllLines(path);
 
         foreach (var rawline in lines)

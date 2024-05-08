@@ -27,6 +27,8 @@ internal class Level
 
     public TerrainInfo Terrain { get; set; }
 
+    public ErrorLogger Errors { get; }
+
     public Level(AssetLibary libary)
     {
         Namespace = "new_pbr_template";
@@ -37,6 +39,7 @@ internal class Level
         };
         Content = new AssetLibaryContent();
         Libary = libary;
+        Errors = new ErrorLogger();
     }
 
     public TerrainBlock BuildTerrainBlock()
@@ -51,7 +54,7 @@ internal class Level
     {
         var path = $"/levels/{Namespace}/art/terrains";
         var lib = new TerrainMaterialLibary(path, Terrain.SquareSize);
-        lib.AddAssets(Content.TerrainMaterials);
+        lib.AddAssets(Content.TerrainMaterials, Errors);
 
         lib.CreateTerrainMaterialTextureSet($"{Namespace}_TerrainMaterialTextureSet");
 
@@ -102,7 +105,7 @@ internal class Level
 
         var objpath = $"/levels/{Namespace}/art/objects";
         var lib = new ObjectMaterialLibary(objpath);
-        lib.AddAssets(Content.ObjectMaterials);
+        lib.AddAssets(Content.ObjectMaterials, Errors);
 
         lib.SerializeItems(Path.Combine(path, "art/objects/" + MaterialLibary.FileName));
         lib.Textures.Save(Path.Combine(path, "art/objects"));
@@ -125,7 +128,13 @@ internal class Level
 
         LevelInfoSerializer.Serialize(this, Path.Combine(path, "info.json"));
 
-        ZipFileManager.Clear();
-        Logger.WriteLine();
+        if (ZipFileManager.Count > 0)
+        {
+            ZipFileManager.Clear();
+            Logger.WriteLine();
+        }
+
+        Errors.Print();
+        Errors.Clear();
     }
 }

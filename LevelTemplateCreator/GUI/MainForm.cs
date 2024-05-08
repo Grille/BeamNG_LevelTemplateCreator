@@ -144,7 +144,7 @@ namespace LevelTemplateCreator
 
             AssetLibary.Clear();
 
-            var loader = new AssetLibaryLoader(AssetLibary) { Debug = Program.Debug };
+            var loader = new AssetLibaryLoader(AssetLibary) { Debug = false };
             loader.LoadDirectory(EnvironmentInfo.Packages.Path);
 
             if (ZipFileManager.Count > 0)
@@ -153,7 +153,7 @@ namespace LevelTemplateCreator
                 Logger.WriteLine();
             }
 
-            loader.PrintErrors();
+            loader.Print();
 
             AssetLibary.SeperateGroundCoverInstances();
             AssetLibary.PrintSumary();

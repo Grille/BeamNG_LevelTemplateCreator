@@ -47,8 +47,10 @@ internal static class ResourceManager
         {
             return ParseAbsolute(entry);
         }
-
-        throw new Exception("Path must start with one of these characters: [ $#./ ].");
+        else
+        {
+            return ParseAbsolute('/' + entry);
+        }
     }
 
     static Resource ParseVariable(string key)

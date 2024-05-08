@@ -44,11 +44,17 @@ internal abstract class MaterialLibary<T> : MaterialLibary where T : Material
 
     public abstract void AddAsset<TAsset>(TAsset asset) where TAsset : MaterialAsset<T>;
 
-    public void AddAssets<TAsset>(IEnumerable<TAsset> assets) where TAsset : MaterialAsset<T>
+    public void AddAssets<TAsset>(IEnumerable<TAsset> assets, ErrorLogger logger) where TAsset : MaterialAsset<T>
     {
         foreach (var asset in assets)
         {
-            AddAsset(asset);
+            try
+            {
+                AddAsset(asset);
+            }
+            catch (Exception e) {
+                logger.Add($"At {asset.DisplayName} From {asset.SourceFile}\n{e.Message}");
+            }
         }
     }
 
