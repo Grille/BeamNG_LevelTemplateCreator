@@ -1,5 +1,5 @@
-/bin
-/obj
+/*/bin
+/*/obj
 *.csproj.user
 *.pubxml.user
 .vscode
