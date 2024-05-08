@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Text;
 using LevelTemplateCreator.Assets;
+using LevelTemplateCreator.GUI;
 
 namespace LevelTemplateCreator
 {
@@ -14,7 +15,12 @@ namespace LevelTemplateCreator
             InitializeComponent();
 
             AssetLibary = new AssetLibary();
-            Level = new Level();
+            Level = new Level(AssetLibary);
+
+            LevelSettings.ButtonSave.Click += (object? sender, EventArgs e) =>
+            {
+                Export();
+            };
         }
 
         private void groupBox2_Enter(object sender, EventArgs e)
@@ -93,14 +99,20 @@ namespace LevelTemplateCreator
                 }
             }
 
-            Directory.CreateDirectory(fullPath);
+            try
+            {
+                Directory.CreateDirectory(fullPath);
 
-            Level.Content.Clear();
-            Level.Content.Add(ContentManager.GetSelectedAssets());
-            Level.Content.Preview = AssetLibary.Preview;
-            Level.Content.PrintSumary();
+                Level.SetContent(ContentManager.GetSelectedAssets());
+                Level.Export(fullPath);
+            }
+            catch (Exception e)
+            {
+                ExceptionBox.Show(this, e);
 
-            Level.Export(fullPath);
+                if (Program.Debug)
+                    throw;
+            }
 
             if (MessageBox.Show(this, $"Level '{Level.Namespace}' at '{path}' successfully created, do you want to open it now?", "Template successfully created", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 
@@ -119,26 +131,24 @@ namespace LevelTemplateCreator
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
+            LevelSettings.SetLevel(Level);
             EnvironmentInfo.Load();
-            AssertEnvironmentInfo();
+            LoadContent();
+        }
 
-            if (!EnvironmentInfo.Packages.IsValid)
-            {
-                Close();
+        void LoadContent()
+        {
+            if (!AssertEnvironmentInfo())
                 return;
-            }
 
-            EnvironmentInfo.PrintSumary();
+            AssetLibary.Clear();
 
-            var loader = new AssetLibaryLoader(AssetLibary);
+            var loader = new AssetLibaryLoader(AssetLibary) { Debug = Program.Debug };
             loader.LoadDirectory(EnvironmentInfo.Packages.Path);
             loader.PrintErrors();
 
             AssetLibary.SeperateGroundCoverInstances();
             AssetLibary.PrintSumary();
-
-            LevelSettings.SetLevel(Level);
 
             ContentManager.SetLibary(AssetLibary);
         }
@@ -156,6 +166,11 @@ namespace LevelTemplateCreator
         private void toolStripMenuItem4_Click(object sender, EventArgs e)
         {
             ContentManager.SetItemHeight(256);
+        }
+
+        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoadContent();
         }
     }
 }

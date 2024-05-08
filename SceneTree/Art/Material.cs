@@ -17,5 +17,5 @@ internal abstract class Material : JsonDictWrapper
 
     public abstract void ResolveTexturePaths(MaterialLibary libary, string path);
 
-    public abstract Material Copy();
+    public override abstract Material Copy();
 }

@@ -8,13 +8,11 @@ using System.Threading.Tasks;
 
 namespace LevelTemplateCreator.Assets;
 
-internal class ObjectPbrMaterialAsset : MaterialAsset
+internal class ObjectMaterialAsset : MaterialAsset<ObjectMaterial>
 {
-    public const string ClassName = "Material";
+    public const string ClassName = ObjectMaterial.ClassName;
 
-    public new ObjectMaterial Material => (ObjectMaterial)base.Material;
-
-    public ObjectPbrMaterialAsset(JsonDictWrapper item, string source) : base(item, source, new ObjectMaterial(item.Dict))
+    public ObjectMaterialAsset(ObjectMaterial item, AssetCreateInfo info) : base(item, info)
     {
         //Material = new ObjectMaterial(item.Dict);
     }

@@ -19,10 +19,10 @@ internal class LevelInfo
     {
         Title = "New Level";
         Description = string.Empty;
-        Authors = string.Empty;
+        Authors = Environment.UserName;
     }
 
-    public void Serialize(Dictionary<string, object> dict)
+    public void Serialize(JsonDict dict)
     {
         dict["title"] = Title;
         dict["description"] = Description;

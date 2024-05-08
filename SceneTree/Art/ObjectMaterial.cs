@@ -43,13 +43,13 @@ internal class ObjectMaterial : Material
             {
                 if (!map.Exists)
                     continue;
-                var key = libary.Textures.Register(map.Value, path);
+                var key = libary.Textures.RegisterRelative(map.Value, path);
                 map.Value = Path.Combine(libary.TexturesPath, key);
             }
         }
     }
 
-    public override Material Copy()
+    public override ObjectMaterial Copy()
     {
         var clone = new JsonDict(Dict);
         var stages = new JsonDict[4] { new(Stage0.Dict), new(Stage1.Dict), new(Stage2.Dict), new(Stage3.Dict) };

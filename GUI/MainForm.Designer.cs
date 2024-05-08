@@ -36,13 +36,14 @@
             exitToolStripMenuItem = new ToolStripMenuItem();
             settingsToolStripMenuItem = new ToolStripMenuItem();
             systemToolStripMenuItem = new ToolStripMenuItem();
-            utilsToolStripMenuItem = new ToolStripMenuItem();
-            createTexturePackFromLevelToolStripMenuItem = new ToolStripMenuItem();
+            reloadToolStripMenuItem = new ToolStripMenuItem();
             displayToolStripMenuItem = new ToolStripMenuItem();
             itemSizeToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem2 = new ToolStripMenuItem();
             toolStripMenuItem3 = new ToolStripMenuItem();
             toolStripMenuItem4 = new ToolStripMenuItem();
+            utilsToolStripMenuItem = new ToolStripMenuItem();
+            createTexturePackFromLevelToolStripMenuItem = new ToolStripMenuItem();
             splitContainer1 = new SplitContainer();
             LevelSettings = new GUI.LevelSettings();
             ContentManager = new GUI.ContentManager();
@@ -100,10 +101,10 @@
             // 
             // settingsToolStripMenuItem
             // 
-            settingsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { systemToolStripMenuItem });
+            settingsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { systemToolStripMenuItem, reloadToolStripMenuItem });
             settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            settingsToolStripMenuItem.Size = new Size(61, 20);
-            settingsToolStripMenuItem.Text = "Settings";
+            settingsToolStripMenuItem.Size = new Size(62, 20);
+            settingsToolStripMenuItem.Text = "Content";
             // 
             // systemToolStripMenuItem
             // 
@@ -112,20 +113,12 @@
             systemToolStripMenuItem.Text = "System Paths";
             systemToolStripMenuItem.Click += systemToolStripMenuItem_Click;
             // 
-            // utilsToolStripMenuItem
+            // reloadToolStripMenuItem
             // 
-            utilsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { createTexturePackFromLevelToolStripMenuItem });
-            utilsToolStripMenuItem.Enabled = false;
-            utilsToolStripMenuItem.Name = "utilsToolStripMenuItem";
-            utilsToolStripMenuItem.Size = new Size(42, 20);
-            utilsToolStripMenuItem.Text = "Utils";
-            // 
-            // createTexturePackFromLevelToolStripMenuItem
-            // 
-            createTexturePackFromLevelToolStripMenuItem.Name = "createTexturePackFromLevelToolStripMenuItem";
-            createTexturePackFromLevelToolStripMenuItem.Size = new Size(238, 22);
-            createTexturePackFromLevelToolStripMenuItem.Text = "Create Texture Pack From Level";
-            createTexturePackFromLevelToolStripMenuItem.Click += createTexturePackFromLevelToolStripMenuItem_Click;
+            reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
+            reloadToolStripMenuItem.Size = new Size(180, 22);
+            reloadToolStripMenuItem.Text = "Reload";
+            reloadToolStripMenuItem.Click += reloadToolStripMenuItem_Click;
             // 
             // displayToolStripMenuItem
             // 
@@ -144,23 +137,38 @@
             // toolStripMenuItem2
             // 
             toolStripMenuItem2.Name = "toolStripMenuItem2";
-            toolStripMenuItem2.Size = new Size(180, 22);
+            toolStripMenuItem2.Size = new Size(150, 22);
             toolStripMenuItem2.Text = "Small Icons";
             toolStripMenuItem2.Click += toolStripMenuItem2_Click;
             // 
             // toolStripMenuItem3
             // 
             toolStripMenuItem3.Name = "toolStripMenuItem3";
-            toolStripMenuItem3.Size = new Size(180, 22);
+            toolStripMenuItem3.Size = new Size(150, 22);
             toolStripMenuItem3.Text = "Medium Icons";
             toolStripMenuItem3.Click += toolStripMenuItem3_Click;
             // 
             // toolStripMenuItem4
             // 
             toolStripMenuItem4.Name = "toolStripMenuItem4";
-            toolStripMenuItem4.Size = new Size(180, 22);
+            toolStripMenuItem4.Size = new Size(150, 22);
             toolStripMenuItem4.Text = "Large Icons";
             toolStripMenuItem4.Click += toolStripMenuItem4_Click;
+            // 
+            // utilsToolStripMenuItem
+            // 
+            utilsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { createTexturePackFromLevelToolStripMenuItem });
+            utilsToolStripMenuItem.Enabled = false;
+            utilsToolStripMenuItem.Name = "utilsToolStripMenuItem";
+            utilsToolStripMenuItem.Size = new Size(42, 20);
+            utilsToolStripMenuItem.Text = "Utils";
+            // 
+            // createTexturePackFromLevelToolStripMenuItem
+            // 
+            createTexturePackFromLevelToolStripMenuItem.Name = "createTexturePackFromLevelToolStripMenuItem";
+            createTexturePackFromLevelToolStripMenuItem.Size = new Size(238, 22);
+            createTexturePackFromLevelToolStripMenuItem.Text = "Create Texture Pack From Level";
+            createTexturePackFromLevelToolStripMenuItem.Click += createTexturePackFromLevelToolStripMenuItem_Click;
             // 
             // splitContainer1
             // 
@@ -229,7 +237,6 @@
         private ToolStripMenuItem systemToolStripMenuItem;
         private ToolStripMenuItem utilsToolStripMenuItem;
         private ToolStripMenuItem createTexturePackFromLevelToolStripMenuItem;
-        private Label label1;
         private SplitContainer splitContainer1;
         private GUI.LevelSettings LevelSettings;
         private GUI.ContentManager ContentManager;
@@ -238,5 +245,6 @@
         private ToolStripMenuItem toolStripMenuItem2;
         private ToolStripMenuItem toolStripMenuItem3;
         private ToolStripMenuItem toolStripMenuItem4;
+        private ToolStripMenuItem reloadToolStripMenuItem;
     }
 }

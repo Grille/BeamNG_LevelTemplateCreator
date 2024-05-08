@@ -5,33 +5,56 @@ The goal of this project is to provide an easy solution to create empty map temp
 I also aimed to make it easily extendable for people with deeper knowledge of BeamNG.
 
 ## Features
-•	Setup of needed level folder structure without manual renaming.
-•	Asset System based on beaming’s Json structure.
-•	Ability to reference built-in BeamNG content, on export the referenced files are extracted to the template level.
+* Setup of needed level folder structure without manual renaming.
+* Asset System based on BeamNG's Json structure.
+* Ability to reference built-in BeamNG content, on export the referenced files are extracted to the template level.
+
+## Future
+* I would like to add support for Tree Objects, currently they still must be copied over manually.
+
+## Usage
+Just click the assets on the rights side, and press save when you're happy.
+
+## Paths
+* Gamedata:
+Path to the BeamNG installation files, the folder should contain the BeamNG.drive.exe file.
+
+* Userdata:
+BeamNG user data folder that contains settings and mods, path should point to the folder containing the version.txt
+Can usually be found under User\AppData\Local\BeamNG.drive
+
 
 ## Assets
+If you want to create custom template assets, youâ€™re can mostly use the same file structure as in BeamNG.
+But there a few things to be noted: all names are prefixed with the folder they are in to prevent conflicts.
+So, if your want assets to reference each other they should generally be in the same folder.
 
 ### Asset Types
 
- `LevelPreset`
-Contains a collection of items that are sorted into `Level_object` on export, preset can by selected in the GUI.
+*  `LevelObjects`
+Contains a collection of generic items that are sorted into `Level_object` on export.
 
-`TerrainMaterial`
-BeamNG PBR Terrain Material, multiple can be chosen by user.
+* `TerrainMaterial`
+BeamNG PBR Terrain Material.
 
-`GroundCover`
+* `GroundCover`
 Ground Cover like grass, indirectly added if used by `TerrainMaterial`
 
-`Material`
+* `Material`
 Object material, indirectly added if used by any other object.
 
 ### Paths
 
-`.`
+* `.`
 Relative path from the folder containing the Json file.
 
-`/`
+* `/`
 Absolute path either from the local package folder, or alternatively if beginning with `/level` and contains an valid BeamNG-level name e.g `/levels/driver_training/` an pointer to an BeamNG resource.
 
-`#`
+* `#`
 Hex color code `#ffffff` used to generate a single-color texture file on export.
+
+Each part must start with one of the above characters.
+
+## Requirements
+This program is dependent on .NET6 x64

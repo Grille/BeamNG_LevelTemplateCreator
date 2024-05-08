@@ -9,16 +9,13 @@ using System.Threading.Tasks;
 
 namespace LevelTemplateCreator.Assets;
 
-internal class TerrainPbrMaterialAsset : MaterialAsset
+internal class TerrainMaterialAsset : MaterialAsset<TerrainMaterial>
 {
-    public const string ClassName = "TerrainMaterial";
-
-
-    public new TerrainPbrMaterial Material => (TerrainPbrMaterial)base.Material;
+    public const string ClassName = TerrainMaterial.ClassName;
 
     public float SquareSize { get; }
 
-    public TerrainPbrMaterialAsset(JsonDictWrapper item, string file) : base(item, file, new TerrainPbrMaterial(item.Dict))
+    public TerrainMaterialAsset(TerrainMaterial item, AssetCreateInfo info) : base(item, info)
     {
         Material.TryPopValue("squareSize", out float squareSize, 1);
         SquareSize = squareSize;
@@ -27,10 +24,6 @@ internal class TerrainPbrMaterialAsset : MaterialAsset
         {
             Material.InternalName.Value = Material.Name.Value;
         }
-
-        Material.CreatePersistentId();
-
-        Name = Material.InternalName.Value;
 
         SetLayerIfEmpty(Material.AmbientOcclusion.Base, SolidColorNames.BaseAmbientOcclusion);
         SetLayerIfEmpty(Material.Normal.Base, SolidColorNames.BaseNormal);

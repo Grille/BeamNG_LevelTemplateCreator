@@ -1,4 +1,5 @@
-﻿using LevelTemplateCreator.Properties;
+﻿using LevelTemplateCreator.Collections;
+using LevelTemplateCreator.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace LevelTemplateCreator.IO.Resources;
 
-internal abstract class Resource
+internal abstract class Resource : IKeyed
 {
+    string IKeyed.Key => Name;
+
     public string Name { get; }
 
     public string DynamicName { get; protected set; }

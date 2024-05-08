@@ -29,44 +29,77 @@
         private void InitializeComponent()
         {
             tableLayoutPanel1 = new TableLayoutPanel();
-            AssetListBoxAvailable = new AssetViewBox();
             AssetListBoxSelected = new AssetViewBox();
+            textBoxSelectedFilter = new TextBox();
+            textBoxAvailableFilter = new TextBox();
+            AssetListBoxAvailable = new AssetViewBox();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
-            tableLayoutPanel1.ColumnCount = 3;
+            tableLayoutPanel1.ColumnCount = 2;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Controls.Add(AssetListBoxAvailable, 2, 0);
-            tableLayoutPanel1.Controls.Add(AssetListBoxSelected, 0, 0);
+            tableLayoutPanel1.Controls.Add(AssetListBoxSelected, 0, 1);
+            tableLayoutPanel1.Controls.Add(textBoxSelectedFilter, 0, 0);
+            tableLayoutPanel1.Controls.Add(textBoxAvailableFilter, 1, 0);
+            tableLayoutPanel1.Controls.Add(AssetListBoxAvailable, 1, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowCount = 2;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle());
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Size = new Size(1204, 701);
             tableLayoutPanel1.TabIndex = 0;
             // 
-            // AssetListBoxAvailable
-            // 
-            AssetListBoxAvailable.Dock = DockStyle.Fill;
-            AssetListBoxAvailable.Location = new Point(612, 0);
-            AssetListBoxAvailable.Margin = new Padding(0);
-            AssetListBoxAvailable.Name = "AssetListBoxAvailable";
-            AssetListBoxAvailable.Size = new Size(592, 701);
-            AssetListBoxAvailable.TabIndex = 0;
-            // 
             // AssetListBoxSelected
             // 
+            AssetListBoxSelected.BackColor = SystemColors.Window;
             AssetListBoxSelected.Dock = DockStyle.Fill;
-            AssetListBoxSelected.Location = new Point(0, 0);
+            AssetListBoxSelected.Filter = null;
+            AssetListBoxSelected.ItemHeight = 128;
+            AssetListBoxSelected.Location = new Point(0, 29);
             AssetListBoxSelected.Margin = new Padding(0);
             AssetListBoxSelected.Name = "AssetListBoxSelected";
-            AssetListBoxSelected.Size = new Size(592, 701);
+            AssetListBoxSelected.OnItemClick = null;
+            AssetListBoxSelected.Position = 0;
+            AssetListBoxSelected.Size = new Size(602, 672);
             AssetListBoxSelected.TabIndex = 1;
+            // 
+            // textBoxSelectedFilter
+            // 
+            textBoxSelectedFilter.Dock = DockStyle.Fill;
+            textBoxSelectedFilter.Location = new Point(3, 3);
+            textBoxSelectedFilter.Name = "textBoxSelectedFilter";
+            textBoxSelectedFilter.Size = new Size(596, 23);
+            textBoxSelectedFilter.TabIndex = 2;
+            textBoxSelectedFilter.TextChanged += textBoxSelectedFilter_TextChanged;
+            // 
+            // textBoxAvailableFilter
+            // 
+            textBoxAvailableFilter.Dock = DockStyle.Fill;
+            textBoxAvailableFilter.Location = new Point(605, 3);
+            textBoxAvailableFilter.Name = "textBoxAvailableFilter";
+            textBoxAvailableFilter.Size = new Size(596, 23);
+            textBoxAvailableFilter.TabIndex = 3;
+            textBoxAvailableFilter.TextChanged += textBoxAvailableFilter_TextChanged;
+            // 
+            // AssetListBoxAvailable
+            // 
+            AssetListBoxAvailable.BackColor = SystemColors.Window;
+            AssetListBoxAvailable.Dock = DockStyle.Fill;
+            AssetListBoxAvailable.Filter = null;
+            AssetListBoxAvailable.ItemHeight = 128;
+            AssetListBoxAvailable.Location = new Point(602, 29);
+            AssetListBoxAvailable.Margin = new Padding(0);
+            AssetListBoxAvailable.Name = "AssetListBoxAvailable";
+            AssetListBoxAvailable.OnItemClick = null;
+            AssetListBoxAvailable.Position = 0;
+            AssetListBoxAvailable.Size = new Size(602, 672);
+            AssetListBoxAvailable.TabIndex = 0;
             // 
             // ContentManager
             // 
@@ -76,6 +109,7 @@
             Name = "ContentManager";
             Size = new Size(1204, 701);
             tableLayoutPanel1.ResumeLayout(false);
+            tableLayoutPanel1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -84,5 +118,7 @@
         private TableLayoutPanel tableLayoutPanel1;
         public AssetViewBox AssetListBoxAvailable;
         public AssetViewBox AssetListBoxSelected;
+        private TextBox textBoxSelectedFilter;
+        private TextBox textBoxAvailableFilter;
     }
 }

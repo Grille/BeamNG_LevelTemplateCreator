@@ -28,16 +28,18 @@ internal partial class LevelSettings : UserControl
         TextBoxNamespace.Text = _level.Namespace;
         TextBoxTitle.Text = _level.Info.Title;
         TextBoxAuthor.Text = _level.Info.Authors;
+
+        TextBoxNamespace.TextBox.TextChanged += Namespace_TextChanged;
+        TextBoxTitle.TextBox.TextChanged += Title_TextChanged;
+        TextBoxAuthor.TextBox.TextChanged += Authors_TextChanged;
     }
 
     public LevelSettings()
     {
         InitializeComponent();
-
-
     }
 
-    private void textBoxNamespace_TextChanged(object sender, EventArgs e)
+    private void Namespace_TextChanged(object? sender, EventArgs e)
     {
         if (_level == null)
             return;
@@ -45,7 +47,7 @@ internal partial class LevelSettings : UserControl
         _level.Namespace = TextBoxNamespace.Text;
     }
 
-    private void textBoxTitle_TextChanged(object sender, EventArgs e)
+    private void Title_TextChanged(object? sender, EventArgs e)
     {
         if (_level == null)
             return;
@@ -53,7 +55,7 @@ internal partial class LevelSettings : UserControl
         _level.Info.Title = TextBoxTitle.Text;
     }
 
-    private void textBoxAuthors_TextChanged(object sender, EventArgs e)
+    private void Authors_TextChanged(object? sender, EventArgs e)
     {
         if (_level == null)
             return;

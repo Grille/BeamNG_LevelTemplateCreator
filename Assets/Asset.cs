@@ -1,36 +1,47 @@
-﻿using LevelTemplateCreator.IO.Resources;
+﻿using LevelTemplateCreator.Collections;
+using LevelTemplateCreator.IO.Resources;
 using LevelTemplateCreator.SceneTree;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace LevelTemplateCreator.Assets;
 
-abstract class Asset
+abstract class Asset : IKeyed
 {
-    public string Name { get; set; } = string.Empty;
+    string IKeyed.Key => Object.Name.Value;
+
+    public string DisplayName { get; set; } = string.Empty;
 
     public string Description { get; set; } = string.Empty;
 
-    public Image Preview { get; set; }
+    public Image Preview { get; }
 
     public string SourceFile { get; }
 
+    public string Namespace { get; }
+
     public JsonDictWrapper Object { get; }
 
-    public Asset(JsonDictWrapper obj, string source)
+    public Asset(JsonDictWrapper obj, AssetCreateInfo info)
     {
         Object = obj;
-        SourceFile = source;
+        SourceFile = info.SourceFile;
+        Namespace = info.Namespace;
+
+        obj.ApplyNamespace(Namespace);
 
         if (obj.TryPopValue("preview", out string path))
         {
             try
             {
-                using var stream = ResourceManager.Parse(path, source).OpenStream();
+                using var stream = ResourceManager.ParseRelative(path, SourceFile).OpenStream();
                 var bitmap = new Bitmap(stream);
                 Preview = bitmap;
             }
@@ -44,10 +55,36 @@ abstract class Asset
             Preview = Properties.Resources.NoPreview;
         }
 
+        if (obj.TryPopValue("displayName", out string name))
+        {
+            DisplayName = name;
+        }
+        else if (obj.Name.Exists)
+        {
+            DisplayName = Object.Name.Value;
+        }
+
         if (obj.TryPopValue("description", out string desc))
         {
             Description = desc;
         }
     }
 
+    public virtual JsonDictWrapper GetCopy()
+    {
+        return Object.Copy();
+    }
 }
+
+abstract class Asset<T> : Asset where T : JsonDictWrapper
+{
+    public new T Object => (T)base.Object;
+
+    public Asset(T obj, AssetCreateInfo info) : base(obj, info) { }
+
+    public override T GetCopy()
+    {
+        return (T)Object.Copy();
+    }
+}
+

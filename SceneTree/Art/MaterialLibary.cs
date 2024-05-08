@@ -13,33 +13,38 @@ using LevelTemplateCreator.Assets;
 
 namespace LevelTemplateCreator.SceneTree.Art;
 
-internal class MaterialLibary
+internal abstract class MaterialLibary
 {
+    public const string FileName = "main.materials.json";
+
     public string TexturesPath { get; }
 
-    public ResourceManager Textures { get; }
-
-    public List<Material> Materials { get; }
+    public ResourceCollection Textures { get; }
 
     public List<JsonDictWrapper> Misc { get; }
+
+    public abstract IEnumerable<Material> Materials { get; }
 
     public MaterialLibary(string path)
     {
         TexturesPath = path;
-        Materials = new();
         Misc = new();
         Textures = new();
     }
+}
 
-    public void AddAsset(MaterialAsset asset)
+internal abstract class MaterialLibary<T> : MaterialLibary where T : Material
+{
+    public override List<T> Materials { get; }
+
+    public MaterialLibary(string path) : base(path)
     {
-        var material = asset.Material.Copy();
-        material.ResolveTexturePaths(this, asset.SourceFile);
-
-        Materials.Add(material);
+        Materials = new();
     }
 
-    public void AddAssets(IEnumerable<MaterialAsset> assets)
+    public abstract void AddAsset<TAsset>(TAsset asset) where TAsset : MaterialAsset<T>;
+
+    public void AddAssets<TAsset>(IEnumerable<TAsset> assets) where TAsset : MaterialAsset<T>
     {
         foreach (var asset in assets)
         {
@@ -53,14 +58,9 @@ internal class MaterialLibary
         var result = new string[Materials.Count];
         for (int i = 0; i < result.Length; i++)
         {
-            result[i] = Materials[i].InternalName.Value;
+            result[i] = Materials[i].Name.Value;
         }
         return result;
-    }
-
-    public void CreateTerrainMaterialTextureSet(string name)
-    {
-        Misc.Add(new TerrainPbrMaterialTextureSet(name));
     }
 
     public void SerializeItems(string path)
@@ -85,6 +85,4 @@ internal class MaterialLibary
 
         JsonDictSerializer.Serialize(stream, dict, true);
     }
-
-    public const string FileName = "main.materials.json";
 }

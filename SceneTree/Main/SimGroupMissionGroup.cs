@@ -10,10 +10,13 @@ internal class SimGroupMissionGroup : SimGroup
 {
     public SimGroupLevelObject LevelObject { get; }
 
+    public SimGroup PlayerDropPoints { get; }
+
     public SimGroupMissionGroup() : base("MissionGroup")
     {
         LevelObject = new SimGroupLevelObject();
+        PlayerDropPoints = new SimGroup("PlayerDopPoints");
 
-        Items.Add(LevelObject);
+        Items.Add(LevelObject, PlayerDropPoints);
     }
 }

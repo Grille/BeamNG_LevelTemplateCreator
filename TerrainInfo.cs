@@ -19,6 +19,7 @@ internal class TerrainInfo
         size = 1024;
         squareSize = 1;
         MaxHeight = 512;
+        Height = 10;
     }
 
     public int Resolution
@@ -51,5 +52,7 @@ internal class TerrainInfo
         }
     }
 
-    public int MaxHeight { get; set; }
+    public float MaxHeight { get; set; }
+
+    public float Height { get; set; }
 }

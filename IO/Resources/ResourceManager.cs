@@ -1,66 +1,20 @@
 ﻿using System;
-using System.Collections;
-using System.Globalization;
 using System.Collections.Generic;
-using System.IO.Compression;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LevelTemplateCreator.SceneTree.Art;
 
 namespace LevelTemplateCreator.IO.Resources;
 
-internal class ResourceManager : IEnumerable<Resource>
+internal static class ResourceManager
 {
-    public Dictionary<string, Resource> Files { get; }
-
-
-    static readonly Dictionary<string, string> _colors;
-
-    static ResourceManager()
-    {
-        _colors = new();
-    }
-
-    public ResourceManager()
-    {
-        Files = new Dictionary<string, Resource>();
-    }
-
-    public Resource Get(string key)
-    {
-        return Files[key];
-    }
-
-    public Resource this[string key] => Get(key);
-
-    public void Add(Resource ressource)
-    {
-        if (Files.ContainsKey(ressource.Name))
-            return;
-        Files[ressource.Name] = ressource;
-    }
-
-    public string Register(string entry)
-    {
-        var resource = Parse(entry);
-        Add(resource);
-        return resource.Name;
-    }
-
-    public string Register(string entry, string file)
-    {
-        var resource = Parse(entry, file);
-        Add(resource);
-        return resource.Name;
-    }
-
-    public static Resource Parse(string entry, string file)
+    public static Resource ParseRelative(string entry, string rootPath)
     {
         if (entry.StartsWith('.'))
         {
             var abspackpath = Path.GetFullPath(EnvironmentInfo.Packages.Path);
-            var dirpath = Path.GetDirectoryName(file);
+            var dirpath = Path.GetDirectoryName(rootPath);
             if (dirpath == null)
                 throw new Exception();
             var path = Path.GetFullPath(Path.Combine(dirpath, entry));
@@ -119,23 +73,5 @@ internal class ResourceManager : IEnumerable<Resource>
         }
 
         throw new Exception();
-    }
-
-    public void Save(string path)
-    {
-        foreach (var resource in Files.Values)
-        {
-            resource.SaveToDirectory(path);
-        }
-    }
-
-    public IEnumerator<Resource> GetEnumerator()
-    {
-        return Files.Values.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return Files.Values.GetEnumerator();
     }
 }

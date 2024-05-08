@@ -17,10 +17,12 @@ internal static class SolidColorNames
     public const string BaseColor = "#base_b";
     public const string BaseRoughness = "#base_r";
 
+    public const string ConcreteRoughness = "#concrete_r";
     public const string AsphaltRoughness = "#asphalt_r";
     public const string AsphaltWetRoughness = "#asphalt_wet_r";
 
     public const string GrassRoughness = "#grass_r";
+    public const string SandRoughness = "#sand_r";
     public const string DirtRoughness = "#dirt_r";
     public const string RockRoughness = "#rock_r";
     public const string MudRoughness = "#mud_r";
@@ -34,9 +36,11 @@ internal static class SolidColorNames
         _colors[BaseRoughness] = 0xe7e7e7;
         _colors[BaseColor] = 0x808080;
 
+        _colors[ConcreteRoughness] = 0xd4d4d4;
         _colors[AsphaltRoughness] = 0xd4d4d4;
         _colors[AsphaltWetRoughness] = 0x464646;
         _colors[GrassRoughness] = 0xe7e7e7;
+        _colors[SandRoughness] = 0xe7e7e7;
         _colors[DirtRoughness] = 0xe7e7e7;
         _colors[RockRoughness] = 0xd4d4d4;
         _colors[MudRoughness] = 0x464646;

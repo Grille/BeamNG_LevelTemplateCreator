@@ -23,31 +23,44 @@ internal class GroundCoverInstance : JsonDictWrapper
 
     public static GroundCoverInstance[] PopFromGroundcover(GroundCover obj)
     {
-        return PopFromObject(obj, "Types", "parent");
+        return PopFromObject(obj);
     }
 
-    public static GroundCoverInstance[] PopFromMaterial(TerrainPbrMaterial obj)
+    static GroundCoverInstance[] PopFromObject(JsonDictWrapper obj)
     {
-        return PopFromObject(obj, "groundcover", "layer");
-    }
-
-    static GroundCoverInstance[] PopFromObject(JsonDictWrapper obj, string name, string parent)
-    {
-        var array = new JsonDictProperty<JsonDict[]>(obj, name);
+        var array = new JsonDictProperty<JsonDict[]>(obj, "Types");
 
         if (!array.Exists)
             return Array.Empty<GroundCoverInstance>();
 
-        var result = new GroundCoverInstance[array.Value.Length];
+        var result = new List<GroundCoverInstance>();
+
         for (int i = 0; i < array.Value.Length; i++)
         {
-            var instance = new GroundCoverInstance(array.Value[i]);
-            instance[parent] = obj.Name.Value;
-            result[i] = instance;
+            var dict = array.Value[i];
+            if (dict.Count == 0) 
+                continue;
+
+            var instance = new GroundCoverInstance(dict);
+            instance["parent"] = obj.Name.Value;
+            result.Add(instance);
         }
 
         array.Remove();
 
-        return result;
+        return result.ToArray();
+    }
+
+    public override GroundCoverInstance Copy()
+    {
+        var dict = new JsonDict(Dict);
+        return new GroundCoverInstance(dict);
+    }
+
+    public override void ApplyPrefix(string prefix)
+    {
+        base.ApplyPrefix(prefix);
+
+        Layer.Value = prefix + Layer.Value;
     }
 }

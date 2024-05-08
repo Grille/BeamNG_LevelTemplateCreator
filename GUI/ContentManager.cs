@@ -62,8 +62,8 @@ internal partial class ContentManager : UserControl
 
         ItemsChanged();
 
-        TrySelcet(libary.TerrainMaterials, "10m_grid");
-        TrySelcet(libary.LevelPresets, "Default");
+        TrySelcet(libary.TerrainMaterials, "Core_10m_grid");
+        TrySelcet(libary.LevelPresets, "Core_Default");
     }
 
     void TrySelcet<T>(AssetCollection<T> values, string key) where T : Asset
@@ -83,5 +83,15 @@ internal partial class ContentManager : UserControl
     {
         AssetListBoxAvailable.ItemsChanged();
         AssetListBoxSelected.ItemsChanged();
+    }
+
+    private void textBoxSelectedFilter_TextChanged(object sender, EventArgs e)
+    {
+        AssetListBoxSelected.Filter = textBoxSelectedFilter.Text;
+    }
+
+    private void textBoxAvailableFilter_TextChanged(object sender, EventArgs e)
+    {
+        AssetListBoxAvailable.Filter = textBoxAvailableFilter.Text;
     }
 }

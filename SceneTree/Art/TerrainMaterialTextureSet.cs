@@ -7,13 +7,13 @@ using System.Numerics;
 
 namespace LevelTemplateCreator.SceneTree.Art;
 
-internal class TerrainPbrMaterialTextureSet : JsonDictWrapper
+internal class TerrainMaterialTextureSet : JsonDictWrapper
 {
     public JsonDictProperty<Vector2> BaseTexSize { get; }
     public JsonDictProperty<Vector2> DetailTexSize { get; }
     public JsonDictProperty<Vector2> MacroTexSize { get; }
 
-    public TerrainPbrMaterialTextureSet(string name) : base(new JsonDict())
+    public TerrainMaterialTextureSet(string name) : base(new JsonDict())
     {
         Class.Value = "TerrainMaterialTextureSet";
         Name.Value = name;

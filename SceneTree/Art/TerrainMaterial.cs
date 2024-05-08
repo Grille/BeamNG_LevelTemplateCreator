@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LevelTemplateCreator.SceneTree.Art;
-internal class TerrainPbrMaterial : Material
+internal class TerrainMaterial : Material
 {
     public const string ClassName = "TerrainMaterial";
 
@@ -26,8 +26,22 @@ internal class TerrainPbrMaterial : Material
 
     public ReadOnlyCollection<TerrainMaterialTextureLayer> Levels { get; }
 
-    public TerrainPbrMaterial(JsonDict dict) : base(dict)
+    public TerrainMaterial(JsonDict dict) : base(dict)
     {
+        if (!InternalName.Exists && !Name.Exists)
+        {
+            throw new ArgumentException("Neither name nor internalName found in dict.");
+        }
+
+        if (!InternalName.Exists)
+        {
+            InternalName.Value = Name.Value;
+        }
+        else
+        {
+            Name.Value = InternalName.Value;
+        }
+
         GroundModel = new(this, "groundmodelName");
 
         BaseColor = new(this, "baseColor");
@@ -48,9 +62,22 @@ internal class TerrainPbrMaterial : Material
         ]);
     }
 
-    public void NormalizeSquareSize(float squareSize)
+    public void MultiplyMappingScale(float factor)
     {
+        foreach (var level in Levels)
+        {
+            if (level.IsTextureEmpty)
+                continue;
 
+            float scale = level.MappingScale.Value;
+
+            scale *= factor;
+
+            if (scale < 1)
+                scale = 1;
+
+            level.MappingScale.Value = (int)scale;
+        }
     }
 
     public void CreatePersistentId()
@@ -65,27 +92,27 @@ internal class TerrainPbrMaterial : Material
         {
             if (level.IsTextureEmpty) 
                 continue;
-            var key = libary.Textures.Register(level.Texture.Value, source);
+            var key = libary.Textures.RegisterRelative(level.Texture.Value, source);
             level.Texture.Value = Path.Combine(libary.TexturesPath, key);
         }
     }
 
-    public override Material Copy()
+    public override TerrainMaterial Copy()
     {
         var copy = new JsonDict(Dict);
-        return new TerrainPbrMaterial(copy);
+        return new TerrainMaterial(copy);
     }
 }
 
 internal class TerrainMaterialDistances
 {
     public string Prefix { get; }
-    public TerrainPbrMaterial Owner { get; }
+    public TerrainMaterial Owner { get; }
 
     public JsonDictProperty<float[]> Distances { get; }
     public JsonDictProperty<Vector2> DistanceAttenuation { get; }
 
-    public TerrainMaterialDistances(TerrainPbrMaterial owner, string prefix, float[] distances, Vector2 vector)
+    public TerrainMaterialDistances(TerrainMaterial owner, string prefix, float[] distances, Vector2 vector)
     {
         Owner = owner;
         Prefix = prefix;
@@ -112,33 +139,33 @@ internal class TerrainMaterialDistances
 internal class TerrainMaterialTexture
 {
     public string Prefix { get; }
-    public TerrainPbrMaterial Owner { get; }
+    public TerrainMaterial Owner { get; }
 
     public TerrainMaterialTextureLayer Base { get; }
     public TerrainMaterialTextureLayer Macro { get; }
     public TerrainMaterialTextureLayer Detail { get; }
 
-    public TerrainMaterialTexture(TerrainPbrMaterial owner, string prefix)
+    public TerrainMaterialTexture(TerrainMaterial owner, string prefix)
     {
         Owner = owner;
         Prefix = prefix;
 
-        Base = new(this, "Base");
-        Macro = new(this, "Macro");
-        Detail = new(this, "Detail");
+        Base = new(this, "Base", 256);
+        Macro = new(this, "Macro", 60);
+        Detail = new(this, "Detail", 2);
     }
 }
 
 internal class TerrainMaterialTextureLayer
 {
     public string Prefix { get; }
-    public TerrainPbrMaterial Owner { get; }
+    public TerrainMaterial Owner { get; }
 
     public JsonDictProperty<Vector2> Strength { get; }
     public JsonDictProperty<int> MappingScale { get; }
     public JsonDictProperty<string> Texture { get; }
 
-    public TerrainMaterialTextureLayer(TerrainMaterialTexture owner, string prefix)
+    public TerrainMaterialTextureLayer(TerrainMaterialTexture owner, string prefix, int texSize)
     {
         Owner = owner.Owner;
         Prefix = owner.Prefix + prefix;
@@ -148,11 +175,19 @@ internal class TerrainMaterialTextureLayer
         var strengthKey = Prefix + "Strength";
 
         Texture = new(Owner, texKey);
-        MappingScale = new(Owner, texSizeKey);
+        MappingScale = new(Owner, texSizeKey, texSize);
         Strength = new(Owner, strengthKey);
 
         Strength.SetIfEmpty(Vector2.One);
     }
 
-    public bool IsTextureEmpty => string.IsNullOrEmpty(Texture.Value);
+    public bool IsTextureEmpty
+    {
+        get
+        {
+            if (!Texture.Exists)
+                return true;
+            return string.IsNullOrEmpty(Texture.Value);
+        }
+    }
 }

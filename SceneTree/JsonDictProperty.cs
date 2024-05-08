@@ -11,23 +11,23 @@ namespace LevelTemplateCreator.SceneTree;
 
 struct JsonDictProperty
 {
-    private readonly JsonDictWrapper _owner;
-    public string Key { get; }
+    public readonly JsonDictWrapper Owner;
+    public readonly string Key;
 
     public JsonDictProperty(JsonDictWrapper owner, string key) {
-        _owner = owner;
+        Owner = owner;
         Key = key;
     }
 
-    public object Value { get => _owner[Key]; set => _owner[Key] = value; }
+    public object Value { get => Owner[Key]; set => Owner[Key] = value; }
 
-    public bool Exists => _owner.Dict.ContainsKey(Key);
+    public bool Exists => Owner.Dict.ContainsKey(Key);
 
-    public void Remove() => _owner.Dict.Remove(Key);
+    public void Remove() => Owner.Dict.Remove(Key);
 
     public void Vector2(Vector2 vec)
     {
-        if (_owner.TryGetValue<float[]>(Key, out var array))
+        if (Owner.TryGetValue<float[]>(Key, out var array))
         {
             array[0] = vec.X; array[1] = vec.Y;
         }
@@ -45,7 +45,7 @@ struct JsonDictProperty
 
     public void Vector3(Vector3 vec)
     {
-        if (_owner.TryGetValue<float[]>(Key, out var array))
+        if (Owner.TryGetValue<float[]>(Key, out var array))
         {
             array[0] = vec.X; array[1] = vec.Y; array[2] = vec.Z;
         }
@@ -88,6 +88,8 @@ class JsonDictProperty<T> where T : notnull
 
     public bool Exists => _property.Exists;
 
+    public T? DefaultValue { get; }
+
     public T Value { get => Get();set => Set(value); }
 
     public JsonDictProperty(JsonDictWrapper owner, string key)
@@ -105,6 +107,11 @@ class JsonDictProperty<T> where T : notnull
             _type = PropertyType.Vec3;
         else 
             _type = PropertyType.Object;
+    }
+
+    public JsonDictProperty(JsonDictWrapper owner, string key, T defaultValue) : this(owner, key)
+    {
+        DefaultValue = defaultValue;
     }
 
     public void Remove() => _property.Remove();
@@ -143,10 +150,12 @@ class JsonDictProperty<T> where T : notnull
     {
         if (!_property.Exists)
         {
-            var value = (T)default!;
-            if (value == null)
-                throw new InvalidOperationException(_property.Key);
-            return value;
+            if (DefaultValue != null)
+            {
+                return DefaultValue;
+            }
+            var msg = $"Failed to acces property '{_property.Key}' of type '{typeof(T).FullName}'.";
+            throw new InvalidOperationException(msg);
         }
 
         switch (_type)

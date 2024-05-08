@@ -23,7 +23,9 @@ public partial class TerrainSettings : UserControl
         {
             _terrain = value;
             comboBoxRes.SelectedText = _terrain.Resolution.ToString();
-            numericUpDownMaxHeight.Value = _terrain.MaxHeight;
+            numericMaxHeight.Value = (decimal)_terrain.MaxHeight;
+            numericBaseHeight.Value = (decimal)_terrain.Height;
+            UpdatenumericBaseHeightColor();
 
             UpdateDisplay();
         }
@@ -33,9 +35,11 @@ public partial class TerrainSettings : UserControl
     {
         InitializeComponent();
 
-        numericUpDownWorldSize.Maximum = decimal.MaxValue;
-        numericUpDownSquareSize.Maximum = decimal.MaxValue;
-        numericUpDownMaxHeight.Maximum = decimal.MaxValue;
+        _terrain = null!;
+
+        numericWorldSize.Maximum = decimal.MaxValue;
+        numericSquareSize.Maximum = decimal.MaxValue;
+        numericMaxHeight.Maximum = decimal.MaxValue;
     }
 
 
@@ -44,8 +48,8 @@ public partial class TerrainSettings : UserControl
     {
         isUpdating = true;
 
-        numericUpDownWorldSize.Value = (decimal)Terrain.WorldSize;
-        numericUpDownSquareSize.Value = (decimal)Terrain.SquareSize;
+        numericWorldSize.Value = (decimal)Terrain.WorldSize;
+        numericSquareSize.Value = (decimal)Terrain.SquareSize;
 
         isUpdating = false;
     }
@@ -58,7 +62,8 @@ public partial class TerrainSettings : UserControl
         var text = comboBoxRes.Text;
         Terrain.Resolution = int.Parse(text);
 
-        if (comboBoxRes.SelectedIndex == -1) { 
+        if (comboBoxRes.SelectedIndex == -1)
+        {
             comboBoxRes.ForeColor = Color.Red;
         }
         else
@@ -74,7 +79,7 @@ public partial class TerrainSettings : UserControl
         if (isUpdating)
             return;
 
-        Terrain.WorldSize = (float)numericUpDownWorldSize.Value;
+        Terrain.WorldSize = (float)numericWorldSize.Value;
 
         UpdateDisplay();
     }
@@ -84,16 +89,25 @@ public partial class TerrainSettings : UserControl
         if (isUpdating)
             return;
 
-        Terrain.SquareSize = (float)numericUpDownSquareSize.Value;
+        Terrain.SquareSize = (float)numericSquareSize.Value;
 
         UpdateDisplay();
     }
 
     private void numericUpDownMaxHeight_ValueChanged(object sender, EventArgs e)
     {
-        if (isUpdating)
-            return;
+        Terrain.MaxHeight = (float)numericMaxHeight.Value;
+        UpdatenumericBaseHeightColor();
+    }
 
-        Terrain.MaxHeight = (int)numericUpDownMaxHeight.Value;
+    private void numericBaseHeight_ValueChanged(object sender, EventArgs e)
+    {
+        Terrain.Height = (float)numericBaseHeight.Value;
+        UpdatenumericBaseHeightColor();
+    }
+
+    void UpdatenumericBaseHeightColor()
+    {
+        numericBaseHeight.ForeColor = Terrain.Height > Terrain.MaxHeight ? Color.Red : Color.Black;
     }
 }

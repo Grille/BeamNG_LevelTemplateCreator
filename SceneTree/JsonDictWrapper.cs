@@ -5,13 +5,14 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LevelTemplateCreator.Collections;
 using LevelTemplateCreator.IO;
 
 using LevelTemplateCreator.SceneTree.Main;
 
 namespace LevelTemplateCreator.SceneTree;
 
-internal class JsonDictWrapper
+internal class JsonDictWrapper : IKeyed
 {
     public JsonDict Dict { get; }
 
@@ -22,9 +23,11 @@ internal class JsonDictWrapper
     }
 
     public JsonDictProperty<string> Class { get; }
-    public JsonDictProperty<string> Name { get; }
     public JsonDictProperty<string> InternalName { get; }
+    public JsonDictProperty<string> Name { get; }
     public JsonDictProperty<string> PersistentId { get; }
+
+    string IKeyed.Key => Name.Exists ? Name.Value : string.Empty;
 
     public JsonDictWrapper(JsonDict dict)
     {
@@ -83,6 +86,32 @@ internal class JsonDictWrapper
         {
             target[pair.Key] = pair.Value;
         }
+    }
+
+    public void ApplyNamespace(string @namespace)
+    {
+        if (!string.IsNullOrEmpty(@namespace))
+        {
+            ApplyPrefix(@namespace);
+        }
+    }
+
+    public virtual void ApplyPrefix(string prefix)
+    {
+        if (Name.Exists)
+        {
+            Name.Value = prefix + Name.Value;
+        }
+        if (InternalName.Exists)
+        {
+            InternalName.Value = prefix + InternalName.Value;
+        }
+    }
+
+    public virtual JsonDictWrapper Copy()
+    {
+        var dict = new JsonDict(Dict);
+        return new JsonDictWrapper(dict);
     }
 
 }

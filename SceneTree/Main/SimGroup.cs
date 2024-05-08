@@ -1,47 +1,24 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using LevelTemplateCreator.Collections;
 
 namespace LevelTemplateCreator.SceneTree.Main;
 
 internal class SimGroup : SimItem
 {
-    public class SimGroupItems : IReadOnlyList<SimItem>
-    {
-        List<SimItem> _items;
-
-        public SimGroupItems() { 
-            _items = new List<SimItem>();
-        }
-
-        public int Count => _items.Count;
-
-        public SimItem this[int index] => _items[index];
-
-        public void Add(params SimItem[] items)
-        {
-            foreach (var item in items)
-            {
-                _items.Add(item);
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
-
-        public IEnumerator<SimItem> GetEnumerator() => _items.GetEnumerator();
-    }
-
     public bool IsMain { get; set; } = false;
 
-    public SimGroupItems Items { get; }
+    public KeyedCollection<SimItem> Items { get; }
 
     public SimGroup(JsonDict dict) : base(dict)
     {
-        Items = new SimGroupItems();
+        Items = new();
     }
 
     public SimGroup(string name) : this(new JsonDict())

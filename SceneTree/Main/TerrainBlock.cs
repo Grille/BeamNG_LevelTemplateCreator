@@ -11,7 +11,7 @@ internal class TerrainBlock : SimItem
     public JsonDictProperty<string> MaterialTextureSet { get; }
     public JsonDictProperty<string> TerrainFile { get; }
     public JsonDictProperty<int> BaseTexSize { get; }
-    public JsonDictProperty<int> MaxHeight { get; }
+    public JsonDictProperty<float> MaxHeight { get; }
     public JsonDictProperty<float> SquareSize { get; }
 
     public TerrainBlock(JsonDict dict) : base(dict)

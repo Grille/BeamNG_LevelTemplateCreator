@@ -32,49 +32,65 @@
             TextBoxNamespace = new LabledTextbox();
             TextBoxTitle = new LabledTextbox();
             TextBoxAuthor = new LabledTextbox();
+            ButtonSave = new Button();
             SuspendLayout();
             // 
             // TerainSettings
             // 
             TerainSettings.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            TerainSettings.Location = new Point(3, 90);
-            TerainSettings.MaximumSize = new Size(10000, 116);
+            TerainSettings.Location = new Point(0, 87);
+            TerainSettings.Margin = new Padding(0);
+            TerainSettings.MaximumSize = new Size(10000, 145);
             TerainSettings.MinimumSize = new Size(0, 116);
             TerainSettings.Name = "TerainSettings";
-            TerainSettings.Size = new Size(514, 116);
+            TerainSettings.Size = new Size(517, 145);
             TerainSettings.TabIndex = 0;
             // 
             // TextBoxNamespace
             // 
             TextBoxNamespace.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             TextBoxNamespace.LabelText = "Namespace";
-            TextBoxNamespace.Location = new Point(3, 3);
+            TextBoxNamespace.Location = new Point(0, 0);
+            TextBoxNamespace.Margin = new Padding(0);
             TextBoxNamespace.Name = "TextBoxNamespace";
-            TextBoxNamespace.Size = new Size(511, 23);
+            TextBoxNamespace.Size = new Size(517, 29);
             TextBoxNamespace.TabIndex = 1;
             // 
             // TextBoxTitle
             // 
             TextBoxTitle.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             TextBoxTitle.LabelText = "Title";
-            TextBoxTitle.Location = new Point(3, 32);
+            TextBoxTitle.Location = new Point(0, 29);
+            TextBoxTitle.Margin = new Padding(0);
             TextBoxTitle.Name = "TextBoxTitle";
-            TextBoxTitle.Size = new Size(511, 23);
+            TextBoxTitle.Size = new Size(517, 29);
             TextBoxTitle.TabIndex = 2;
             // 
             // TextBoxAuthor
             // 
             TextBoxAuthor.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             TextBoxAuthor.LabelText = "Authors";
-            TextBoxAuthor.Location = new Point(3, 61);
+            TextBoxAuthor.Location = new Point(0, 58);
+            TextBoxAuthor.Margin = new Padding(0);
             TextBoxAuthor.Name = "TextBoxAuthor";
-            TextBoxAuthor.Size = new Size(511, 23);
+            TextBoxAuthor.Size = new Size(517, 29);
             TextBoxAuthor.TabIndex = 3;
+            // 
+            // ButtonSave
+            // 
+            ButtonSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            ButtonSave.Location = new Point(3, 509);
+            ButtonSave.Name = "ButtonSave";
+            ButtonSave.Size = new Size(511, 23);
+            ButtonSave.TabIndex = 4;
+            ButtonSave.Text = "Save Level";
+            ButtonSave.UseVisualStyleBackColor = true;
             // 
             // LevelSettings
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(ButtonSave);
             Controls.Add(TextBoxAuthor);
             Controls.Add(TextBoxTitle);
             Controls.Add(TextBoxNamespace);
@@ -89,5 +105,6 @@
         private LabledTextbox TextBoxNamespace;
         private LabledTextbox TextBoxTitle;
         private LabledTextbox TextBoxAuthor;
+        public Button ButtonSave;
     }
 }

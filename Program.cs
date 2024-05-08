@@ -1,27 +1,24 @@
-using LevelTemplateCreator.SceneTree;
-using System.IO.Compression;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Globalization;
 
-namespace LevelTemplateCreator
+namespace LevelTemplateCreator;
+
+internal static class Program
 {
-    internal static class Program
+
+#if DEBUG
+    public const bool Debug = true;
+#else
+    public const bool Debug = false;
+#endif
+
+    /// <summary>
+    ///  The main entry point for the application.
+    /// </summary>
+    [STAThread]
+    static void Main()
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-            Application.Run(new MainForm());
-
-
-            //var zip = ZipFile.Open("",ZipArchiveMode.Read);
-
-            //var entry = zip.GetEntry("fg");
-        }
+        Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+        ApplicationConfiguration.Initialize();
+        Application.Run(new MainForm());
     }
 }

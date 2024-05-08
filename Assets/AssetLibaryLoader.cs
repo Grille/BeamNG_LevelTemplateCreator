@@ -1,11 +1,7 @@
 ﻿using LevelTemplateCreator.IO;
 using LevelTemplateCreator.SceneTree;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using LevelTemplateCreator.SceneTree.Art;
+using LevelTemplateCreator.SceneTree.Main;
 
 namespace LevelTemplateCreator.Assets;
 
@@ -13,13 +9,17 @@ internal class AssetLibaryLoader
 {
     public record class Error(string File, Exception Exception);
 
-    public int MaxError { get; set; } = 10;
+    public bool Debug {  get; set; }
+
+    public int MaxError { get; set; } = 50;
 
     public List<Error> Errors { get; }
 
     public AssetLibary Libary { get; }
 
-    string currentFile = string.Empty;
+    string _currentFile = string.Empty;
+
+    string _currentNamespace = "";
 
     public AssetLibaryLoader(AssetLibary libary)
     {
@@ -27,15 +27,22 @@ internal class AssetLibaryLoader
         Errors = new List<Error>();
     }
 
+    void LogException(Exception e)
+    {
+        Errors.Add(new Error(_currentFile, e));
+    }
+
     public void LoadDirectory(string path)
     {
+        LoadDirectory(path, string.Empty);
+    }
+
+    public void LoadDirectory(string path, string @namespace)
+    {
+        _currentNamespace = @namespace;
+
         if (Errors.Count > MaxError)
             return;
-
-        foreach (var dir in Directory.EnumerateDirectories(path))
-        {
-            LoadDirectory(dir);
-        }
 
         foreach (var file in Directory.EnumerateFiles(path))
         {
@@ -48,9 +55,22 @@ internal class AssetLibaryLoader
                 }
                 catch (Exception e)
                 {
-                    Errors.Add(new Error(file, e));
+                    LogException(e);
+                    if (Debug)
+                        throw;
                 }
             }
+        }
+
+
+
+        foreach (var dir in Directory.EnumerateDirectories(path))
+        {
+            var name = Path.GetFileName(dir);
+
+            var newNamespace = @namespace + name + "_";
+
+            LoadDirectory(dir, newNamespace);
         }
 
         var previewPath = Path.Combine(path, "preview.png");
@@ -65,7 +85,7 @@ internal class AssetLibaryLoader
 
     public void LoadFile(string path)
     {
-        currentFile = path;
+        _currentFile = path;
         using var stream = new FileStream(path, FileMode.Open, FileAccess.Read);
         Deserialize(stream);
     }
@@ -73,61 +93,81 @@ internal class AssetLibaryLoader
     void Deserialize(Stream stream)
     {
         var dict = JsonDictSerializer.Deserialize(stream);
-
-        var item = new JsonDictWrapper(dict);
-
-        ParseObject(item);
+        ParseObject(dict);
     }
 
-    void ParseObject(JsonDictWrapper item)
+    void ParseObject(JsonDict dict)
     {
-        switch (item.Class.Value)
+        if (!dict.TryGetValue("class", out var classObj))
+        {
+            throw new Exception("no class");
+        }
+        var className = (string)classObj;
+
+        try
+        {
+            ParseObject(dict, className);
+        }
+        catch (Exception e)
+        {
+            LogException(e);
+            if (Debug)
+                throw;
+        }
+    }
+
+    void ParseObject(JsonDict dict, string className)
+    {
+        var createInfo = new AssetCreateInfo(_currentFile, _currentNamespace);
+
+        switch (className)
         {
             case JsonDictSerializer.ArrayClassName:
             {
-                ParseArray(item);
+                ParseArray(dict);
                 break;
             }
-            case LevelPreset.ClassName:
+            case LevelObjectsAsset.ClassName:
             {
-                var preset = new LevelPreset(item, currentFile);
-                Libary.LevelPresets.Add(preset);
+                var obj = new JsonDictWrapper(dict);
+                var asset = new LevelObjectsAsset(obj, createInfo);
+                Libary.LevelPresets.Add(asset);
                 break;
             }
-            case TerrainPbrMaterialAsset.ClassName:
+            case TerrainMaterialAsset.ClassName:
             {
-                var material = new TerrainPbrMaterialAsset(item, currentFile);
-                //material.Material.IndexTextures(Libary.TextureFiles, currentFile);
-                Libary.TerrainMaterials.Add(material);
+                var obj = new TerrainMaterial(dict);
+                var asset = new TerrainMaterialAsset(obj, createInfo);
+                Libary.TerrainMaterials.Add(asset);
                 break;
             }
-            case ObjectPbrMaterialAsset.ClassName:
+            case ObjectMaterialAsset.ClassName:
             {
-                var material = new ObjectPbrMaterialAsset(item, currentFile);
-                Libary.ObjectMaterials.Add(material);
+                var obj = new ObjectMaterial(dict);
+                var asset = new ObjectMaterialAsset(obj, createInfo);
+                Libary.ObjectMaterials.Add(asset);
                 break;
             }
             case GroundCoverAsset.ClassName:
             {
-                var groundcover = new GroundCoverAsset(item, currentFile);
-                Libary.GroundCoverDefinitions.Add(groundcover);
+                var obj = new GroundCover(dict);
+                var asset = new GroundCoverAsset(obj, createInfo);
+                Libary.GroundCoverDefinitions.Add(asset);
                 break;
             }
             default:
             {
-                throw new Exception($"Unsupported class {item.Class}.");
+                throw new Exception($"Unsupported class {className}.");
             }
         }
     }
 
-    void ParseArray(JsonDictWrapper array)
+    void ParseArray(JsonDict array)
     {
         var items = (JsonDict[])array["items"];
         foreach (var item in items)
         {
-            var si = new JsonDictWrapper(item);
-
-            ParseObject(si);
+            ParseObject(item);
         }
     }
 

@@ -9,17 +9,16 @@ using System.Threading.Tasks;
 
 namespace LevelTemplateCreator.Assets;
 
-internal class LevelPreset : Asset
+internal class LevelObjectsAsset : Asset<JsonDictWrapper>
 {
-    public const string ClassName = "LevelPreset";
+    public const string ClassName = "LevelObjects";
+
 
     Collection<SimItem> Items;
 
-    public LevelPreset(JsonDictWrapper data, string file) : base(data, file)
+    public LevelObjectsAsset(JsonDictWrapper data, AssetCreateInfo info) : base(data, info)
     {
         Items = new Collection<SimItem>();
-
-        Name = data.Name.Value;
 
         var rawitems = (JsonDict[])data["items"];
 
@@ -52,6 +51,7 @@ internal class LevelPreset : Asset
                 case "LevelInfo":
                     group.Infos.Items.Add(item);
                     break;
+                case "Forest":
                 case "ForestWindEmitter":
                     group.Vegatation.Items.Add(item);
                     break;
@@ -64,6 +64,6 @@ internal class LevelPreset : Asset
 
     public override string ToString()
     {
-        return Name;
+        return DisplayName;
     }
 }

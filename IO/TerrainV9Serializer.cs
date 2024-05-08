@@ -10,13 +10,13 @@ namespace LevelTemplateCreator.IO;
 
 static class TerrainV9Serializer
 {
-    public static void Serialize(TerrainInfo info, string[] materials, string path)
+    public static void Serialize(TerrainInfo info, ICollection<string> materials, string path)
     {
         using var stream = new FileStream(path, FileMode.Create);
         Serialize(info, materials, stream);
     }
 
-    public static void Serialize(TerrainInfo info, string[] materials, Stream stream)
+    public static void Serialize(TerrainInfo info, ICollection<string> materials, Stream stream)
     {
         using var bw = new BinaryViewWriter(stream);
 
@@ -25,9 +25,22 @@ static class TerrainV9Serializer
 
         long size = info.Resolution * (long)info.Resolution;
 
-        bw.Seek(size * 3L, SeekOrigin.Current);
+        float u16max = ushort.MaxValue;
 
-        bw.WriteUInt32((uint)materials.Length);
+        float height = info.Height / info.MaxHeight * u16max;
+        if (height > u16max)
+            height = u16max;
+
+        ushort u16height = (ushort)height;
+
+        for (int i = 0; i < size; i++)
+        {
+            bw.WriteUInt16(u16height);
+        }
+
+        bw.Seek(size, SeekOrigin.Current);
+
+        bw.WriteUInt32((uint)materials.Count);
 
         foreach (var material in materials)
         {

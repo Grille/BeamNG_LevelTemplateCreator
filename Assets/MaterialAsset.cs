@@ -8,12 +8,10 @@ using System.Threading.Tasks;
 
 namespace LevelTemplateCreator.Assets;
 
-abstract class MaterialAsset : Asset
+abstract class MaterialAsset<T> : Asset<T> where T : Material
 {
-    public Material Material { get; }
+    public T Material => Object;
 
-    protected MaterialAsset(JsonDictWrapper obj, string source, Material material) : base(obj, source)
-    {
-        Material = material;
-    }
+    protected MaterialAsset(T obj, AssetCreateInfo info) : base(obj, info)
+    {  }
 }
