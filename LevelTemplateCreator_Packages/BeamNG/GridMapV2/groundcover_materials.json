@@ -1,0 +1,38 @@
+{
+    "name": "BNGGrass",
+    "mapTo": "unmapped_mat",
+    "class": "Material",
+    "persistentId": "b2d38e39-359b-4603-b334-a3263a4bcc57",
+    "Stages": [
+        {
+            "colorMap": "/levels/gridmap_v2/art/shapes/groundcover/Grass_green_d.color.png",
+            "diffuseColor": [
+                0.996078491,
+                0.996078491,
+                0.996078491,
+                1
+            ],
+            "normalMap": "/levels/gridmap_v2/art/shapes/groundcover/Grass_green_n.normal.png",
+            "roughnessFactor": 0.708999991,
+            "specular": [
+                0.999989986,
+                1,
+                0.999989986,
+                1
+            ],
+            "specularMap": "/levels/gridmap_v2/art/shapes/groundcover/Grass_green_s.color.dds",
+            "useAnisotropic": true
+        },
+        {},
+        {},
+        {}
+    ],
+    "alphaRef": 70,
+    "alphaTest": true,
+    "annotation": "NATURE",
+    "doubleSided": true,
+    "materialTag0": "beamng",
+    "order_simset": 2147352576,
+    "specularStrength0": "0",
+    "translucentBlendOp": "None"
+}

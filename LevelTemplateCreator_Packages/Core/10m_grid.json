@@ -1,0 +1,56 @@
+{
+    "preview": "./preview.jpg",
+    "name": "10m_grid",
+    "displayName":"10m_grid",
+    "class": "TerrainMaterial",
+    "aoBaseTex": "",
+    "aoBaseTexSize": 10,
+    "aoDetailTex": "/levels/driver_training/art/terrains/t_asphalt_ao.png",
+    "aoMacroTex": "/levels/driver_training/art/terrains/t_macro_asphalt_ao.png",
+    "aoMacroTexSize": 40,
+    "baseColorBaseTex": "./10m_grid.png",
+    "baseColorBaseTexSize": 10,
+    "baseColorDetailStrength": [
+        0.400000006,
+        0
+    ],
+    "baseColorDetailTex": "/levels/driver_training/art/terrains/t_asphalt_b.png",
+    "baseColorMacroStrength": [
+        0.400000006,
+        0.100000001
+    ],
+    "baseColorMacroTex": "/levels/driver_training/art/terrains/t_macro_asphalt_b.png",
+    "baseColorMacroTexSize": 40,
+    "groundmodelName": "ASPHALT",
+    "heightBaseTex": "",
+    "heightBaseTexSize": 10,
+    "heightDetailTex": "/levels/driver_training/art/terrains/t_asphalt_h.png",
+    "heightMacroTex": "/levels/driver_training/art/terrains/t_macro_asphalt_h.png",
+    "heightMacroTexSize": 40,
+    "normalBaseTex": "",
+    "normalBaseTexSize": 10,
+    "normalDetailStrength": [
+        0.699999988,
+        0.200000003
+    ],
+    "normalDetailTex": "/levels/driver_training/art/terrains/t_asphalt_nm.png",
+    "normalMacroStrength": [
+        0.800000012,
+        0.800000012
+    ],
+    "normalMacroTex": "/levels/driver_training/art/terrains/t_macro_asphalt_nm.png",
+    "normalMacroTexSize": 40,
+    "roughnessBaseTex": "#d4d4d4",
+    "roughnessBaseTexSize": 10,
+    "roughnessDetailStrength": [
+        0.899999976,
+        0.5
+    ],
+    "roughnessDetailTex": "/levels/driver_training/art/terrains/t_asphalt_r.png",
+    "roughnessMacroStrength": [
+        0.899999976,
+        0.899999976
+    ],
+    "roughnessMacroTex": "/levels/driver_training/art/terrains/t_macro_asphalt_r.png",
+    "roughnessMacroTexSize": 40
+}
