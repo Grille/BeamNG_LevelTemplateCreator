@@ -12,7 +12,7 @@ internal class ObjectMaterialAsset : MaterialAsset<ObjectMaterial>
 {
     public const string ClassName = ObjectMaterial.ClassName;
 
-    public ObjectMaterialAsset(ObjectMaterial item, AssetCreateInfo info) : base(item, info)
+    public ObjectMaterialAsset(ObjectMaterial item, AssetInfo info) : base(item, info)
     {
         //Material = new ObjectMaterial(item.Dict);
     }

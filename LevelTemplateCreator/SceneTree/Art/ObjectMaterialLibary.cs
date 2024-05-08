@@ -16,7 +16,7 @@ internal class ObjectMaterialLibary : MaterialLibary<ObjectMaterial>
     public override void AddAsset<TAsset>(TAsset asset)
     {
         var copy = asset.GetCopy();
-        copy.ResolveTexturePaths(this, asset.SourceFile);
+        copy.ResolveTexturePaths(this, asset.Info);
         Materials.Add(copy);
     }
 }

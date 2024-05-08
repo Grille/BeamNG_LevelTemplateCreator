@@ -86,7 +86,7 @@ internal class TerrainMaterial : Material
         Name.Value = $"{InternalName}_{PersistentId}";
     }
 
-    public override void ResolveTexturePaths(MaterialLibary libary, string source)
+    public override void ResolveTexturePaths(MaterialLibary libary, AssetInfo source)
     {
         foreach (var level in Levels)
         {

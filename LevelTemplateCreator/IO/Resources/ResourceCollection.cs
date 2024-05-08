@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LevelTemplateCreator.SceneTree.Art;
 using LevelTemplateCreator.Collections;
+using LevelTemplateCreator.Assets;
 
 namespace LevelTemplateCreator.IO.Resources;
 
@@ -16,16 +17,17 @@ internal class ResourceCollection : KeyedCollection<Resource>
     public string Register(string entry)
     {
         var resource = ResourceManager.Parse(entry);
-        var key = resource.Name;
-        if (ContainsKey(key))
-            return key;
-        Add(resource);
-        return key;
+        return TryAdd(resource);
     }
 
-    public string RegisterRelative(string entry, string rootPath)
+    public string RegisterRelative(string entry, AssetInfo info)
     {
-        var resource = ResourceManager.ParseRelative(entry, rootPath);
+        var resource = ResourceManager.Parse(entry, info.SourceFile, info.Namespace);
+        return TryAdd(resource);
+    }
+
+    string TryAdd(Resource resource)
+    {
         var key = resource.Name;
         if (ContainsKey(key))
             return key;

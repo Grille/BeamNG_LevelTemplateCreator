@@ -21,16 +21,21 @@ abstract class Asset : IKeyed
 
     public string Description { get; set; } = string.Empty;
 
+    public bool Visible { get; set; }
+
     public Image Preview { get; }
 
     public string SourceFile { get; }
 
     public string Namespace { get; }
 
+    public AssetInfo Info { get; }
+
     public JsonDictWrapper Object { get; }
 
-    public Asset(JsonDictWrapper obj, AssetCreateInfo info)
+    public Asset(JsonDictWrapper obj, AssetInfo info)
     {
+        Info = info;
         Object = obj;
         SourceFile = info.SourceFile;
         Namespace = info.Namespace;
@@ -41,7 +46,7 @@ abstract class Asset : IKeyed
         {
             try
             {
-                using var stream = ResourceManager.ParseRelative(path, SourceFile).OpenStream();
+                using var stream = ResourceManager.Parse(path, SourceFile).OpenStream();
                 var bitmap = new Bitmap(stream);
                 Preview = bitmap;
             }
@@ -80,7 +85,7 @@ abstract class Asset<T> : Asset where T : JsonDictWrapper
 {
     public new T Object => (T)base.Object;
 
-    public Asset(T obj, AssetCreateInfo info) : base(obj, info) { }
+    public Asset(T obj, AssetInfo info) : base(obj, info) { }
 
     public override T GetCopy()
     {

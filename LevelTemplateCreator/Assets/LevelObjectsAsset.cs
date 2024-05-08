@@ -16,7 +16,7 @@ internal class LevelObjectsAsset : Asset<JsonDictWrapper>
 
     Collection<SimItem> Items;
 
-    public LevelObjectsAsset(JsonDictWrapper data, AssetCreateInfo info) : base(data, info)
+    public LevelObjectsAsset(JsonDictWrapper data, AssetInfo info) : base(data, info)
     {
         Items = new Collection<SimItem>();
 
@@ -33,7 +33,7 @@ internal class LevelObjectsAsset : Asset<JsonDictWrapper>
         }
     }
 
-    public void Apply(SimGroupLevelObject group)
+    public void Apply(SimGroupLevelObjects group)
     {
         foreach (var item in Items)
         {

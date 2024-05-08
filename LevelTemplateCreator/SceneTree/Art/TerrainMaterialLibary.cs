@@ -28,7 +28,7 @@ internal class TerrainMaterialLibary : MaterialLibary<TerrainMaterial>
         var copy = asset.GetCopy();
         copy.CreatePersistentId();
         copy.MultiplyMappingScale(squareSize / _squareSize);
-        copy.ResolveTexturePaths(this, asset.SourceFile);
+        copy.ResolveTexturePaths(this, asset.Info);
         Materials.Add(copy);
     }
 

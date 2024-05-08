@@ -60,12 +60,12 @@ internal class AssetLibary
 
     public void PrintSumary()
     {
-        Console.WriteLine($"Assets: {TotalCount}");
-        Console.WriteLine($"- LevelPresets: {LevelPresets.Count}");
-        Console.WriteLine($"- TerrainMaterials: {TerrainMaterials.Count}");
-        Console.WriteLine($"- ObjectMaterials: {ObjectMaterials.Count}");
-        Console.WriteLine($"- GroundCoverDefinitions: {GroundCoverDefinitions.Count}");
-        Console.WriteLine($"- GroundCoverInstances: {GroundCoverInstances.Count}");
-        Console.WriteLine();
+        Logger.WriteLine($"Assets: {TotalCount}");
+        Logger.WriteLine($"- LevelPresets: {LevelPresets.Count}");
+        Logger.WriteLine($"- TerrainMaterials: {TerrainMaterials.Count}");
+        Logger.WriteLine($"- ObjectMaterials: {ObjectMaterials.Count}");
+        Logger.WriteLine($"- GroundCoverDefinitions: {GroundCoverDefinitions.Count}");
+        Logger.WriteLine($"- GroundCoverInstances: {GroundCoverInstances.Count}");
+        Logger.WriteLine();
     }
 }

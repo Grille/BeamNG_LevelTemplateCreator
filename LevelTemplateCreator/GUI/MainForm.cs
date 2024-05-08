@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Text;
 using LevelTemplateCreator.Assets;
 using LevelTemplateCreator.GUI;
+using LevelTemplateCreator.IO;
 
 namespace LevelTemplateCreator
 {
@@ -145,6 +146,13 @@ namespace LevelTemplateCreator
 
             var loader = new AssetLibaryLoader(AssetLibary) { Debug = Program.Debug };
             loader.LoadDirectory(EnvironmentInfo.Packages.Path);
+
+            if (ZipFileManager.Count > 0)
+            {
+                ZipFileManager.Clear();
+                Logger.WriteLine();
+            }
+
             loader.PrintErrors();
 
             AssetLibary.SeperateGroundCoverInstances();

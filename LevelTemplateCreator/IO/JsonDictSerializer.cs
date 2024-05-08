@@ -60,6 +60,7 @@ static class JsonDictSerializer
             JsonValueKind.String => json.ToString(),
             JsonValueKind.Number => json.GetSingle(),
             JsonValueKind.Array => GetArray(json),
+            JsonValueKind.Object => GetDict(json),
             JsonValueKind.True => json.GetBoolean(),
             JsonValueKind.False => json.GetBoolean(),
             JsonValueKind.Null => null!,

@@ -8,13 +8,13 @@ namespace LevelTemplateCreator.SceneTree.Main;
 
 internal class SimGroupMissionGroup : SimGroup
 {
-    public SimGroupLevelObject LevelObject { get; }
+    public SimGroupLevelObjects LevelObject { get; }
 
     public SimGroup PlayerDropPoints { get; }
 
     public SimGroupMissionGroup() : base("MissionGroup")
     {
-        LevelObject = new SimGroupLevelObject();
+        LevelObject = new SimGroupLevelObjects();
         PlayerDropPoints = new SimGroup("PlayerDopPoints");
 
         Items.Add(LevelObject, PlayerDropPoints);

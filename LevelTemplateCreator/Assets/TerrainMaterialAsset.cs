@@ -15,7 +15,7 @@ internal class TerrainMaterialAsset : MaterialAsset<TerrainMaterial>
 
     public float SquareSize { get; }
 
-    public TerrainMaterialAsset(TerrainMaterial item, AssetCreateInfo info) : base(item, info)
+    public TerrainMaterialAsset(TerrainMaterial item, AssetInfo info) : base(item, info)
     {
         Material.TryPopValue("squareSize", out float squareSize, 1);
         SquareSize = squareSize;

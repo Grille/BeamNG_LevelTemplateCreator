@@ -9,5 +9,5 @@ internal class GroundCoverAsset : Asset<GroundCover>
 
     public GroundCover GroundCover => Object;
 
-    public GroundCoverAsset(GroundCover item, AssetCreateInfo info) : base(item, info) { }
+    public GroundCoverAsset(GroundCover item, AssetInfo info) : base(item, info) { }
 }

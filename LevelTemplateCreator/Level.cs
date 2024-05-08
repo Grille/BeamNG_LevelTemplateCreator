@@ -126,6 +126,6 @@ internal class Level
         LevelInfoSerializer.Serialize(this, Path.Combine(path, "info.json"));
 
         ZipFileManager.Clear();
-        Console.WriteLine();
+        Logger.WriteLine();
     }
 }

@@ -37,7 +37,7 @@ internal class SimGroup : SimItem
     {
         var items = Items;
 
-        using var tw = new StreamWriter(stream);
+        using var sw = new StreamWriter(stream);
         foreach (var item in Items)
         {
             item.SetParent(IsMain ? null : this);

@@ -18,6 +18,7 @@ internal static class ZipFileManager
         public ZipArchiveWrapper(ZipArchive archive)
         {
             _archive = archive;
+
         }
 
         public bool TryGetEntry(string name, out ZipArchiveEntry entry)
@@ -61,9 +62,12 @@ internal static class ZipFileManager
 
     static readonly Dictionary<string, ZipArchiveWrapper> _archives;
 
+    public static int Count { get; private set; }
+
     static ZipFileManager()
     {
         _archives = new();
+        Count = 0;
     }
 
     static string PathToLower(string path)
@@ -80,7 +84,8 @@ internal static class ZipFileManager
             return wrapper;
         }
 
-        Console.WriteLine($"Open {fullpath}");
+        Logger.WriteLine($"Open {fullpath}");
+        Count += 1;
 
         var archive = ZipFile.OpenRead(fullpath);
         var newwrapper = new ZipArchiveWrapper(archive);
@@ -92,9 +97,11 @@ internal static class ZipFileManager
     {
         foreach (var pair in _archives)
         {
-            Console.WriteLine($"Close {pair.Key}");
+            Logger.WriteLine($"Close {pair.Key}");
             pair.Value.Dispose();
         }
+
+        Count = 0;
 
         _archives.Clear();
     }

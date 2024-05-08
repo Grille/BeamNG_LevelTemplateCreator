@@ -1,4 +1,5 @@
-﻿using LevelTemplateCreator.IO.Resources;
+﻿using LevelTemplateCreator.Assets;
+using LevelTemplateCreator.IO.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ internal abstract class Material : JsonDictWrapper
 
     }
 
-    public abstract void ResolveTexturePaths(MaterialLibary libary, string path);
+    public abstract void ResolveTexturePaths(MaterialLibary libary, AssetInfo info);
 
     public override abstract Material Copy();
 }

@@ -1,4 +1,5 @@
-﻿using LevelTemplateCreator.IO.Resources;
+﻿using LevelTemplateCreator.Assets;
+using LevelTemplateCreator.IO.Resources;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -35,7 +36,7 @@ internal class ObjectMaterial : Material
         Stages = new([Stage0, Stage1, Stage2, Stage3]);
     }
 
-    public override void ResolveTexturePaths(MaterialLibary libary, string path)
+    public override void ResolveTexturePaths(MaterialLibary libary, AssetInfo info)
     {
         foreach (var stage in Stages)
         {
@@ -43,7 +44,7 @@ internal class ObjectMaterial : Material
             {
                 if (!map.Exists)
                     continue;
-                var key = libary.Textures.RegisterRelative(map.Value, path);
+                var key = libary.Textures.RegisterRelative(map.Value, info);
                 map.Value = Path.Combine(libary.TexturesPath, key);
             }
         }

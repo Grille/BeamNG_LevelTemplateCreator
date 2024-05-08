@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LevelTemplateCreator.SceneTree.Main;
 
-internal class SimGroupLevelObject : SimGroup
+internal class SimGroupLevelObjects : SimGroup
 {
     public SimGroup Cloud { get; }
 
@@ -22,7 +22,7 @@ internal class SimGroupLevelObject : SimGroup
 
     public SimGroup Misc { get; }
 
-    public SimGroupLevelObject() : base("Level_object")
+    public SimGroupLevelObjects() : base("LevelObjects")
     {
         Cloud = new("cloud");
         Infos = new("infos");

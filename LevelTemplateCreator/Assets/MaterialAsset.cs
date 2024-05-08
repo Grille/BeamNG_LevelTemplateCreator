@@ -12,6 +12,6 @@ abstract class MaterialAsset<T> : Asset<T> where T : Material
 {
     public T Material => Object;
 
-    protected MaterialAsset(T obj, AssetCreateInfo info) : base(obj, info)
+    protected MaterialAsset(T obj, AssetInfo info) : base(obj, info)
     {  }
 }
