@@ -4,13 +4,13 @@ using Grille.BeamNgLib.IO.Resources;
 
 namespace Grille.BeamNgLib.SceneTree.Art;
 
-public class MaterialLibary : KeyedCollection<ArtItem>
+public class MaterialItems : ArtItemsCollection<ArtItem>
 {
     public const string FileName = "main.materials.json";
 
     public ResourceCollection Resources { get; }
 
-    public MaterialLibary(ResourceCollection resources)
+    public MaterialItems(ResourceCollection resources)
     {
         Resources = resources;
     }
@@ -23,23 +23,5 @@ public class MaterialLibary : KeyedCollection<ArtItem>
             names.Add(material.Name.Value);
         }
         return names.ToArray();
-    }
-
-    public void SerializeItems(string path)
-    {
-        using var stream = new FileStream(path, FileMode.Create);
-        SerializeItems(stream);
-    }
-
-    public void SerializeItems(Stream stream)
-    {
-        var dict = new JsonDict();
-
-        foreach (var item in this)
-        {
-            dict[item.Name.Value] = item.Dict;
-        }
-
-        JsonDictSerializer.Serialize(stream, dict, true);
     }
 }

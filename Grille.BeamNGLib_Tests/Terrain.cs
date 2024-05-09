@@ -36,9 +36,9 @@ static class Terrain
         var info = new TerrainInfo() { Height = height, MaxHeight = maxHeight };
         ushort u16height = info.U16Height;
 
-        TerrainV9Serializer.Serialize(info, names, FileName);
+        TerrainV9Serializer.Save(FileName, info, names);
 
-        var result = TerrainV9Serializer.Deserialize(FileName);
+        var result = TerrainV9Serializer.Load(FileName);
 
         AssertIsEqual((int)height, (int)(result.Data[0].GetHeight(maxHeight) + 0.5f));
 
@@ -63,9 +63,9 @@ static class Terrain
             MaterialNames = names
         };
 
-        TerrainV9Serializer.Serialize(terrain, FileName);
+        TerrainV9Serializer.Save(FileName, terrain);
 
-        var result = TerrainV9Serializer.Deserialize(FileName);
+        var result = TerrainV9Serializer.Load(FileName);
 
         AssertIListIsEqual(names, result.MaterialNames);
     }

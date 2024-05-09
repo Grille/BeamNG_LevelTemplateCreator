@@ -8,7 +8,7 @@ public enum LoggerColor
 
 public static class Logger
 {
-    public static bool EnableConsoleOutput { get; set; } = true;
+    public static bool ConsoleOutputEnabled { get; set; } = false;
 
     static Stream? _stream;
     static StreamWriter? _writer;
@@ -67,7 +67,7 @@ public static class Logger
 
     static void WriteToConsole()
     {
-        if (!EnableConsoleOutput)
+        if (!ConsoleOutputEnabled)
             return;
 
         Console.WriteLine();
@@ -75,7 +75,7 @@ public static class Logger
 
     static void WriteToConsole(string text, LoggerColor color = LoggerColor.Default)
     {
-        if (!EnableConsoleOutput)
+        if (!ConsoleOutputEnabled)
             return;
 
         Console.ForegroundColor = (ConsoleColor)color;

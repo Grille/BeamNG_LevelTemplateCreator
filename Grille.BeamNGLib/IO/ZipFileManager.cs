@@ -91,11 +91,16 @@ public static class ZipFileManager
 
     public static void Clear()
     {
+        if (Count == 0)
+            return;
+
         foreach (var pair in _archives)
         {
             Logger.WriteLine($"Close {pair.Key}");
+
             pair.Value.Dispose();
         }
+        Logger.WriteLine();
 
         Count = 0;
 

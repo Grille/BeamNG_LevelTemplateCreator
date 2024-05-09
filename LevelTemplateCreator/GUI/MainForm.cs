@@ -148,11 +148,7 @@ namespace LevelTemplateCreator
             var loader = new AssetLibaryLoader(AssetLibary) { Debug = true };
             loader.LoadDirectory(EnvironmentInfo.Packages.Path);
 
-            if (ZipFileManager.Count > 0)
-            {
-                ZipFileManager.Clear();
-                Logger.WriteLine();
-            }
+            ZipFileManager.Clear();
 
             loader.Print();
 

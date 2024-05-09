@@ -2,13 +2,13 @@
 
 public class LevelInfoSerializer
 {
-    public static void Serialize(Level level, string path)
+    public static void Save(string path, Level level)
     {
         using var stream = new FileStream(path, FileMode.Create);
-        Serialize(level, stream);
+        Serialize(stream, level);
     }
 
-    public static void Serialize(Level level, Stream stream)
+    public static void Serialize(Stream stream, Level level)
     {
         var dict = new JsonDict()
         {

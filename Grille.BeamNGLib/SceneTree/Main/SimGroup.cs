@@ -1,4 +1,5 @@
 ﻿using Grille.BeamNgLib.Collections;
+using Grille.BeamNgLib.IO;
 using Grille.BeamNgLib.SceneTree.Art;
 
 namespace Grille.BeamNgLib.SceneTree.Main;
@@ -28,15 +29,11 @@ public class SimGroup : SimItem
 
     public void SerializeItems(Stream stream)
     {
-        var items = Items;
-
-        using var sw = new StreamWriter(stream);
         foreach (var item in Items)
         {
             item.SetParent(IsMain ? null : this);
-            item.Serialize(stream);
-            stream.WriteByte((byte)'\n');
         }
+        ItemsLevelSerializer.Serialize(stream, Items);
     }
 
     public IEnumerable<T> EnumerateItems<T>() where T : SimItem

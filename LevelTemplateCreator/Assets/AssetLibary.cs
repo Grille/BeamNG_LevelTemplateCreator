@@ -10,7 +10,7 @@ public class AssetLibary
 
     public AssetCollection<TerrainMaterialAsset> TerrainMaterials { get; }
 
-    public AssetCollection<ObjectMaterialAsset> ObjectMaterials { get; }
+    public AssetCollection<ObjectMaterialAsset> GroundCoverMaterials { get; }
 
     public AssetCollection<GroundCoverAsset> GroundCoverDefinitions { get; }
 
@@ -18,13 +18,13 @@ public class AssetLibary
 
     public Bitmap? Preview { get; set; }
 
-    public int TotalCount => LevelPresets.Count + TerrainMaterials.Count + ObjectMaterials.Count + GroundCoverDefinitions.Count + GroundCoverInstances.Count;
+    public int TotalCount => LevelPresets.Count + TerrainMaterials.Count + GroundCoverMaterials.Count + GroundCoverDefinitions.Count + GroundCoverInstances.Count;
 
     public AssetLibary()
     {
         LevelPresets = new();
         TerrainMaterials = new();
-        ObjectMaterials = new();
+        GroundCoverMaterials = new();
         GroundCoverDefinitions = new();
         GroundCoverInstances = new();
     }
@@ -33,7 +33,7 @@ public class AssetLibary
     {
         LevelPresets.Clear();
         TerrainMaterials.Clear(); 
-        ObjectMaterials.Clear();
+        GroundCoverMaterials.Clear();
         GroundCoverDefinitions.Clear();
         GroundCoverInstances.Clear();
     }
@@ -60,7 +60,7 @@ public class AssetLibary
         Logger.WriteLine($"Assets: {TotalCount}");
         Logger.WriteLine($"- LevelPresets: {LevelPresets.Count}");
         Logger.WriteLine($"- TerrainMaterials: {TerrainMaterials.Count}");
-        Logger.WriteLine($"- ObjectMaterials: {ObjectMaterials.Count}");
+        Logger.WriteLine($"- ObjectMaterials: {GroundCoverMaterials.Count}");
         Logger.WriteLine($"- GroundCoverDefinitions: {GroundCoverDefinitions.Count}");
         Logger.WriteLine($"- GroundCoverInstances: {GroundCoverInstances.Count}");
         Logger.WriteLine();

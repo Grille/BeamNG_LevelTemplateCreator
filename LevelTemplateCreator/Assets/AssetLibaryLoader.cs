@@ -222,7 +222,7 @@ public class AssetLibaryLoader
             {
                 var obj = new ObjectMaterial(dict);
                 var asset = new ObjectMaterialAsset(obj, createInfo);
-                Libary.ObjectMaterials.Add(asset);
+                Libary.GroundCoverMaterials.Add(asset);
                 break;
             }
             case GroundCoverAsset.ClassName:
@@ -361,14 +361,10 @@ public class AssetLibaryLoader
 
     void GetItems(Stream stream)
     {
-        using var sr = new StreamReader(stream);
-        while (true)
+        var items = ItemsLevelSerializer.Deserialize(stream);
+        foreach (var item in items)
         {
-            var line = sr.ReadLine();
-            if (line == null)
-                break;
-
-            Deserialize(line);
+            ParseObject(item);
         }
     }
 }

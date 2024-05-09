@@ -6,10 +6,22 @@ namespace Grille.BeamNgLib.IO;
 
 public class TerrainV9Serializer
 {
-    public static TerrainBinary Deserialize(string path, bool ignoreVersion = false)
+    public static TerrainBinary Load(string path, bool ignoreVersion = false)
     {
         using var stream = new FileStream(path, FileMode.Open);
         return Deserialize(stream, ignoreVersion);
+    }
+
+    public static void Save(string path, TerrainBinary terrain)
+    {
+        using var stream = new FileStream(path, FileMode.Create);
+        Serialize(stream, terrain);
+    }
+
+    public static void Save(string path, TerrainInfo info, ICollection<string> materials)
+    {
+        using var stream = new FileStream(path, FileMode.Create);
+        Serialize(stream, info, materials);
     }
 
     public static TerrainBinary Deserialize(Stream stream, bool ignoreVersion = false)
@@ -50,13 +62,7 @@ public class TerrainV9Serializer
         return terrain;
     }
 
-    public static void Serialize(TerrainBinary terrain, string path)
-    {
-        using var stream = new FileStream(path, FileMode.Create);
-        Serialize(terrain, stream);
-    }
-
-    public static void Serialize(TerrainBinary terrain, Stream stream)
+    public static void Serialize(Stream stream, TerrainBinary terrain)
     {
         using var bw = new BinaryViewWriter(stream);
 
@@ -88,13 +94,7 @@ public class TerrainV9Serializer
         }
     }
 
-    public static void Serialize(TerrainInfo info, ICollection<string> materials, string path)
-    {
-        using var stream = new FileStream(path, FileMode.Create);
-        Serialize(info, materials, stream);
-    }
-
-    public static void Serialize(TerrainInfo info, ICollection<string> materials, Stream stream)
+    public static void Serialize(Stream stream, TerrainInfo info, ICollection<string> materials)
     {
         using var bw = new BinaryViewWriter(stream);
 

@@ -107,9 +107,9 @@ public class AssetLibaryContent : AssetLibary
         {
             var key = item.GroundCover.Material.Value;
 
-            if (libary.ObjectMaterials.TryGetValue(key, out var obj))
+            if (libary.GroundCoverMaterials.TryGetValue(key, out var obj))
             {
-                ObjectMaterials.Add(obj);
+                GroundCoverMaterials.Add(obj);
             }
         }
     }

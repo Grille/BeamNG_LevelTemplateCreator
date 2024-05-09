@@ -47,7 +47,7 @@ public class JsonDictSerializer
         }
     }
 
-    public static object? GetValue(JsonElement json)
+    static object? GetValue(JsonElement json)
     {
         object value = json.ValueKind switch
         {
@@ -65,7 +65,7 @@ public class JsonDictSerializer
 
     }
 
-    public static object GetArray(JsonElement json)
+    static object GetArray(JsonElement json)
     {
         int count = json.GetArrayLength();
         if (count == 0)
@@ -97,14 +97,14 @@ public class JsonDictSerializer
         return array;
     }
 
-    public static JsonDict GetDict(JsonElement json)
+    static JsonDict GetDict(JsonElement json)
     {
         var result = new JsonDict();
         GetDict(json, result);
         return result;
     }
 
-    public static void GetDict<T>(JsonElement json, T dst) where T : IDictionary<string, object>
+    static void GetDict<T>(JsonElement json, T dst) where T : IDictionary<string, object>
     {
         var jdict = json.Deserialize<Dictionary<string, JsonElement>>();
         if (jdict == null)

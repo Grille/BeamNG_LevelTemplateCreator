@@ -19,6 +19,8 @@ internal static class Program
     [STAThread]
     static void Main()
     {
+        Logger.ConsoleOutputEnabled = true;
+
         using var stream = new FileStream("console.log", FileMode.Create);
         Logger.OutputStream = stream;
 

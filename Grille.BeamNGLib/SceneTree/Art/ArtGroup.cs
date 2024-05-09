@@ -8,13 +8,17 @@ public class ArtGroup : IKeyed
 {
     string IKeyed.Key => Name;
 
+    public bool IsEmpty => Children.Count == 0 && Resources.Count == 0 && MaterialItems.Count == 0;
+
     public string Name { get; }
 
     public KeyedCollection<ArtGroup> Children { get; }
 
     public ResourceCollection Resources { get; }
 
-    public MaterialLibary MaterialItems { get; }
+    public MaterialItems MaterialItems { get; }
+
+    public ManagedItems ManagedItems { get; }
 
     public ArtGroup(string name)
     {
@@ -22,6 +26,7 @@ public class ArtGroup : IKeyed
         Children = new();
         Resources = new(true);
         MaterialItems = new(Resources);
+        ManagedItems = new();
     }
 
     public IEnumerable<T> EnumerateMaterialItems<T>() where T : ArtItem
@@ -45,8 +50,11 @@ public class ArtGroup : IKeyed
             item.SaveTree(childpath);
         }
 
-        var materialsPath = Path.Combine(path, MaterialLibary.FileName);
-        MaterialItems.SerializeItems(materialsPath);
+        if (MaterialItems.Count > 0)
+        {
+            var materialsPath = Path.Combine(path, MaterialItems.FileName);
+            MaterialItems.SerializeItems(materialsPath);
+        }
 
         foreach (var resource in Resources)
         {

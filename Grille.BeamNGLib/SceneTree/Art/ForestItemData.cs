@@ -1,6 +1,6 @@
 ﻿namespace Grille.BeamNgLib.SceneTree.Art;
 
-public sealed class ForestItemData : JsonDictWrapper
+public sealed class ForestItemData : ArtItem
 {
     public const string ClassName = "TSForestItemData";
 

@@ -89,12 +89,12 @@ public class LevelExporter
 
     void BuildArtGroupGroundcover(ArtGroupRoot root)
     {
-        var path = $"/levels/{Namespace}/art/groundcover";
+        var path = $"/levels/{Namespace}/art/shapes/groundcover";
 
-        var group = root.Groundcover;
+        var group = root.Shapes.Groundcover;
         var materials = group.MaterialItems;
 
-        foreach (var asset in Content.ObjectMaterials)
+        foreach (var asset in Content.GroundCoverMaterials)
         {
             var copy = asset.GetCopy();
             copy.EvalPathExpressions(asset, path, group.Resources);
@@ -137,12 +137,10 @@ public class LevelExporter
         Content.PrintSumary();
     }
 
-
-
     public void Export(string path)
     {
-        LevelInfoSerializer.Serialize(Level, Path.Combine(path, "info.json"));
-        TerrainV9Serializer.Serialize(Terrain, Content.TerrainMaterials.Keys, Path.Combine(path, "terrain.ter"));
+        LevelInfoSerializer.Save(Path.Combine(path, "info.json"), Level);
+        TerrainV9Serializer.Save(Path.Combine(path, "terrain.ter"), Terrain, Content.TerrainMaterials.Keys);
 
         Content.Preview?.Save(Path.Combine(path, "preview.png"));
 
@@ -152,12 +150,8 @@ public class LevelExporter
         BuildSimGroup().SaveTree(simPath);
         BuildArtGroup().SaveTree(artPath);
 
-        if (ZipFileManager.Count > 0)
-        {
-            ZipFileManager.Clear();
-            Logger.WriteLine();
-        }
-
+        ZipFileManager.Clear();
+        
         Errors.Print();
         Errors.Clear();
     }
