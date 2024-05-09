@@ -1,5 +1,6 @@
 ﻿using Grille.BeamNgLib.Collections;
 using Grille.BeamNgLib.IO;
+using Grille.BeamNgLib.SceneTree.Main;
 
 namespace Grille.BeamNgLib.SceneTree;
 
@@ -71,33 +72,29 @@ public abstract class JsonDictWrapper : IKeyed
 
     public void ApplyNamespace(string @namespace)
     {
-        if (!string.IsNullOrEmpty(@namespace))
-        {
-            ApplyPrefix(@namespace);
-        }
+        if (string.IsNullOrEmpty(@namespace))
+            return;
+        foreach (var item in EnumerateIdentifiers())
+            item.Value = @namespace + item.Value;
     }
 
-    public virtual void ApplyPrefix(string prefix)
+    /// <summary> Enumerates all fields that are used to identify this or other objects.</summary>
+    public virtual IEnumerable<JsonDictProperty<string>> EnumerateIdentifiers()
     {
         if (Name.Exists)
-        {
-            Name.Value = prefix + Name.Value;
-        }
+            yield return Name;
         if (InternalName.Exists)
+            yield return InternalName;
+    }
+
+    public IEnumerable<T> EnumerateValues<T>()
+    {
+        foreach (var item in Dict.Values)
         {
-            InternalName.Value = prefix + InternalName.Value;
+            if (item is T)
+            {
+                yield return (T)item;
+            }
         }
-    }
-
-    public JsonDict CopyDict()
-    {
-        var dict = new JsonDict();
-        CopyDict(Dict, dict);
-        return dict;
-    }
-
-    public static void CopyDict(JsonDict src, JsonDict dst)
-    {
-
     }
 }

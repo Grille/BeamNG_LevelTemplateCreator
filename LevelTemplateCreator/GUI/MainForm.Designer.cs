@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            menuStrip1 = new MenuStrip();
+            components = new System.ComponentModel.Container();
+            MenuStrip = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             saveToolStripMenuItem = new ToolStripMenuItem();
             saveAsToolStripMenuItem = new ToolStripMenuItem();
@@ -47,21 +48,22 @@
             splitContainer1 = new SplitContainer();
             LevelSettings = new GUI.LevelSettings();
             ContentManager = new GUI.ContentManager();
-            menuStrip1.SuspendLayout();
+            ToolTip = new ToolTip(components);
+            MenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
             SuspendLayout();
             // 
-            // menuStrip1
+            // MenuStrip
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, settingsToolStripMenuItem, displayToolStripMenuItem, utilsToolStripMenuItem });
-            menuStrip1.Location = new Point(0, 0);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1335, 24);
-            menuStrip1.TabIndex = 3;
-            menuStrip1.Text = "menuStrip1";
+            MenuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, settingsToolStripMenuItem, displayToolStripMenuItem, utilsToolStripMenuItem });
+            MenuStrip.Location = new Point(0, 0);
+            MenuStrip.Name = "MenuStrip";
+            MenuStrip.Size = new Size(1335, 24);
+            MenuStrip.TabIndex = 3;
+            MenuStrip.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
@@ -109,14 +111,14 @@
             // systemToolStripMenuItem
             // 
             systemToolStripMenuItem.Name = "systemToolStripMenuItem";
-            systemToolStripMenuItem.Size = new Size(180, 22);
+            systemToolStripMenuItem.Size = new Size(144, 22);
             systemToolStripMenuItem.Text = "System Paths";
             systemToolStripMenuItem.Click += systemToolStripMenuItem_Click;
             // 
             // reloadToolStripMenuItem
             // 
             reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            reloadToolStripMenuItem.Size = new Size(180, 22);
+            reloadToolStripMenuItem.Size = new Size(144, 22);
             reloadToolStripMenuItem.Text = "Reload";
             reloadToolStripMenuItem.Click += reloadToolStripMenuItem_Click;
             // 
@@ -210,14 +212,14 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1335, 582);
             Controls.Add(splitContainer1);
-            Controls.Add(menuStrip1);
+            Controls.Add(MenuStrip);
             DoubleBuffered = true;
-            MainMenuStrip = menuStrip1;
+            MainMenuStrip = MenuStrip;
             Name = "MainForm";
             Text = "Template Creator";
             Load += MainForm_Load;
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
+            MenuStrip.ResumeLayout(false);
+            MenuStrip.PerformLayout();
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
@@ -227,7 +229,7 @@
         }
 
         #endregion
-        private MenuStrip menuStrip1;
+        private MenuStrip MenuStrip;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem saveToolStripMenuItem;
         private ToolStripMenuItem saveAsToolStripMenuItem;
@@ -246,5 +248,6 @@
         private ToolStripMenuItem toolStripMenuItem3;
         private ToolStripMenuItem toolStripMenuItem4;
         private ToolStripMenuItem reloadToolStripMenuItem;
+        private ToolTip ToolTip;
     }
 }

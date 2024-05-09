@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using Grille.BeamNgLib.Collections;
+using System.Runtime.CompilerServices;
 
 namespace Grille.BeamNgLib.SceneTree;
 
@@ -66,7 +67,7 @@ struct JsonDictProperty
     }
 }
 
-public class JsonDictProperty<T> where T : notnull
+public class JsonDictProperty<T> :  IKeyed where T : notnull
 {
     enum PropertyType
     {
@@ -85,6 +86,8 @@ public class JsonDictProperty<T> where T : notnull
     public T? DefaultValue { get; }
 
     public T Value { get => Get(); set => Set(value); }
+
+    public string Key => _property.Key;
 
     public JsonDictProperty(JsonDictWrapper owner, string key)
     {

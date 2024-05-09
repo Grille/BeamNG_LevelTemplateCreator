@@ -32,11 +32,22 @@ internal partial class LevelSettings : UserControl
         TextBoxNamespace.TextBox.TextChanged += Namespace_TextChanged;
         TextBoxTitle.TextBox.TextChanged += Title_TextChanged;
         TextBoxAuthor.TextBox.TextChanged += Authors_TextChanged;
+        ComboBoxCopyMode.SelectedIndexChanged += ComboBoxCopyMode_SelectedIndexChanged;
+
+        ComboBoxCopyMode.SelectedIndex = 0;
     }
 
     public LevelSettings()
     {
         InitializeComponent();
+    }
+
+    private void ComboBoxCopyMode_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        if (_level == null)
+            return;
+
+        _level.CopyMode = (FileCopyMode)ComboBoxCopyMode.SelectedIndex;
     }
 
     private void Namespace_TextChanged(object? sender, EventArgs e)

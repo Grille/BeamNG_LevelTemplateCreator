@@ -19,6 +19,8 @@ namespace LevelTemplateCreator;
 
 public class LevelExporter
 {
+    public FileCopyMode CopyMode { get; set; }
+
     public AssetLibary Libary { get; }
 
     public AssetLibaryContent Content { get; }
@@ -79,7 +81,7 @@ public class LevelExporter
             var copy = asset.GetCopy();
             copy.CreatePersistentId();
             copy.MultiplyMappingScale(squareSize / Terrain.SquareSize);
-            copy.EvalPathExpressions(asset, path, group.Resources);
+            copy.EvalPathExpressions(asset, path, group.Resources, CopyMode);
             materials.Add(copy);
         }
 
@@ -97,7 +99,7 @@ public class LevelExporter
         foreach (var asset in Content.GroundCoverMaterials)
         {
             var copy = asset.GetCopy();
-            copy.EvalPathExpressions(asset, path, group.Resources);
+            copy.EvalPathExpressions(asset, path, group.Resources, CopyMode);
             materials.Add(copy);
         }
 

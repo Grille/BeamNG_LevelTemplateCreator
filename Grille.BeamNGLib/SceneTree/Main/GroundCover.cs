@@ -1,4 +1,5 @@
-﻿namespace Grille.BeamNgLib.SceneTree.Main;
+﻿
+namespace Grille.BeamNgLib.SceneTree.Main;
 
 public class GroundCover : SimItem
 {
@@ -20,10 +21,10 @@ public class GroundCover : SimItem
 
     }
 
-    public override void ApplyPrefix(string prefix)
+    public override IEnumerable<JsonDictProperty<string>> EnumerateIdentifiers()
     {
-        base.ApplyPrefix(prefix);
-
-        Material.Value = prefix + Material.Value;
+        foreach (var reference in base.EnumerateIdentifiers())
+            yield return reference;
+        yield return Material;
     }
 }

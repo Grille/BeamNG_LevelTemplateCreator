@@ -136,6 +136,8 @@ namespace LevelTemplateCreator
             LevelSettings.SetLevel(Level);
             EnvironmentInfo.Load();
             LoadContent();
+
+            //ToolTip.SetToolTip(LevelSettings.ComboBoxCopyMode, "");
         }
 
         void LoadContent()

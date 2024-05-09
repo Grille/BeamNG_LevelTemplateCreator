@@ -19,7 +19,6 @@ namespace LevelTemplateCreator.GUI
         [Browsable(true)]
         public override string Text { get => TextBox.Text; set => TextBox.Text = value; }
 
-
         public LabledTextbox()
         {
             InitializeComponent();

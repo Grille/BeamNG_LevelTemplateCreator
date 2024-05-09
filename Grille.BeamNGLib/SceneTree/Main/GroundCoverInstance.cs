@@ -1,4 +1,6 @@
-﻿namespace Grille.BeamNgLib.SceneTree.Main;
+﻿using Grille.BeamNgLib.SceneTree.Art;
+
+namespace Grille.BeamNgLib.SceneTree.Main;
 
 public class GroundCoverInstance : JsonDictWrapper
 {
@@ -44,10 +46,10 @@ public class GroundCoverInstance : JsonDictWrapper
         return result.ToArray();
     }
 
-    public override void ApplyPrefix(string prefix)
+    public override IEnumerable<JsonDictProperty<string>> EnumerateIdentifiers()
     {
-        base.ApplyPrefix(prefix);
-
-        Layer.Value = prefix + Layer.Value;
+        foreach (var reference in base.EnumerateIdentifiers())
+            yield return reference;
+        yield return Layer;
     }
 }
