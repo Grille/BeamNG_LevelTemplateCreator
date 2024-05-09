@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<LangVersion>12</LangVersion>
+		<Nullable>enable</Nullable>
+		<PackageId>Grille.BeamNgLib</PackageId>
+		<Title>Grille.BeamNgLib</Title>
+		<Owners>Grille</Owners>
+		<RepositoryUrl>https://github.com/Grille/BeamNG_LevelTemplateCreator</RepositoryUrl>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Copyright>Copyright (c) 2024 Paul Hirch</Copyright>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageIcon>Grille.BeamNG.png</PackageIcon>
+		<Authors>Grille</Authors>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\Assets\Grille.BeamNG.png" Pack="true" PackagePath="\" Visible="false" />
+		<None Include="..\README.md" Pack="true" PackagePath="\" Visible="false" />
+		<None Include="..\LICENSE" Pack="true" PackagePath="\" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="GGL.BinaryView" Version="2.4.2" />
+	</ItemGroup>
+
+</Project>

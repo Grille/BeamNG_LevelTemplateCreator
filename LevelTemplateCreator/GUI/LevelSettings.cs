@@ -14,9 +14,9 @@ namespace LevelTemplateCreator.GUI;
 
 internal partial class LevelSettings : UserControl
 {
-    Level? _level;
+    LevelExporter? _level;
 
-    public void SetLevel(Level level)
+    public void SetLevel(LevelExporter level)
     {
         _level = level;
 

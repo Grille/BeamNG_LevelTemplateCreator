@@ -1,13 +1,10 @@
-﻿using LevelTemplateCreator.Collections;
-using LevelTemplateCreator.IO;
-using LevelTemplateCreator.IO.Resources;
-using LevelTemplateCreator.SceneTree;
-using LevelTemplateCreator.SceneTree.Art;
-using LevelTemplateCreator.SceneTree.Main;
+﻿using Grille.BeamNgLib.Logging;
+using Grille.BeamNgLib.SceneTree.Main;
+
 
 namespace LevelTemplateCreator.Assets;
 
-internal class AssetLibary
+public class AssetLibary
 {
     public AssetCollection<LevelObjectsAsset> LevelPresets { get; }
 

@@ -1,5 +1,5 @@
-﻿using LevelTemplateCreator.SceneTree;
-using LevelTemplateCreator.SceneTree.Main;
+﻿using Grille.BeamNgLib.SceneTree;
+using Grille.BeamNgLib.SceneTree.Main;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace LevelTemplateCreator.Assets;
 
-internal class LevelObjectsAsset : Asset<JsonDictWrapper>
+public class LevelObjectsAsset : Asset<JsonDictWrapper>
 {
     public const string ClassName = "LevelObjects";
 
 
     Collection<SimItem> Items;
 
-    public LevelObjectsAsset(JsonDictWrapper data, AssetInfo info) : base(data, info)
+    public LevelObjectsAsset(JsonDictWrapper data, AssetSource info) : base(data, info)
     {
         Items = new Collection<SimItem>();
 
@@ -60,6 +60,11 @@ internal class LevelObjectsAsset : Asset<JsonDictWrapper>
                     break;
             }
         }
+    }
+
+    public override JsonDictWrapper GetCopy()
+    {
+        throw new NotImplementedException();
     }
 
     public override string ToString()

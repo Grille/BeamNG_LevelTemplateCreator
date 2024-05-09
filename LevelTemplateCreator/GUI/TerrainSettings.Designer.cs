@@ -50,10 +50,10 @@
             // 
             numericWorldSize.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             numericWorldSize.DecimalPlaces = 2;
-            numericWorldSize.Location = new Point(101, 32);
+            numericWorldSize.Location = new Point(103, 32);
             numericWorldSize.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             numericWorldSize.Name = "numericWorldSize";
-            numericWorldSize.Size = new Size(477, 23);
+            numericWorldSize.Size = new Size(475, 23);
             numericWorldSize.TabIndex = 3;
             numericWorldSize.ValueChanged += numericUpDownWorldSize_ValueChanged;
             // 
@@ -62,9 +62,9 @@
             comboBoxRes.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             comboBoxRes.FormattingEnabled = true;
             comboBoxRes.Items.AddRange(new object[] { "128", "256", "512", "1024", "2048", "4096", "8192", "16384", "32768", "65536" });
-            comboBoxRes.Location = new Point(101, 3);
+            comboBoxRes.Location = new Point(103, 3);
             comboBoxRes.Name = "comboBoxRes";
-            comboBoxRes.Size = new Size(477, 23);
+            comboBoxRes.Size = new Size(475, 23);
             comboBoxRes.TabIndex = 4;
             comboBoxRes.SelectedIndexChanged += comboBoxRes_SelectedIndexChanged;
             // 
@@ -72,10 +72,10 @@
             // 
             numericSquareSize.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             numericSquareSize.DecimalPlaces = 2;
-            numericSquareSize.Location = new Point(101, 61);
+            numericSquareSize.Location = new Point(103, 61);
             numericSquareSize.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             numericSquareSize.Name = "numericSquareSize";
-            numericSquareSize.Size = new Size(477, 23);
+            numericSquareSize.Size = new Size(475, 23);
             numericSquareSize.TabIndex = 5;
             numericSquareSize.ValueChanged += numericUpDownSquareSize_ValueChanged;
             // 
@@ -83,10 +83,10 @@
             // 
             numericMaxHeight.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             numericMaxHeight.DecimalPlaces = 2;
-            numericMaxHeight.Location = new Point(101, 90);
+            numericMaxHeight.Location = new Point(103, 90);
             numericMaxHeight.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             numericMaxHeight.Name = "numericMaxHeight";
-            numericMaxHeight.Size = new Size(477, 23);
+            numericMaxHeight.Size = new Size(475, 23);
             numericMaxHeight.TabIndex = 6;
             numericMaxHeight.ValueChanged += numericUpDownMaxHeight_ValueChanged;
             // 
@@ -135,7 +135,7 @@
             tableLayoutPanel1.AutoSize = true;
             tableLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(numericBaseHeight, 1, 4);
             tableLayoutPanel1.Controls.Add(numericMaxHeight, 1, 3);
@@ -163,10 +163,10 @@
             // 
             numericBaseHeight.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             numericBaseHeight.DecimalPlaces = 2;
-            numericBaseHeight.Location = new Point(101, 119);
+            numericBaseHeight.Location = new Point(103, 119);
             numericBaseHeight.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             numericBaseHeight.Name = "numericBaseHeight";
-            numericBaseHeight.Size = new Size(477, 23);
+            numericBaseHeight.Size = new Size(475, 23);
             numericBaseHeight.TabIndex = 12;
             numericBaseHeight.ValueChanged += numericBaseHeight_ValueChanged;
             // 

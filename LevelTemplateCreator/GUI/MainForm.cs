@@ -1,22 +1,24 @@
 using System.Diagnostics;
 using System.Text;
+using Grille.BeamNgLib;
+using Grille.BeamNgLib.IO;
+using Grille.BeamNgLib.Logging;
 using LevelTemplateCreator.Assets;
 using LevelTemplateCreator.GUI;
-using LevelTemplateCreator.IO;
 
 namespace LevelTemplateCreator
 {
     public partial class MainForm : Form
     {
         AssetLibary AssetLibary { get; set; }
-        Level Level { get; set; }
+        LevelExporter Level { get; set; }
 
         public MainForm()
         {
             InitializeComponent();
 
             AssetLibary = new AssetLibary();
-            Level = new Level(AssetLibary);
+            Level = new LevelExporter(AssetLibary);
 
             LevelSettings.ButtonSave.Click += (object? sender, EventArgs e) =>
             {
@@ -110,7 +112,6 @@ namespace LevelTemplateCreator
             catch (Exception e)
             {
                 ExceptionBox.Show(this, e);
-
                 if (Program.Debug)
                     throw;
             }
@@ -144,7 +145,7 @@ namespace LevelTemplateCreator
 
             AssetLibary.Clear();
 
-            var loader = new AssetLibaryLoader(AssetLibary) { Debug = false };
+            var loader = new AssetLibaryLoader(AssetLibary) { Debug = true };
             loader.LoadDirectory(EnvironmentInfo.Packages.Path);
 
             if (ZipFileManager.Count > 0)

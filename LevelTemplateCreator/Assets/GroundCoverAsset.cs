@@ -1,13 +1,18 @@
-﻿using LevelTemplateCreator.SceneTree;
-using LevelTemplateCreator.SceneTree.Main;
+﻿using Grille.BeamNgLib.SceneTree.Main;
 
 namespace LevelTemplateCreator.Assets;
 
-internal class GroundCoverAsset : Asset<GroundCover>
+public class GroundCoverAsset : Asset<GroundCover>
 {
     public const string ClassName = GroundCover.ClassName;
 
     public GroundCover GroundCover => Object;
 
-    public GroundCoverAsset(GroundCover item, AssetInfo info) : base(item, info) { }
+    public GroundCoverAsset(GroundCover item, AssetSource info) : base(item, info) { }
+
+    public override GroundCover GetCopy()
+    {
+        var dict = Object.Dict;
+        return new GroundCover(dict);
+    }
 }

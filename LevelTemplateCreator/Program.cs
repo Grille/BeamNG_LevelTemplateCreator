@@ -1,4 +1,6 @@
+using Grille.BeamNgLib.Logging;
 using System.Globalization;
+using System.Threading;
 
 namespace LevelTemplateCreator;
 
@@ -17,6 +19,9 @@ internal static class Program
     [STAThread]
     static void Main()
     {
+        using var stream = new FileStream("console.log", FileMode.Create);
+        Logger.OutputStream = stream;
+
         Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
         ApplicationConfiguration.Initialize();
         Application.Run(new MainForm());

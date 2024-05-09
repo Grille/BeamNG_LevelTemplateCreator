@@ -1,4 +1,4 @@
-﻿using LevelTemplateCreator.Collections;
+﻿using Grille.BeamNgLib.Collections;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,4 +8,4 @@ using System.Threading.Tasks;
 
 namespace LevelTemplateCreator.Assets;
 
-internal class AssetCollection<T> : KeyedCollection<T> where T : Asset { }
+public class AssetCollection<T> : KeyedCollection<T> where T : Asset {  }

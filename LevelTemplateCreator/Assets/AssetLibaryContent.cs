@@ -1,5 +1,5 @@
-﻿using LevelTemplateCreator.Collections;
-using LevelTemplateCreator.SceneTree.Main;
+﻿using Grille.BeamNgLib.Collections;
+using Grille.BeamNgLib.SceneTree.Main;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LevelTemplateCreator.Assets;
-internal class AssetLibaryContent : AssetLibary
+public class AssetLibaryContent : AssetLibary
 {
     public List<GroundCover> GroundCoverObjects { get; }
 
@@ -82,7 +82,6 @@ internal class AssetLibaryContent : AssetLibary
             var builder = new GroundCoverBuilder(item);
             builders.Add(builder);
         }
-
 
         foreach (var item in GroundCoverInstances)
         {

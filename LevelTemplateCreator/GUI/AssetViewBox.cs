@@ -218,7 +218,7 @@ internal class AssetViewBox : Control
         {
             sb.AppendLine(item.Description);
         }
-        sb.AppendLine(item.Object.Class.Value);
+        sb.AppendLine(item.Class);
         sb.AppendLine(item.SourceFile);
 
         g.DrawString(sb.ToString(), Font, brush, boundsText);

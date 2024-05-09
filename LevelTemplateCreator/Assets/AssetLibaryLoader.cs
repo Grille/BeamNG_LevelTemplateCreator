@@ -1,15 +1,17 @@
-﻿using LevelTemplateCreator.IO;
+﻿using Grille.BeamNgLib.IO;
 using LevelTemplateCreator.IO.Resources;
-using LevelTemplateCreator.SceneTree;
-using LevelTemplateCreator.SceneTree.Art;
-using LevelTemplateCreator.SceneTree.Main;
+using LevelTemplateCreator.Properties;
+using Grille.BeamNgLib.SceneTree;
+using Grille.BeamNgLib.SceneTree.Art;
+using Grille.BeamNgLib.SceneTree.Main;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using Grille.BeamNgLib.Logging;
 
 namespace LevelTemplateCreator.Assets;
 
-internal class AssetLibaryLoader
+public class AssetLibaryLoader
 {
     public record class Error(string File, Exception Exception)
     {
@@ -57,8 +59,6 @@ internal class AssetLibaryLoader
     {
         Libary = libary;
         Errors = new ErrorLogger();
-
-
     }
 
     void LogException(Exception e)
@@ -185,7 +185,7 @@ internal class AssetLibaryLoader
 
     void ParseObject(JsonDict dict, string className)
     {
-        var createInfo = new AssetInfo(_currentFile, _currentNamespace);
+        var createInfo = new AssetSource(_currentFile, _currentNamespace);
 
         switch (className)
         {
@@ -206,7 +206,7 @@ internal class AssetLibaryLoader
             }
             case LevelObjectsAsset.ClassName:
             {
-                var obj = new JsonDictWrapper(dict);
+                var obj = new SimItem(dict);
                 var asset = new LevelObjectsAsset(obj, createInfo);
                 Libary.LevelPresets.Add(asset);
                 break;
@@ -337,8 +337,8 @@ internal class AssetLibaryLoader
     {
         var filename = Path.GetFileName(path);
 
-        var resource = ResourceManager.Parse(path, _currentFile, _currentNamespace);
-        using var stream = resource.OpenStream();
+        var resource = PathExpressionEvaluator.Get(path, _currentFile, _currentNamespace);
+        using var stream = resource.Open();
 
         try
         {

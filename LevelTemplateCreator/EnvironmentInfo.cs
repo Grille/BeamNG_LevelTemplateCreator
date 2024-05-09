@@ -1,11 +1,12 @@
-﻿using LevelTemplateCreator.IO;
+﻿using Grille.BeamNgLib.IO;
+using Grille.BeamNgLib.IO.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LevelTemplateCreator;
+namespace Grille.BeamNgLib;
 
 public static class EnvironmentInfo
 {
@@ -127,7 +128,7 @@ public static class EnvironmentInfo
     {
         UserData.TryFindValidPath(
         [
-            $"C:\\Users\\{System.Environment.UserName}\\AppData\\Local\\BeamNG.drive",
+            $"C:\\Users\\{Environment.UserName}\\AppData\\Local\\BeamNG.drive",
         ]);
     }
 
@@ -155,7 +156,7 @@ public static class EnvironmentInfo
 
     static public void Save()
     {
-        var dict = new Dictionary<string, object>(){
+        var dict = new JsonDict(){
             { "gamepath", GameData.Path },
             { "userpath", UserData.Path },
             { "packages", Packages.Path },

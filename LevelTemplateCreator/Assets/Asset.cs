@@ -1,6 +1,7 @@
-﻿using LevelTemplateCreator.Collections;
+﻿using Grille.BeamNgLib.Collections;
+using Grille.BeamNgLib.SceneTree;
 using LevelTemplateCreator.IO.Resources;
-using LevelTemplateCreator.SceneTree;
+using LevelTemplateCreator.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,13 +10,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace LevelTemplateCreator.Assets;
 
-abstract class Asset : IKeyed
+public abstract class Asset : IKeyed
 {
-    string IKeyed.Key => Object.Name.Value;
+    public string Key { get; }
 
     public string DisplayName { get; set; } = string.Empty;
 
@@ -29,24 +29,29 @@ abstract class Asset : IKeyed
 
     public string Namespace { get; }
 
-    public AssetInfo Info { get; }
+    public AssetSource Info { get; }
 
-    public JsonDictWrapper Object { get; }
+    public string Class { get; }
 
-    public Asset(JsonDictWrapper obj, AssetInfo info)
+    public Asset(JsonDictWrapper obj, AssetSource info)
     {
+        if (!obj.Name.Exists)
+        {
+            throw new ArgumentException("Object must have a name.", nameof(obj));
+        }
         Info = info;
-        Object = obj;
         SourceFile = info.SourceFile;
         Namespace = info.Namespace;
 
         obj.ApplyNamespace(Namespace);
+        Key = obj.Name.Value;
 
         if (obj.TryPopValue("preview", out string path))
         {
             try
             {
-                using var stream = ResourceManager.Parse(path, SourceFile).OpenStream();
+                var resource = PathExpressionEvaluator.Get(path, info);
+                using var stream = resource.Open();
                 var bitmap = new Bitmap(stream);
                 Preview = bitmap;
             }
@@ -66,30 +71,33 @@ abstract class Asset : IKeyed
         }
         else if (obj.Name.Exists)
         {
-            DisplayName = Object.Name.Value;
+            DisplayName = obj.Name.Value;
         }
 
         if (obj.TryPopValue("description", out string desc))
         {
             Description = desc;
         }
-    }
 
-    public virtual JsonDictWrapper GetCopy()
-    {
-        return Object.Copy();
+        if (obj.TryGetValue("class", out string @class)){
+            Class = @class;
+        }
+        else
+        {
+            Class = string.Empty;
+        }
+
     }
 }
 
-abstract class Asset<T> : Asset where T : JsonDictWrapper
+public abstract class Asset<T> : Asset where T : JsonDictWrapper
 {
-    public new T Object => (T)base.Object;
+    public T Object { get; }
 
-    public Asset(T obj, AssetInfo info) : base(obj, info) { }
-
-    public override T GetCopy()
-    {
-        return (T)Object.Copy();
+    public Asset(T obj, AssetSource info) : base(obj, info) { 
+        Object = obj;
     }
+
+    public abstract T GetCopy();
 }
 

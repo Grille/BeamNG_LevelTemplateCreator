@@ -1,17 +1,12 @@
-﻿using LevelTemplateCreator.SceneTree;
-using LevelTemplateCreator.SceneTree.Art;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Grille.BeamNgLib.SceneTree.Art;
+
 
 namespace LevelTemplateCreator.Assets;
 
-abstract class MaterialAsset<T> : Asset<T> where T : Material
+public abstract class MaterialAsset<T> : Asset<T> where T : Material
 {
     public T Material => Object;
 
-    protected MaterialAsset(T obj, AssetInfo info) : base(obj, info)
+    protected MaterialAsset(T obj, AssetSource info) : base(obj, info)
     {  }
 }

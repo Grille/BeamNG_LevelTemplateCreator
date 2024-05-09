@@ -1,5 +1,5 @@
-﻿using LevelTemplateCreator.Collections;
-using LevelTemplateCreator.SceneTree.Main;
+﻿using Grille.BeamNgLib.Collections;
+using Grille.BeamNgLib.SceneTree.Main;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LevelTemplateCreator.Assets;
-internal class GroundCoverBuilder : IKeyed
+public class GroundCoverBuilder : IKeyed
 {
     GroundCoverAsset _groundCover;
 
@@ -23,7 +23,8 @@ internal class GroundCoverBuilder : IKeyed
 
     public void AddInstance(GroundCoverInstance instance)
     {
-        var copy = instance.Copy();
+        var dict = new JsonDict(instance.Dict);
+        var copy = new GroundCoverInstance(dict);
         copy.Parent.Remove();
         _instances.Add(copy);
     }

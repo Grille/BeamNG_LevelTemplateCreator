@@ -6,7 +6,7 @@
 		<LangVersion>12</LangVersion>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
-		<ImplicitUsings>enable</ImplicitUsings>
+		<ApplicationIcon>../Assets/Grille.BeamNG.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -15,6 +15,10 @@
 
 	<ItemGroup>
 	  <Folder Include="Embedded\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Grille.BeamNGLib\Grille.BeamNgLib.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

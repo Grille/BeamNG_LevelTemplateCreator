@@ -1,21 +1,15 @@
-﻿using LevelTemplateCreator.IO.Resources;
-using LevelTemplateCreator.SceneTree;
-using LevelTemplateCreator.SceneTree.Art;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Grille.BeamNgLib.SceneTree.Art;
+using LevelTemplateCreator.IO.Resources;
 
 namespace LevelTemplateCreator.Assets;
 
-internal class TerrainMaterialAsset : MaterialAsset<TerrainMaterial>
+public class TerrainMaterialAsset : MaterialAsset<TerrainMaterial>
 {
     public const string ClassName = TerrainMaterial.ClassName;
 
     public float SquareSize { get; }
 
-    public TerrainMaterialAsset(TerrainMaterial item, AssetInfo info) : base(item, info)
+    public TerrainMaterialAsset(TerrainMaterial item, AssetSource info) : base(item, info)
     {
         Material.TryPopValue("squareSize", out float squareSize, 1);
         SquareSize = squareSize;
@@ -38,5 +32,11 @@ internal class TerrainMaterialAsset : MaterialAsset<TerrainMaterial>
         {
             layer.Texture.Value = value;
         }
+    }
+
+    public override TerrainMaterial GetCopy()
+    {
+        var dict = new JsonDict(Object.Dict);
+        return new TerrainMaterial(dict);
     }
 }
