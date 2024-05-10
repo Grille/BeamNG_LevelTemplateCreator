@@ -24,7 +24,7 @@ public class LevelObjectsAsset : Asset<JsonDictWrapper>
 
         foreach (var rawitem in rawitems)
         {
-            var item = new SimItem(rawitem);
+            var item = new SimItem(rawitem, (string)rawitem["class"]);
             foreach (var pair in rawitem)
             {
                 item[pair.Key] = pair.Value;

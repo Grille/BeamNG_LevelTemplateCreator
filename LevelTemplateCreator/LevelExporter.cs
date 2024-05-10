@@ -141,7 +141,8 @@ public class LevelExporter
 
     public void Export(string path)
     {
-        LevelInfoSerializer.Save(Path.Combine(path, "info.json"), Level);
+        Level.Info.Size.Value = new Vector2(Terrain.WorldSize);
+        Level.Info.Save(Path.Combine(path, "info.json"));
         TerrainV9Serializer.Save(Path.Combine(path, "terrain.ter"), Terrain, Content.TerrainMaterials.Keys);
 
         Content.Preview?.Save(Path.Combine(path, "preview.png"));

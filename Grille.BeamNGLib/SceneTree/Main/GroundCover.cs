@@ -9,7 +9,7 @@ public class GroundCover : SimItem
 
     public JsonDictProperty<JsonDict[]> Types { get; }
 
-    public GroundCover(JsonDict dict) : base(dict)
+    public GroundCover(JsonDict dict) : base(dict, ClassName)
     {
         Material = new(this, "material");
 

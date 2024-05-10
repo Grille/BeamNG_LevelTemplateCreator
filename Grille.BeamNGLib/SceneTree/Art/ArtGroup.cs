@@ -4,7 +4,7 @@ using Grille.BeamNgLib.IO.Resources;
 
 namespace Grille.BeamNgLib.SceneTree.Art;
 
-public class ArtGroup : IKeyed
+public class ArtGroup : ISceneTreeGroup
 {
     string IKeyed.Key => Name;
 
@@ -25,40 +25,60 @@ public class ArtGroup : IKeyed
         Name = name;
         Children = new();
         Resources = new(true);
-        MaterialItems = new(Resources);
-        ManagedItems = new();
+        MaterialItems = new(this, Resources);
+        ManagedItems = new(this);
     }
 
-    public IEnumerable<T> EnumerateMaterialItems<T>() where T : ArtItem
+    public void SaveTree(string dirPath, bool ignoreEmpty = true)
     {
-        foreach (var item in MaterialItems)
-        {
-            if (item is T)
-            {
-                yield return (T)item;
-            }
-        }
-    }
-
-    public void SaveTree(string path)
-    {
-        Directory.CreateDirectory(path);
+        Directory.CreateDirectory(dirPath);
 
         foreach (var item in Children)
         {
-            var childpath = Path.Combine(path, item.Name);
-            item.SaveTree(childpath);
+            if (item.IsEmpty && ignoreEmpty)
+                continue;
+            var childpath = Path.Combine(dirPath, item.Name);
+            item.SaveTree(childpath, ignoreEmpty);
         }
 
-        if (MaterialItems.Count > 0)
-        {
-            var materialsPath = Path.Combine(path, MaterialItems.FileName);
-            MaterialItems.SerializeItems(materialsPath);
-        }
+        MaterialItems.TrySaveToDirectory(dirPath);
+        ManagedItems.TrySaveToDirectory(dirPath);
 
         foreach (var resource in Resources)
         {
-            resource.SaveToDirectory(path);
+            resource.SaveToDirectory(dirPath);
+        }
+    }
+
+    public void LoadTree(string dirPath)
+    {
+        LoadTree(dirPath, ItemClassRegistry.Instance);
+    }
+
+    public void LoadTree(string dirPath, ItemClassRegistry registry)
+    {
+        foreach (var item in Directory.EnumerateDirectories(dirPath))
+        {
+            var name = Path.GetFileName(item);
+            var group = new ArtGroup(name);
+            Children.Add(group);
+            group.LoadTree(dirPath, registry);
+        }
+
+        MaterialItems.TryLoadFromDirectory(dirPath, registry);
+        ManagedItems.TryLoadFromDirectory(dirPath, registry);
+
+        foreach (var file in Directory.EnumerateFiles(dirPath))
+        {
+            var ext = Path.GetExtension(file);
+            if (ext.ToLower() == ".json")
+                continue;
+
+            var name = Path.GetFileName(file);
+
+            var resouce = new FileResource(name, file, false);
+
+            Resources.Add(resouce);
         }
     }
 }

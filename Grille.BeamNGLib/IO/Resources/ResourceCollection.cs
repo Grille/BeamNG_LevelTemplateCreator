@@ -11,11 +11,11 @@ public class ResourceCollection : KeyedCollection<Resource>
         IgnoreFalseDuplicates = ignoreFalseDuplicates;
     }
 
-    public void Save(string path)
+    public void Save(string dirPath)
     {
         foreach (var resource in this)
         {
-            resource.SaveToDirectory(path);
+            resource.SaveToDirectory(dirPath);
         }
     }
 }

@@ -4,7 +4,7 @@ using Grille.BeamNgLib.SceneTree.Main;
 
 namespace Grille.BeamNgLib.SceneTree;
 
-public abstract class JsonDictWrapper : IKeyed
+public class JsonDictWrapper : IKeyed
 {
     public JsonDict Dict { get; }
 
@@ -14,6 +14,7 @@ public abstract class JsonDictWrapper : IKeyed
         set => Dict[key] = value;
     }
 
+    public string? TypeClassName { get; }
     public JsonDictProperty<string> Class { get; }
     public JsonDictProperty<string> InternalName { get; }
     public JsonDictProperty<string> Name { get; }
@@ -21,24 +22,48 @@ public abstract class JsonDictWrapper : IKeyed
 
     string IKeyed.Key => Name.Exists ? Name.Value : string.Empty;
 
-    public JsonDictWrapper(JsonDict dict)
+    public JsonDictWrapper(JsonDict dict) : this(dict, null) { }
+
+    public JsonDictWrapper(JsonDict dict, string? className)
     {
+        TypeClassName = className;
+
         Dict = dict;
 
         Class = new(this, "class");
         Name = new(this, "name");
         InternalName = new(this, "internalName");
         PersistentId = new(this, "persistentId");
+
+        if (TypeClassName != null)
+        {
+            if (!Class.Exists)
+                Class.Value = TypeClassName;
+
+            if (Class.Value != TypeClassName)
+            throw new ArgumentException($"Class '{Class.Value}' does not match expected  value '{TypeClassName}'.");
+        }
+    }
+
+    public void Save(string filePath)
+    {
+        using var stream = File.Create(filePath);
+        Serialize(stream);
+    }
+
+    public void Load(string filePath) { 
+        using var stream = File.OpenRead(filePath);
     }
 
     public void Serialize(Stream stream)
     {
-        JsonDictSerializer.Serialize(stream, Dict, false);
+        JsonDictSerializer.Serialize(stream, Dict, true);
     }
 
     public void Deserialize(Stream stream)
     {
         JsonDictSerializer.Deserialize(stream, Dict);
+        Deserialize(stream);
     }
 
     public bool TryGetValue<T>(string key, out T value)

@@ -20,16 +20,6 @@ public class KeyedCollection<T> : ICollection<T> where T : class, IKeyed
 
     public Dictionary<string, T>.KeyCollection Keys => _dict.Keys;
 
-    string GetKey(T item)
-    {
-        string? key = item.Key;
-        if (string.IsNullOrEmpty(key))
-        {
-            throw new ArgumentException($"Item has no key.");
-        }
-        return key;
-    }
-
     public void Add(T item)
     {
         var key = GetKey(item);
@@ -53,6 +43,7 @@ public class KeyedCollection<T> : ICollection<T> where T : class, IKeyed
         }
     }
 
+    /// <inheritdoc cref="IDictionary{TKey, TValue}.TryGetValue(TKey, out TValue)"/>
     public bool TryGetValue(string key, out T value)
     {
         return _dict.TryGetValue(key, out value!);
@@ -94,7 +85,20 @@ public class KeyedCollection<T> : ICollection<T> where T : class, IKeyed
         return true;
     }
 
-    public IEnumerable<TItem> EnumerateItems<TItem>() where TItem : T
+    static string GetKey(T item)
+    {
+        string? key = item.Key;
+        if (string.IsNullOrEmpty(key))
+        {
+            throw new ArgumentException($"Item has no key.");
+        }
+        return key;
+    }
+
+    /// <summary> Return all objects derived from the given type. </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <returns></returns>
+    public IEnumerable<TItem> Enumerate<TItem>() where TItem : T
     {
         foreach (var item in _dict.Values)
         {
@@ -102,6 +106,14 @@ public class KeyedCollection<T> : ICollection<T> where T : class, IKeyed
             {
                 yield return (TItem)item;
             }
+        }
+    }
+
+    public IEnumerable<T> Enumerate()
+    {
+        foreach (var item in _dict.Values)
+        {
+            yield return item;
         }
     }
 

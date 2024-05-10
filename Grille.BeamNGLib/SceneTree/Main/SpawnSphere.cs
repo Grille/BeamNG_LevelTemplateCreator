@@ -2,9 +2,11 @@
 
 public class SpawnSphere : SimItem
 {
+    public const string ClassName = "SpawnSphere";
+
     public JsonDictProperty<string> DataBlock { get; }
 
-    public SpawnSphere(JsonDict dict) : base(dict)
+    public SpawnSphere(JsonDict dict) : base(dict, ClassName)
     {
         DataBlock = new(this, "dataBlock");
     }

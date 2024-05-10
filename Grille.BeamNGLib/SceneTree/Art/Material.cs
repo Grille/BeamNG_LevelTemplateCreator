@@ -2,7 +2,7 @@
 
 public abstract class Material : ArtItem
 {
-    protected Material(JsonDict dict) : base(dict) { }
+    protected Material(JsonDict dict, string className) : base(dict, className) { }
 
     public abstract IEnumerable<JsonDictProperty<string>> EnumerateTexturePaths();
 }

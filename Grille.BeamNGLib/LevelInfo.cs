@@ -1,25 +1,45 @@
-﻿namespace Grille.BeamNgLib;
+﻿using Grille.BeamNgLib.SceneTree;
 
-public class LevelInfo
+namespace Grille.BeamNgLib;
+
+public class LevelInfo : JsonDictWrapper
 {
-    public string Title { get; set; }
+    public JsonDictProperty<string> DefaultSpawnPointName { get; }
+    public JsonDictProperty<string> Title { get; }
 
-    public string Description { get; set; }
+    public JsonDictProperty<string> Description { get; }
 
-    public string Authors { get; set; }
+    public JsonDictProperty<string> Authors { get; }
 
-    public LevelInfo()
+    public JsonDictProperty<Vector2> Size { get; }
+
+    public JsonDictProperty<string[]> Previews { get; }
+
+    public LevelInfo(JsonDict json) : base(json)
     {
-        Title = "New Level";
-        Description = string.Empty;
-        Authors = Environment.UserName;
+        DefaultSpawnPointName = new(this, "defaultSpawnPointName");
+        Title = new(this, "title");
+        Description = new(this, "description");
+        Authors = new(this, "authors");
+        Size = new(this, "size");
+        Previews = new(this, "previews");
     }
 
-    public void Serialize(JsonDict dict)
+    public LevelInfo() : this(new JsonDict())
     {
-        dict["title"] = Title;
-        dict["description"] = Description;
-        dict["authors"] = Authors;
-    }
+        DefaultSpawnPointName.Value = "spawn_default";
+        Title.Value = "New Level";
+        Description.Value = string.Empty;
+        Authors.Value = Environment.UserName;
+        Previews.Value = ["preview.png"];
 
+        var spawn = new JsonDict
+        {
+            ["name"] = "Default",
+            ["objectname"] = "spawn_default",
+            ["preview"] = "preview.jpg",
+        };
+
+        this["spawnPoints"] = new JsonDict[] { spawn };
+    }
 }

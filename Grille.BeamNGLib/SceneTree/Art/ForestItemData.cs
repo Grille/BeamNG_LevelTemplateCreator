@@ -6,7 +6,7 @@ public sealed class ForestItemData : ArtItem
 
     public JsonDictProperty<string> ShapeFile { get; }
 
-    public ForestItemData(JsonDict dict) : base(dict)
+    public ForestItemData(JsonDict dict) : base(dict, ClassName)
     {
         ShapeFile = new(this, "shapeFile");
     }

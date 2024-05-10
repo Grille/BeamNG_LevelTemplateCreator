@@ -10,7 +10,7 @@ public class MaterialItems : ArtItemsCollection<ArtItem>
 
     public ResourceCollection Resources { get; }
 
-    public MaterialItems(ResourceCollection resources)
+    public MaterialItems(ArtGroup owner, ResourceCollection resources) : base(owner)
     {
         Resources = resources;
     }
@@ -18,10 +18,20 @@ public class MaterialItems : ArtItemsCollection<ArtItem>
     public string[] GetMaterialNames()
     {
         List<string> names = new List<string>();
-        foreach (var material in EnumerateItems<Material>())
+        foreach (var material in Enumerate<Material>())
         {
             names.Add(material.Name.Value);
         }
         return names.ToArray();
+    }
+
+    public bool TrySaveToDirectory(string dirPath)
+    {
+        return TrySaveToDirectory(dirPath, FileName);
+    }
+
+    public bool TryLoadFromDirectory(string dirPath, ItemClassRegistry registry)
+    {
+        return TryLoadFromDirectory(dirPath, FileName, registry);
     }
 }

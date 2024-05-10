@@ -26,8 +26,8 @@ internal partial class LevelSettings : UserControl
         TerainSettings.Terrain = _level.Terrain;
 
         TextBoxNamespace.Text = _level.Namespace;
-        TextBoxTitle.Text = _level.Info.Title;
-        TextBoxAuthor.Text = _level.Info.Authors;
+        TextBoxTitle.Text = _level.Info.Title.Value;
+        TextBoxAuthor.Text = _level.Info.Authors.Value;
 
         TextBoxNamespace.TextBox.TextChanged += Namespace_TextChanged;
         TextBoxTitle.TextBox.TextChanged += Title_TextChanged;
@@ -63,7 +63,7 @@ internal partial class LevelSettings : UserControl
         if (_level == null)
             return;
 
-        _level.Info.Title = TextBoxTitle.Text;
+        _level.Info.Title.Value = TextBoxTitle.Text;
     }
 
     private void Authors_TextChanged(object? sender, EventArgs e)
@@ -71,6 +71,6 @@ internal partial class LevelSettings : UserControl
         if (_level == null)
             return;
 
-        _level.Info.Authors = TextBoxAuthor.Text;
+        _level.Info.Authors.Value = TextBoxAuthor.Text;
     }
 }

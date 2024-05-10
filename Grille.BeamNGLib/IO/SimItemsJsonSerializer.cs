@@ -3,17 +3,17 @@ using System.Text;
 
 namespace Grille.BeamNgLib.IO;
 
-public static class ItemsLevelSerializer
+public static class SimItemsJsonSerializer
 {
-    public static IEnumerable<JsonDict> Load(string path)
+    public static IEnumerable<JsonDict> Load(string filePath)
     {
-        using var stream = new FileStream(path, FileMode.Open);
+        using var stream = new FileStream(filePath, FileMode.Open);
         return Deserialize(stream);
     }
 
-    public static void Save(string path, IEnumerable<JsonDict> items)
+    public static void Save(string filePath, IEnumerable<JsonDict> items)
     {
-        using var stream = new FileStream(path, FileMode.Create);
+        using var stream = new FileStream(filePath, FileMode.Create);
         Serialize(stream, items);
     }
 

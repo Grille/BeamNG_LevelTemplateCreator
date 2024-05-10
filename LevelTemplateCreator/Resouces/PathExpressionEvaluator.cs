@@ -68,7 +68,7 @@ public static class PathExpressionEvaluator
         var subpath = path.Substring(abspackpath.Length);
 
         var filename = subpath.Substring(1).Replace("/", "_").Replace("\\", "_");
-        var key = $"local.{filename}";
+        var key = $"Local_{filename}";
         var fpath = Path.Join(rootPath, subpath);
         var resource = new FileResource(key, fpath, false);
         return resource;

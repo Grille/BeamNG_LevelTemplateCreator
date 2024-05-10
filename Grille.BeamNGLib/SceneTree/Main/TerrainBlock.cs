@@ -2,13 +2,15 @@
 
 public class TerrainBlock : SimItem
 {
+    public const string ClassName = "TerrainBlock";
+
     public JsonDictProperty<string> MaterialTextureSet { get; }
     public JsonDictProperty<string> TerrainFile { get; }
     public JsonDictProperty<int> BaseTexSize { get; }
     public JsonDictProperty<float> MaxHeight { get; }
     public JsonDictProperty<float> SquareSize { get; }
 
-    public TerrainBlock(JsonDict dict) : base(dict)
+    public TerrainBlock(JsonDict dict) : base(dict, ClassName)
     {
         MaterialTextureSet = new(this, "materialTextureSet");
         TerrainFile = new(this, "terrainFile");
@@ -17,7 +19,6 @@ public class TerrainBlock : SimItem
         SquareSize = new(this, "squareSize");
 
         Name.Value = "theTerrain";
-        Class.Value = "TerrainBlock";
     }
 
     public TerrainBlock(TerrainInfo info) : this(new JsonDict())

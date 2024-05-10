@@ -15,7 +15,7 @@ public class ObjectMaterial : Material
     public ObjectMaterialStage Stage2 { get; }
     public ObjectMaterialStage Stage3 { get; }
 
-    public ObjectMaterial(JsonDict dict) : base(dict)
+    public ObjectMaterial(JsonDict dict) : base(dict, ClassName)
     {
         Version = new(this, "version");
 

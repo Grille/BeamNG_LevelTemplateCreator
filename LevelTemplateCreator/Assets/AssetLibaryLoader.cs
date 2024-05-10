@@ -206,7 +206,7 @@ public class AssetLibaryLoader
             }
             case LevelObjectsAsset.ClassName:
             {
-                var obj = new SimItem(dict);
+                var obj = new JsonDictWrapper(dict);
                 var asset = new LevelObjectsAsset(obj, createInfo);
                 Libary.LevelPresets.Add(asset);
                 break;
@@ -361,7 +361,7 @@ public class AssetLibaryLoader
 
     void GetItems(Stream stream)
     {
-        var items = ItemsLevelSerializer.Deserialize(stream);
+        var items = SimItemsJsonSerializer.Deserialize(stream);
         foreach (var item in items)
         {
             ParseObject(item);

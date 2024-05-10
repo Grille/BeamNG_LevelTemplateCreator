@@ -18,7 +18,7 @@ public class TerrainMaterial : Material
 
     public ReadOnlyCollection<TerrainMaterialTextureLayer> Levels { get; }
 
-    public TerrainMaterial(JsonDict dict) : base(dict)
+    public TerrainMaterial(JsonDict dict) : base(dict, ClassName)
     {
         if (!InternalName.Exists && !Name.Exists)
         {

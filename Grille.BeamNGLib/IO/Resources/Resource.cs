@@ -10,6 +10,7 @@ public abstract class Resource : IKeyed
 
     public string Name { get; }
 
+    /// <summary>Gets set when resource is opened.</summary>
     public string DynamicName { get; protected set; }
 
     public Resource(string name, bool isGameResource)
@@ -21,18 +22,18 @@ public abstract class Resource : IKeyed
 
     public abstract Stream Open();
 
-    public void SaveToDirectory(string directory)
+    public void SaveToDirectory(string dirPath)
     {
         using var stream = Open();
-        var dstpath = Path.Combine(directory, DynamicName);
+        var dstpath = Path.Combine(dirPath, DynamicName);
         using var file = File.OpenWrite(dstpath);
         stream.CopyTo(file);
     }
 
-    public void Save(string path)
+    public void Save(string filePath)
     {
         using var src = Open();
-        using var dst = new FileStream(path, FileMode.Create);
+        using var dst = File.Create(filePath);
         src.CopyTo(dst);
     }
 }

@@ -23,7 +23,7 @@ public static class PathEvaluator
         {
             var level = split[1];
             var filename = split[split.Length - 1];
-            var key = $"beamng.{level}.{filename}";
+            var key = $"{level}_{filename}";
             var zippath = $"{gamePath}/content/levels/{level}.zip";
             if (File.Exists(zippath))
             {

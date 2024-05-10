@@ -4,15 +4,19 @@ using Grille.BeamNgLib.SceneTree.Art;
 
 namespace Grille.BeamNgLib.SceneTree.Main;
 
-public class SimGroup : SimItem
+public class SimGroup : SimItem, ISceneTreeGroup
 {
+    public const string ClassName = "SimGroup";
+
     public bool IsMain { get; set; } = false;
 
-    public KeyedCollection<SimItem> Items { get; }
+    public bool IsEmpty => Items.Count == 0;
 
-    public SimGroup(JsonDict dict) : base(dict)
+    public SimItemCollection Items { get; }
+
+    public SimGroup(JsonDict dict) : base(dict, ClassName)
     {
-        Items = new();
+        Items = new(this);
     }
 
     public SimGroup(string name) : this(new JsonDict())
@@ -21,48 +25,44 @@ public class SimGroup : SimItem
         Name.Value = name;
     }
 
-    public void SerializeItems(string path)
-    {
-        using var stream = new FileStream(path, FileMode.Create);
-        SerializeItems(stream);
-    }
-
-    public void SerializeItems(Stream stream)
-    {
-        foreach (var item in Items)
-        {
-            item.SetParent(IsMain ? null : this);
-        }
-        ItemsLevelSerializer.Serialize(stream, Items);
-    }
-
-    public IEnumerable<T> EnumerateItems<T>() where T : SimItem
-    {
-        foreach (var item in Items)
-        {
-            if (item is T)
-            {
-                yield return (T)item;
-            }
-        }
-    }
-
     public const string FileName = "items.level.json";
 
-    public void SaveTree(string path)
+    public void SaveTree(string dirPath, bool ignoreEmpty = true)
     {
-        Directory.CreateDirectory(path);
+        Directory.CreateDirectory(dirPath);
 
+        var filePath = Path.Combine(dirPath, FileName);
+        Parent.Remove();
+        Items.Save(filePath);
 
-        SetParent(null);
-        var filePath = Path.Combine(path, FileName);
-        SerializeItems(filePath);
-
-        foreach (var item in EnumerateItems<SimGroup>())
+        foreach (var item in Items.Enumerate<SimGroup>())
         {
-            var childPath = Path.Combine(path, item.Name.Value);
+            if (item.IsEmpty && ignoreEmpty) 
+                continue;
+            var childPath = Path.Combine(dirPath, item.Name.Value);
             Directory.CreateDirectory(childPath);
-            item.SaveTree(childPath);
+            item.SaveTree(childPath, ignoreEmpty);
+        }
+    }
+
+    public void LoadTree(string dirPath)
+    {
+        LoadTree(dirPath, ItemClassRegistry.Instance);
+    }
+
+    public void LoadTree(string dirPath, ItemClassRegistry registry)
+    {
+        var filePath = Path.Combine(dirPath, FileName);
+        if (!File.Exists(filePath))
+            return;
+        Items.Load(filePath, registry);
+
+        foreach (var group  in Items.Enumerate<SimGroup>())
+        {
+            var childPath = Path.Combine(dirPath, group.Name.Value);
+            if (!Directory.Exists(childPath))
+                continue;
+            group.LoadTree(childPath, registry);
         }
     }
 }
