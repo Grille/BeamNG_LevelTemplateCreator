@@ -1,8 +1,8 @@
-﻿using Grille.BeamNgLib.Collections;
-using Grille.BeamNgLib.IO;
-using Grille.BeamNgLib.SceneTree.Main;
+﻿using Grille.BeamNG.Collections;
+using Grille.BeamNG.IO;
+using Grille.BeamNG.SceneTree.Main;
 
-namespace Grille.BeamNgLib.SceneTree;
+namespace Grille.BeamNG.SceneTree;
 
 public class JsonDictWrapper : IKeyed
 {

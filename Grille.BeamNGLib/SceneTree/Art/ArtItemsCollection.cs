@@ -1,8 +1,8 @@
-﻿using Grille.BeamNgLib.IO;
-using Grille.BeamNgLib.SceneTree.Main;
-using Grille.BeamNgLib.SceneTree.Registry;
+﻿using Grille.BeamNG.IO;
+using Grille.BeamNG.SceneTree.Main;
+using Grille.BeamNG.SceneTree.Registry;
 
-namespace Grille.BeamNgLib.SceneTree.Art;
+namespace Grille.BeamNG.SceneTree.Art;
 
 public abstract class ArtItemsCollection<T> : JsonDictWrapperCollection<T> where T : ArtItem
 {

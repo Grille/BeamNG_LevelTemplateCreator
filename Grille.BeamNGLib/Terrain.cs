@@ -1,11 +1,11 @@
-﻿using Grille.BeamNgLib.IO;
-using Grille.BeamNgLib.IO.Binary;
+﻿using Grille.BeamNG.IO;
+using Grille.BeamNG.IO.Binary;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 
-namespace Grille.BeamNgLib;
+namespace Grille.BeamNG;
 
 public class Terrain
 {

@@ -1,7 +1,7 @@
-﻿using Grille.BeamNgLib.SceneTree.Art;
+﻿using Grille.BeamNG.SceneTree.Art;
 using System.Collections;
 
-namespace Grille.BeamNgLib.Collections;
+namespace Grille.BeamNG.Collections;
 
 public class KeyedCollection<T> : ICollection<T> where T : class, IKeyed
 {

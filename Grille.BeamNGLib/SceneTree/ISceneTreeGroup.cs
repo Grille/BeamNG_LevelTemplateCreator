@@ -1,7 +1,7 @@
-﻿using Grille.BeamNgLib.Collections;
-using Grille.BeamNgLib.SceneTree.Registry;
+﻿using Grille.BeamNG.Collections;
+using Grille.BeamNG.SceneTree.Registry;
 
-namespace Grille.BeamNgLib.SceneTree;
+namespace Grille.BeamNG.SceneTree;
 
 public interface ISceneTreeGroup : IKeyed
 { 

@@ -1,9 +1,9 @@
-﻿using Grille.BeamNgLib.Collections;
-using Grille.BeamNgLib.IO;
-using Grille.BeamNgLib.SceneTree.Art;
-using Grille.BeamNgLib.SceneTree.Registry;
+﻿using Grille.BeamNG.Collections;
+using Grille.BeamNG.IO;
+using Grille.BeamNG.SceneTree.Art;
+using Grille.BeamNG.SceneTree.Registry;
 
-namespace Grille.BeamNgLib.SceneTree.Main;
+namespace Grille.BeamNG.SceneTree.Main;
 
 public class SimGroup : SimItem, ISceneTreeGroup
 {

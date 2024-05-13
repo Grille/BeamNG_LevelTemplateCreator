@@ -1,12 +1,12 @@
-﻿using Grille.BeamNgLib.IO.Binary;
+﻿using Grille.BeamNG.IO.Binary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Grille.BeamNgLib.IO;
-using Grille.BeamNgLib;
+using Grille.BeamNG.IO;
+using Grille.BeamNG;
 using System.IO.Enumeration;
 
 namespace Grille.BeamNgLib_Tests;

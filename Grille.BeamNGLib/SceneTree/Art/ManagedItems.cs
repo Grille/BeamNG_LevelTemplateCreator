@@ -1,11 +1,11 @@
-﻿using Grille.BeamNgLib.SceneTree.Registry;
+﻿using Grille.BeamNG.SceneTree.Registry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Grille.BeamNgLib.SceneTree.Art;
+namespace Grille.BeamNG.SceneTree.Art;
 public class ManagedItems : ArtItemsCollection<ForestItemData>
 {
     public const string FileName = "managedItemData.json";

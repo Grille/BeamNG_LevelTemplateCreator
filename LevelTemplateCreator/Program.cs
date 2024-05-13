@@ -1,5 +1,5 @@
-using Grille.BeamNgLib.Logging;
-using Grille.BeamNgLib.SceneTree;
+using Grille.BeamNG.Logging;
+using Grille.BeamNG.SceneTree;
 using System.Globalization;
 using System.Threading;
 

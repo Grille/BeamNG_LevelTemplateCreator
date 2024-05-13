@@ -1,5 +1,5 @@
-﻿using Grille.BeamNgLib;
-using Grille.BeamNgLib.IO.Resources;
+﻿using Grille.BeamNG;
+using Grille.BeamNG.IO.Resources;
 using LevelTemplateCreator.Assets;
 using System;
 using System.Collections.Generic;

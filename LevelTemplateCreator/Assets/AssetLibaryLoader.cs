@@ -1,13 +1,13 @@
-﻿using Grille.BeamNgLib.IO;
+﻿using Grille.BeamNG.IO;
 using LevelTemplateCreator.IO.Resources;
 using LevelTemplateCreator.Properties;
-using Grille.BeamNgLib.SceneTree;
-using Grille.BeamNgLib.SceneTree.Art;
-using Grille.BeamNgLib.SceneTree.Main;
+using Grille.BeamNG.SceneTree;
+using Grille.BeamNG.SceneTree.Art;
+using Grille.BeamNG.SceneTree.Main;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using Grille.BeamNgLib.Logging;
+using Grille.BeamNG.Logging;
 
 namespace LevelTemplateCreator.Assets;
 

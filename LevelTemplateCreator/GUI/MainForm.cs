@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using System.Text;
-using Grille.BeamNgLib;
-using Grille.BeamNgLib.IO;
-using Grille.BeamNgLib.Logging;
+using Grille.BeamNG;
+using Grille.BeamNG.IO;
+using Grille.BeamNG.Logging;
 using LevelTemplateCreator.Assets;
 using LevelTemplateCreator.GUI;
 

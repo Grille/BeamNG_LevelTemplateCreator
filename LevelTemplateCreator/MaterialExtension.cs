@@ -1,5 +1,5 @@
-﻿using Grille.BeamNgLib.IO.Resources;
-using Grille.BeamNgLib.SceneTree.Art;
+﻿using Grille.BeamNG.IO.Resources;
+using Grille.BeamNG.SceneTree.Art;
 using LevelTemplateCreator.Assets;
 using LevelTemplateCreator.IO.Resources;
 using System;

@@ -1,11 +1,11 @@
-﻿using Grille.BeamNgLib.SceneTree;
+﻿using Grille.BeamNG.SceneTree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Grille.BeamNgLib.IO;
+namespace Grille.BeamNG.IO;
 public class BeamJsonSerializer
 {
     public static IEnumerable<JsonDict> Load(string filePath)

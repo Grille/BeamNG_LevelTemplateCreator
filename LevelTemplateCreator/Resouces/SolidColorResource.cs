@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing.Imaging;
 using System.Runtime.CompilerServices;
-using Grille.BeamNgLib.IO.Resources;
+using Grille.BeamNG.IO.Resources;
 
 namespace LevelTemplateCreator.IO.Resources;
 

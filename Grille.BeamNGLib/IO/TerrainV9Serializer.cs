@@ -1,8 +1,8 @@
 ﻿using System.Text;
 using GGL.IO;
-using Grille.BeamNgLib.IO.Binary;
+using Grille.BeamNG.IO.Binary;
 
-namespace Grille.BeamNgLib.IO;
+namespace Grille.BeamNG.IO;
 
 public class TerrainV9Serializer
 {

@@ -1,4 +1,4 @@
-﻿using Grille.BeamNgLib.SceneTree.Main;
+﻿using Grille.BeamNG.SceneTree.Main;
 
 namespace LevelTemplateCreator.Assets;
 

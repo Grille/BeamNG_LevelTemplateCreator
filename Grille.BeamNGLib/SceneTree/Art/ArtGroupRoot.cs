@@ -1,4 +1,4 @@
-﻿namespace Grille.BeamNgLib.SceneTree.Art;
+﻿namespace Grille.BeamNG.SceneTree.Art;
 public class ArtGroupRoot : ArtGroup
 {
     public ArtGroup Terrains { get; }

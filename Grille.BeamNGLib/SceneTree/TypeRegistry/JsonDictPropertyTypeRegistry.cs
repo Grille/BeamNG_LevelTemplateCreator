@@ -1,4 +1,4 @@
-﻿using Grille.BeamNgLib.Collections;
+﻿using Grille.BeamNG.Collections;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Grille.BeamNgLib.SceneTree.Registry;
+namespace Grille.BeamNG.SceneTree.Registry;
 public static class JsonDictPropertyTypeRegistry
 {
     record Entry<T>(Func<JsonDict, string, T> Read, Action<JsonDict, string, T> Write);

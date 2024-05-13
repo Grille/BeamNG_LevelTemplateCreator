@@ -1,7 +1,7 @@
-﻿using Grille.BeamNgLib.SceneTree;
+﻿using Grille.BeamNG.SceneTree;
 using System.Text;
 
-namespace Grille.BeamNgLib.IO;
+namespace Grille.BeamNG.IO;
 
 public static class SimItemsJsonSerializer
 {

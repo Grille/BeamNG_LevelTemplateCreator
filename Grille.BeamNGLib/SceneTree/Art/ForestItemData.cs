@@ -1,4 +1,4 @@
-﻿namespace Grille.BeamNgLib.SceneTree.Art;
+﻿namespace Grille.BeamNG.SceneTree.Art;
 
 public sealed class ForestItemData : ArtItem
 {

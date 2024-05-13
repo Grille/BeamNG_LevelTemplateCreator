@@ -1,6 +1,6 @@
-﻿using Grille.BeamNgLib.SceneTree.Art;
+﻿using Grille.BeamNG.SceneTree.Art;
 
-namespace Grille.BeamNgLib.SceneTree.Main;
+namespace Grille.BeamNG.SceneTree.Main;
 
 public class GroundCoverInstance : JsonDictWrapper
 {

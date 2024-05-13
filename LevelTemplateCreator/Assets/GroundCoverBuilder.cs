@@ -1,5 +1,5 @@
-﻿using Grille.BeamNgLib.Collections;
-using Grille.BeamNgLib.SceneTree.Main;
+﻿using Grille.BeamNG.Collections;
+using Grille.BeamNG.SceneTree.Main;
 using System;
 using System.Collections.Generic;
 using System.Linq;

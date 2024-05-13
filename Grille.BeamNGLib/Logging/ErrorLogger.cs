@@ -1,4 +1,4 @@
-﻿namespace Grille.BeamNgLib.Logging;
+﻿namespace Grille.BeamNG.Logging;
 public class ErrorLogger
 {
     readonly List<object> _errors = new List<object>();

@@ -1,12 +1,12 @@
-﻿using Grille.BeamNgLib.IO;
-using Grille.BeamNgLib.IO.Resources;
+﻿using Grille.BeamNG.IO;
+using Grille.BeamNG.IO.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Grille.BeamNgLib;
+namespace Grille.BeamNG;
 
 public static class EnvironmentInfo
 {

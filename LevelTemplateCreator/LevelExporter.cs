@@ -7,13 +7,13 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using LevelTemplateCreator.IO.Resources;
-using Grille.BeamNgLib;
-using Grille.BeamNgLib.SceneTree.Main;
-using Grille.BeamNgLib.SceneTree.Art;
-using Grille.BeamNgLib.IO;
-using Grille.BeamNgLib.Logging;
+using Grille.BeamNG;
+using Grille.BeamNG.SceneTree.Main;
+using Grille.BeamNG.SceneTree.Art;
+using Grille.BeamNG.IO;
+using Grille.BeamNG.Logging;
 using System.Numerics;
-using Grille.BeamNgLib.IO.Resources;
+using Grille.BeamNG.IO.Resources;
 
 namespace LevelTemplateCreator;
 

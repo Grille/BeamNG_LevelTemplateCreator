@@ -1,6 +1,6 @@
-﻿using Grille.BeamNgLib.IO;
+﻿using Grille.BeamNG.IO;
 
-namespace Grille.BeamNgLib;
+namespace Grille.BeamNG;
 
 /// <summary>Abstract representation of terrain properties, useful to generate blank terrain files.</summary>
 public class TerrainTemplate

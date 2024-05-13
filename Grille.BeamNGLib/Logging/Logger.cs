@@ -1,4 +1,4 @@
-﻿namespace Grille.BeamNgLib.Logging;
+﻿namespace Grille.BeamNG.Logging;
 
 public enum LoggerColor
 {

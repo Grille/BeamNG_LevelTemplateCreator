@@ -1,10 +1,10 @@
-﻿using Grille.BeamNgLib.Logging;
-using Grille.BeamNgLib.SceneTree.Art;
-using Grille.BeamNgLib.SceneTree.Main;
+﻿using Grille.BeamNG.Logging;
+using Grille.BeamNG.SceneTree.Art;
+using Grille.BeamNG.SceneTree.Main;
 using System.Collections;
 using System.Reflection;
 
-namespace Grille.BeamNgLib.SceneTree.Registry;
+namespace Grille.BeamNG.SceneTree.Registry;
 
 public class ItemClassRegistry : IReadOnlyCollection<KeyValuePair<string, Type>>
 {

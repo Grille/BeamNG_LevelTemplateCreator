@@ -4,8 +4,8 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<LangVersion>12</LangVersion>
 		<Nullable>enable</Nullable>
-		<PackageId>Grille.BeamNgLib</PackageId>
-		<Title>Grille.BeamNgLib</Title>
+		<PackageId>Grille.BeamNG.Lib</PackageId>
+		<Title>Grille.BeamNG.Lib</Title>
 		<Owners>Grille</Owners>
 		<RepositoryUrl>https://github.com/Grille/BeamNG_LevelTemplateCreator</RepositoryUrl>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -16,6 +16,7 @@
 		<Version>0.1</Version>
 		<Authors>Grille</Authors>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<RootNamespace>Grille.BeamNG</RootNamespace>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -28,7 +29,7 @@
 
 	<ItemGroup>
 		<None Include="..\Assets\Grille.BeamNG.png" Pack="true" PackagePath="\" Visible="false" />
-		<None Include="..\README.md" Pack="true" PackagePath="\" Visible="false" />
+		<None Include=".\README.md" Pack="true" PackagePath="\" Visible="false" />
 		<None Include="..\LICENSE" Pack="true" PackagePath="\" Visible="false" />
 	</ItemGroup>
 

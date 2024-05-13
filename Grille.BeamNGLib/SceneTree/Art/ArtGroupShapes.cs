@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Grille.BeamNgLib.SceneTree.Art;
+namespace Grille.BeamNG.SceneTree.Art;
 public class ArtGroupShapes : ArtGroup
 {
     public ArtGroup Groundcover { get; }

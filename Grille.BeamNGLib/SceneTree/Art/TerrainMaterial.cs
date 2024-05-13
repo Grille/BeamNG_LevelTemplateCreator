@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Grille.BeamNgLib.SceneTree.Art;
+namespace Grille.BeamNG.SceneTree.Art;
 public class TerrainMaterial : Material
 {
     public const string ClassName = "TerrainMaterial";

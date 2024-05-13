@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Grille.BeamNgLib.IO.Binary;
+namespace Grille.BeamNG.IO.Binary;
 
 public class TerrainV9Binary
 {

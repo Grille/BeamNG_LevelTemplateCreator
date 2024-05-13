@@ -1,7 +1,7 @@
-﻿using Grille.BeamNgLib.Collections;
-using Grille.BeamNgLib.IO;
-using Grille.BeamNgLib.SceneTree.Main;
-using Grille.BeamNgLib.SceneTree.Registry;
+﻿using Grille.BeamNG.Collections;
+using Grille.BeamNG.IO;
+using Grille.BeamNG.SceneTree.Main;
+using Grille.BeamNG.SceneTree.Registry;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Grille.BeamNgLib.SceneTree;
+namespace Grille.BeamNG.SceneTree;
 
 public abstract class JsonDictWrapperCollection<TItem> : KeyedCollection<TItem> where TItem : JsonDictWrapper
 {

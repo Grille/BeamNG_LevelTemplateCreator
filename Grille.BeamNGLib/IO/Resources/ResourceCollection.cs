@@ -1,6 +1,6 @@
-﻿using Grille.BeamNgLib.Collections;
+﻿using Grille.BeamNG.Collections;
 
-namespace Grille.BeamNgLib.IO.Resources;
+namespace Grille.BeamNG.IO.Resources;
 
 public class ResourceCollection : KeyedCollection<Resource>
 {

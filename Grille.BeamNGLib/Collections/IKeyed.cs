@@ -1,4 +1,4 @@
-﻿namespace Grille.BeamNgLib.Collections;
+﻿namespace Grille.BeamNG.Collections;
 
 public interface IKeyed
 {

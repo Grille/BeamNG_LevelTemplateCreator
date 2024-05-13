@@ -1,7 +1,7 @@
-﻿using Grille.BeamNgLib.SceneTree;
+﻿using Grille.BeamNG.SceneTree;
 using System.Drawing;
 
-namespace Grille.BeamNgLib;
+namespace Grille.BeamNG;
 
 public class LevelInfo : JsonDictWrapper
 {

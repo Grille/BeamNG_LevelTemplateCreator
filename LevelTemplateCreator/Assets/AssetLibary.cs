@@ -1,5 +1,5 @@
-﻿using Grille.BeamNgLib.Logging;
-using Grille.BeamNgLib.SceneTree.Main;
+﻿using Grille.BeamNG.Logging;
+using Grille.BeamNG.SceneTree.Main;
 
 
 namespace LevelTemplateCreator.Assets;

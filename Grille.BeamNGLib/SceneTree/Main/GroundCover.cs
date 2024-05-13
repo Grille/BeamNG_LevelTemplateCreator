@@ -1,5 +1,5 @@
 ﻿
-namespace Grille.BeamNgLib.SceneTree.Main;
+namespace Grille.BeamNG.SceneTree.Main;
 
 public class GroundCover : SimItem
 {

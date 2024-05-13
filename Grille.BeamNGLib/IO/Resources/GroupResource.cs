@@ -1,4 +1,4 @@
-﻿namespace Grille.BeamNgLib.IO.Resources;
+﻿namespace Grille.BeamNG.IO.Resources;
 
 internal class GroupResource : Resource
 {

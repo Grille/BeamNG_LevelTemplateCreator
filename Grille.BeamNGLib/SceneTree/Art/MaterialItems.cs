@@ -1,10 +1,10 @@
-﻿using Grille.BeamNgLib.Collections;
-using Grille.BeamNgLib.IO;
-using Grille.BeamNgLib.IO.Resources;
-using Grille.BeamNgLib.SceneTree.Main;
-using Grille.BeamNgLib.SceneTree.Registry;
+﻿using Grille.BeamNG.Collections;
+using Grille.BeamNG.IO;
+using Grille.BeamNG.IO.Resources;
+using Grille.BeamNG.SceneTree.Main;
+using Grille.BeamNG.SceneTree.Registry;
 
-namespace Grille.BeamNgLib.SceneTree.Art;
+namespace Grille.BeamNG.SceneTree.Art;
 
 public class MaterialItems : ArtItemsCollection<ArtItem>
 {

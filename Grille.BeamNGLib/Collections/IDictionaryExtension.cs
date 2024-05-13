@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Grille.BeamNgLib.Collections;
+namespace Grille.BeamNG.Collections;
 
 public static class IDictionaryExtension
 {
