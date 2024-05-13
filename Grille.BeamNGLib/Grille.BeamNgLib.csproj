@@ -13,6 +13,7 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageIcon>Grille.BeamNG.png</PackageIcon>
+		<Version>0.1</Version>
 		<Authors>Grille</Authors>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>

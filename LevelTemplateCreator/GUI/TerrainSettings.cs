@@ -13,11 +13,11 @@ namespace LevelTemplateCreator.GUI;
 
 public partial class TerrainSettings : UserControl
 {
-    TerrainInfo _terrain;
+    TerrainTemplate _terrain;
 
     bool isUpdating = false;
 
-    internal TerrainInfo Terrain
+    internal TerrainTemplate Terrain
     {
         get => _terrain;
         set

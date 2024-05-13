@@ -27,40 +27,29 @@ public class LevelExporter
 
     public string Namespace { get; set; }
 
-    public Level Level { get; set; }
+    public LevelInfo Info { get; }
 
-    public LevelInfo Info => Level.Info;
-
-    public TerrainInfo Terrain => Level.Terrain;
+    public TerrainTemplate Terrain { get; }
 
     public ErrorLogger Errors { get; }
 
     public LevelExporter(AssetLibary libary)
     {
-        Namespace = "new_pbr_template";
-        Level = new();
-        Level.Terrain.Resolution = 1024;
-        Content = new AssetLibaryContent();
         Libary = libary;
+        Namespace = "new_pbr_template";
+        Info = new LevelInfo();
+        Terrain = new TerrainTemplate();
+        Terrain.Resolution = 1024;
+        Content = new AssetLibaryContent();
         Errors = new ErrorLogger();
     }
 
-    public TerrainBlock BuildTerrainBlock()
+    public void BuildArtGroup(LevelBuilder level)
     {
-        var terrain = new TerrainBlock(Terrain);
-        terrain.TerrainFile.Value = $"\\levels\\{Namespace}\\terrain.ter";
-        terrain.MaterialTextureSet.Value = $"{Namespace}_TerrainMaterialTextureSet";
-        return terrain;
-    }
-
-    public ArtGroupRoot BuildArtGroup()
-    {
-        var root = new ArtGroupRoot();
+        var root = level.ArtTree;
 
         BuildArtGroupTerrain(root);
         BuildArtGroupGroundcover(root);
-
-        return root;
     }
 
     void BuildArtGroupTerrain(ArtGroupRoot root)
@@ -84,9 +73,6 @@ public class LevelExporter
             copy.EvalPathExpressions(asset, path, group.Resources, CopyMode);
             materials.Add(copy);
         }
-
-        var textureSetName = $"{Namespace}_TerrainMaterialTextureSet";
-        materials.Add(new TerrainMaterialTextureSet(textureSetName));
     }
 
     void BuildArtGroupGroundcover(ArtGroupRoot root)
@@ -105,17 +91,11 @@ public class LevelExporter
 
     }
 
-    public SimGroupRoot BuildSimGroup()
+    public void BuildSimGroup(LevelBuilder level)
     {
-        var root = new SimGroupRoot();
+        var root = level.MainTree;
         var group = root.MissionGroup;
-        var levelObject = group.LevelObject;
-
-        var spawn = new SpawnSphere(Terrain.Height);
-        group.PlayerDropPoints.Items.Add(spawn);
-
-        var terrain = BuildTerrainBlock();
-        levelObject.Terrain.Items.Add(terrain);
+        var levelObject = group.LevelObjects;
 
         foreach (var preset in Content.LevelPresets)
         {
@@ -126,8 +106,6 @@ public class LevelExporter
         {
             levelObject.Vegatation.Items.Add(cover);
         }
-
-        return root;
     }
 
     public void SetContent(Asset[] assets)
@@ -141,21 +119,20 @@ public class LevelExporter
 
     public void Export(string path)
     {
-        Level.Info.Size.Value = new Vector2(Terrain.WorldSize);
-        Level.Info.Save(Path.Combine(path, "info.json"));
-        TerrainV9Serializer.Save(Path.Combine(path, "terrain.ter"), Terrain, Content.TerrainMaterials.Keys);
-
         Content.Preview?.Save(Path.Combine(path, "preview.png"));
 
-        var simPath = Path.Combine(path, "main");
-        var artPath = Path.Combine(path, "art");
+        var level = new LevelBuilder(Namespace);
 
-        BuildSimGroup().SaveTree(simPath);
-        BuildArtGroup().SaveTree(artPath);
+        level.Info = Info;
+        level.Terrain = Terrain;
 
-        ZipFileManager.Clear();
-        
-        Errors.Print();
-        Errors.Clear();
+        BuildSimGroup(level);
+        BuildArtGroup(level);
+
+        level.SetupDefaultSpawn();
+        level.SetupTerrain();
+        level.SetupTerrainMaterialNames();
+
+        level.Save(path);
     }
 }

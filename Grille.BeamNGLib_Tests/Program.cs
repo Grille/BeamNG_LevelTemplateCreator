@@ -6,7 +6,7 @@ internal class Program
     {
         ExecuteImmediately = true;
 
-        Terrain.Run();
+        TerrainSection.Run();
 
         RunTestsSynchronously();
     }

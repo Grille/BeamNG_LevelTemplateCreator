@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Grille.BeamNgLib.SceneTree.Registry;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,5 +20,18 @@ public class ManagedItems : ArtItemsCollection<ForestItemData>
     public bool TryLoadFromDirectory(string dirPath, ItemClassRegistry registry)
     {
         return TryLoadFromDirectory(dirPath, FileName, registry);
+    }
+
+    public override void EnumerateRecursive<T>(ICollection<T> values)
+    {
+        foreach (var item in Enumerate<T>())
+        {
+            values.Add(item);
+        }
+
+        foreach (var group in Owner.Children)
+        {
+            group.ManagedItems.EnumerateRecursive(values);
+        }
     }
 }

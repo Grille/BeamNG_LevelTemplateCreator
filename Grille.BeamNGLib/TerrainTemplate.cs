@@ -2,21 +2,13 @@
 
 namespace Grille.BeamNgLib;
 
-public class TerrainInfo
+/// <summary>Abstract representation of terrain properties, useful to generate blank terrain files.</summary>
+public class TerrainTemplate
 {
     private int resolution;
 
     private float size;
     private float squareSize;
-
-    public TerrainInfo()
-    {
-        resolution = 1024;
-        size = 1024;
-        squareSize = 1;
-        MaxHeight = 512;
-        Height = 10;
-    }
 
     public int Resolution
     {
@@ -52,5 +44,26 @@ public class TerrainInfo
 
     public float Height { get; set; }
 
-    public ushort U16Height => TerrainV9Serializer.GetU16Height(Height, MaxHeight);
+    public IReadOnlyCollection<string> MaterialNames { get; set; }
+
+    public ushort U16Height
+    {
+        get => TerrainV9Serializer.GetU16Height(Height, MaxHeight);
+        set => Height = TerrainV9Serializer.GetSingleHeight(value, MaxHeight);
+    }
+
+    public TerrainTemplate()
+    {
+        resolution = 1024;
+        size = 1024;
+        squareSize = 1;
+        MaxHeight = 512;
+        Height = 10;
+        MaterialNames = Array.Empty<string>();
+    }
+
+    public void Save(string filePath)
+    {
+        TerrainV9Serializer.Save(filePath, this);
+    }
 }

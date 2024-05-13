@@ -1,4 +1,5 @@
 ﻿using Grille.BeamNgLib.Collections;
+using Grille.BeamNgLib.SceneTree.Registry;
 
 namespace Grille.BeamNgLib.SceneTree;
 

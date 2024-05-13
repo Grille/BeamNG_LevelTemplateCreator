@@ -1,4 +1,5 @@
 ﻿using Grille.BeamNgLib.IO;
+using Grille.BeamNgLib.SceneTree.Registry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,19 @@ public class SimItemCollection : JsonDictWrapperCollection<SimItem>
             {
                 Add(new SimItem(dict, className));
             }
+        }
+    }
 
+    public override void EnumerateRecursive<T>(ICollection<T> values)
+    {
+        foreach (var item in Enumerate<T>())
+        {
+            values.Add(item);
+        }
+
+        foreach (var group in Enumerate<SimGroup>())
+        {
+            group.Items.EnumerateRecursive(values);
         }
     }
 }

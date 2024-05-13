@@ -5,3 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Grille.BeamNgLib.SceneTree;
+
+public class JsonDictArrayProperty<T> where T : JsonDictWrapper
+{
+
+}

@@ -150,8 +150,6 @@ namespace LevelTemplateCreator
             var loader = new AssetLibaryLoader(AssetLibary) { Debug = true };
             loader.LoadDirectory(EnvironmentInfo.Packages.Path);
 
-            ZipFileManager.Clear();
-
             loader.Print();
 
             AssetLibary.SeperateGroundCoverInstances();

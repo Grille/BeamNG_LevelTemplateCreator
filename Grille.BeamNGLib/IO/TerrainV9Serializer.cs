@@ -6,25 +6,25 @@ namespace Grille.BeamNgLib.IO;
 
 public class TerrainV9Serializer
 {
-    public static TerrainBinary Load(string path, bool ignoreVersion = false)
+    public static TerrainV9Binary Load(string path, bool ignoreVersion = false)
     {
         using var stream = new FileStream(path, FileMode.Open);
         return Deserialize(stream, ignoreVersion);
     }
 
-    public static void Save(string path, TerrainBinary terrain)
+    public static void Save(string path, TerrainV9Binary terrain)
     {
         using var stream = new FileStream(path, FileMode.Create);
         Serialize(stream, terrain);
     }
 
-    public static void Save(string path, TerrainInfo info, ICollection<string> materials)
+    public static void Save(string path, TerrainTemplate info)
     {
         using var stream = new FileStream(path, FileMode.Create);
-        Serialize(stream, info, materials);
+        Serialize(stream, info);
     }
 
-    public static TerrainBinary Deserialize(Stream stream, bool ignoreVersion = false)
+    public static TerrainV9Binary Deserialize(Stream stream, bool ignoreVersion = false)
     {
         using var br = new BinaryViewReader(stream);
 
@@ -36,24 +36,17 @@ public class TerrainV9Serializer
 
         int size = (int)br.ReadUInt32();
 
-        var terrain = new TerrainBinary(size);
+        var terrain = new TerrainV9Binary();
+        terrain.Version = version;
+        terrain.Size = size;
 
-        int sqsize = size * size;
+        int length = size * size;
 
-        var data = terrain.Data;
-
-        for (int i = 0; i< sqsize; i++)
-        {
-            data[i].Height = br.ReadUInt16();
-        }
-        for (int i = 0; i < sqsize; i++)
-        {
-            data[i].Material = br.ReadByte();
-        }
+        terrain.HeightData = br.ReadArray<ushort>(length);
+        terrain.MaterialData = br.ReadArray<byte>(length);
 
         int materialCount = (int)br.ReadUInt32();
         terrain.MaterialNames = new string[materialCount];
-
         for (int i = 0; i < materialCount; i++)
         {
             terrain.MaterialNames[i] = br.ReadString(LengthPrefix.Byte, Encoding.UTF8);
@@ -62,29 +55,24 @@ public class TerrainV9Serializer
         return terrain;
     }
 
-    public static void Serialize(Stream stream, TerrainBinary terrain)
+    public static void Serialize(Stream stream, TerrainV9Binary terrain)
     {
         using var bw = new BinaryViewWriter(stream);
 
         int size = terrain.Size;
-        int sqsize = size * size;
+        int length = size * size;
 
-        if (terrain.Data.Length != sqsize)
-            throw new ArgumentException("Data.Length must equal Data.Size^2.");
+        if (terrain.HeightData.Length != length)
+            throw new ArgumentException("HeightData.Length must equal Data.Size^2.");
 
-        bw.WriteByte(9);
+        if (terrain.MaterialData.Length != length)
+            throw new ArgumentException("MaterialData.Length must equal Data.Size^2.");
+
+        bw.WriteByte(terrain.Version);
         bw.WriteUInt32((uint)size);
 
-        var data = terrain.Data;
-
-        for (int i = 0;i < sqsize; i++)
-        {
-            bw.WriteUInt16(data[i].Height);
-        }
-        for (int i = 0;i < sqsize; i++)
-        {
-            bw.WriteByte(data[i].Material);
-        }
+        bw.WriteArray(terrain.HeightData, LengthPrefix.None);
+        bw.WriteArray(terrain.MaterialData, LengthPrefix.None);
 
         var names = terrain.MaterialNames;
         bw.WriteUInt32((uint)names.Length);
@@ -94,8 +82,9 @@ public class TerrainV9Serializer
         }
     }
 
-    public static void Serialize(Stream stream, TerrainInfo info, ICollection<string> materials)
+    public static void Serialize(Stream stream, TerrainTemplate info)
     {
+        var materials = info.MaterialNames;
         using var bw = new BinaryViewWriter(stream);
 
         bw.WriteByte(9);

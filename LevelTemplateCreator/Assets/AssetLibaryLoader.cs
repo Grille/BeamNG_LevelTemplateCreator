@@ -69,10 +69,12 @@ public class AssetLibaryLoader
 
     public void LoadDirectory(string path)
     {
+        ZipFileManager.BeginPooling();
         LoadDirectory(path, string.Empty);
+        ZipFileManager.EndPooling();
     }
 
-    public void LoadDirectory(string path, string @namespace)
+    void LoadDirectory(string path, string @namespace)
     {
         _currentNamespace = @namespace;
 

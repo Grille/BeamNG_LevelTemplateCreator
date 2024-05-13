@@ -1,6 +1,7 @@
 ﻿using Grille.BeamNgLib.Collections;
 using Grille.BeamNgLib.IO;
 using Grille.BeamNgLib.SceneTree.Art;
+using Grille.BeamNgLib.SceneTree.Registry;
 
 namespace Grille.BeamNgLib.SceneTree.Main;
 

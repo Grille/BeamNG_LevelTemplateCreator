@@ -2,15 +2,15 @@
 
 public class SimGroupMissionGroup : SimGroup
 {
-    public SimGroupLevelObjects LevelObject { get; }
+    public SimGroupLevelObjects LevelObjects { get; }
 
     public SimGroup PlayerDropPoints { get; }
 
     public SimGroupMissionGroup() : base("MissionGroup")
     {
-        LevelObject = new SimGroupLevelObjects();
+        LevelObjects = new SimGroupLevelObjects();
         PlayerDropPoints = new SimGroup("PlayerDopPoints");
 
-        Items.Add(LevelObject, PlayerDropPoints);
+        Items.Add(LevelObjects, PlayerDropPoints);
     }
 }

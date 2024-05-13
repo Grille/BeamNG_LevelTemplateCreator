@@ -1,6 +1,7 @@
 ﻿using Grille.BeamNgLib.Collections;
 using Grille.BeamNgLib.IO;
 using Grille.BeamNgLib.SceneTree.Main;
+using Grille.BeamNgLib.SceneTree.Registry;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,4 +32,18 @@ public abstract class JsonDictWrapperCollection<TItem> : KeyedCollection<TItem> 
     }
 
     public abstract void Deserialize(Stream stream, ItemClassRegistry registry);
+
+    public IEnumerable<TItem> EnumerateRecursive()
+    {
+        return EnumerateRecursive<TItem>();
+    }
+
+    public IEnumerable<T> EnumerateRecursive<T>() where T : TItem
+    {
+        var list = new List<T>();
+        EnumerateRecursive(list);
+        return list;
+    }
+
+    public abstract void EnumerateRecursive<T>(ICollection<T> values) where T : TItem;
 }

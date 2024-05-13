@@ -4,7 +4,7 @@ using Grille.BeamNgLib.SceneTree.Main;
 using System.Collections;
 using System.Reflection;
 
-namespace Grille.BeamNgLib.SceneTree;
+namespace Grille.BeamNgLib.SceneTree.Registry;
 
 public class ItemClassRegistry : IReadOnlyCollection<KeyValuePair<string, Type>>
 {
@@ -46,7 +46,7 @@ public class ItemClassRegistry : IReadOnlyCollection<KeyValuePair<string, Type>>
 
     public int Count => _types.Count;
 
-    public void Clear() =>_types.Clear();
+    public void Clear() => _types.Clear();
 
     public bool ContainsKey(string key) => _types.ContainsKey(key);
 
@@ -95,7 +95,8 @@ public class ItemClassRegistry : IReadOnlyCollection<KeyValuePair<string, Type>>
     public bool TryGet<T>(string className, out Type<T> value) where T : JsonDictWrapper
     {
         var reftype = typeof(T);
-        if (_types.TryGetValue(className, out var type)){
+        if (_types.TryGetValue(className, out var type))
+        {
             if (type.IsSubclassOf(reftype))
             {
                 value = new Type<T>(type);

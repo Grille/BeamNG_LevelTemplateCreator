@@ -60,10 +60,20 @@ public static class ZipFileManager
 
     public static int Count { get; private set; }
 
+    public static bool PoolingActive { get; private set; } = false;
+
     static ZipFileManager()
     {
         _archives = new();
         Count = 0;
+    }
+
+    public static void BeginPooling()
+    {
+        if (PoolingActive)
+            throw new InvalidOperationException();
+
+        PoolingActive = true;
     }
 
     static string PathToLower(string path)
@@ -73,6 +83,9 @@ public static class ZipFileManager
 
     public static ZipArchiveWrapper Open(string path)
     {
+        if (!PoolingActive)
+            throw new InvalidOperationException();
+
         var fullpath = Path.GetFullPath(PathToLower(path));
 
         if (_archives.TryGetValue(fullpath, out var wrapper))
@@ -89,8 +102,13 @@ public static class ZipFileManager
         return newwrapper;
     }
 
-    public static void Clear()
+    public static void EndPooling()
     {
+        if (!PoolingActive)
+            throw new InvalidOperationException();
+
+        PoolingActive = false;
+
         if (Count == 0)
             return;
 

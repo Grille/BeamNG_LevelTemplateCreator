@@ -1,10 +1,12 @@
 ﻿using Grille.BeamNgLib.SceneTree;
+using System.Drawing;
 
 namespace Grille.BeamNgLib;
 
 public class LevelInfo : JsonDictWrapper
 {
     public JsonDictProperty<string> DefaultSpawnPointName { get; }
+
     public JsonDictProperty<string> Title { get; }
 
     public JsonDictProperty<string> Description { get; }
@@ -32,6 +34,7 @@ public class LevelInfo : JsonDictWrapper
         Description.Value = string.Empty;
         Authors.Value = Environment.UserName;
         Previews.Value = ["preview.png"];
+        Size.Value = Vector2.Zero;
 
         var spawn = new JsonDict
         {

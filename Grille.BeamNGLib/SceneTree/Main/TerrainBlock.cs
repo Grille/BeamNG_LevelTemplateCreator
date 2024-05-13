@@ -21,7 +21,7 @@ public class TerrainBlock : SimItem
         Name.Value = "theTerrain";
     }
 
-    public TerrainBlock(TerrainInfo info) : this(new JsonDict())
+    public TerrainBlock(TerrainTemplate info) : this(new JsonDict())
     {
         int offset = (int)info.WorldSize / 2;
         Position.Value = new System.Numerics.Vector3(-offset, -offset, 0);
