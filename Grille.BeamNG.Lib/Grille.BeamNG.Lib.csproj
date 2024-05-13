@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFrameworks>net6;net8</TargetFrameworks>
 		<LangVersion>12</LangVersion>
 		<Nullable>enable</Nullable>
 		<PackageId>Grille.BeamNG.Lib</PackageId>
@@ -13,18 +13,18 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageIcon>Grille.BeamNG.png</PackageIcon>
-		<Version>0.1</Version>
+		<Version>0.1.1</Version>
 		<Authors>Grille</Authors>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<RootNamespace>Grille.BeamNG</RootNamespace>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <NoWarn>1701;1702;1591</NoWarn>
+		<NoWarn>1701;1702;1591</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-	  <NoWarn>1701;1702;1591</NoWarn>
+		<NoWarn>1701;1702;1591</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -34,7 +34,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Grille.IO.BinaryView" Version="3.0.0" />
+		<PackageReference Include="Grille.IO.BinaryView" Version="3.0.0" />
 	</ItemGroup>
 
 </Project>
