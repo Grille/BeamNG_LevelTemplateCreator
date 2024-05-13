@@ -18,7 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Grille.BeamNGLib\Grille.BeamNgLib.csproj" />
+	  <ProjectReference Include="..\Grille.BeamNG.Lib\Grille.BeamNG.Lib.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

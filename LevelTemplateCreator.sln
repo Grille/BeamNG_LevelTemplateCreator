@@ -13,9 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grille.BeamNgLib", "Grille.BeamNGLib\Grille.BeamNgLib.csproj", "{71707660-F679-4412-AC29-0358B3D29738}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grille.BeamNG.Lib", "Grille.BeamNG.Lib\Grille.BeamNG.Lib.csproj", "{71707660-F679-4412-AC29-0358B3D29738}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grille.BeamNgLib_Tests", "Grille.BeamNGLib_Tests\Grille.BeamNgLib_Tests.csproj", "{5435185E-3DDF-4D35-BF74-E79A8ECD649C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grille.BeamNG.Lib_Tests", "Grille.BeamNG.Lib_Tests\Grille.BeamNG.Lib_Tests.csproj", "{5435185E-3DDF-4D35-BF74-E79A8ECD649C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
