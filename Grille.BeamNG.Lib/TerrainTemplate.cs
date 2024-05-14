@@ -1,4 +1,4 @@
-﻿using Grille.BeamNG.IO;
+﻿using Grille.BeamNG.IO.Binary;
 
 namespace Grille.BeamNG;
 

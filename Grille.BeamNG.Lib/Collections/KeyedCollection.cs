@@ -9,7 +9,7 @@ public class KeyedCollection<T> : ICollection<T> where T : class, IKeyed
 
     public KeyedCollection()
     {
-        _dict = new Dictionary<string, T>();
+        _dict = new();
     }
 
     public int Count => _dict.Count;

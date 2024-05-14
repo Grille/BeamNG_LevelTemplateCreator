@@ -1,7 +1,7 @@
 ﻿using Grille.BeamNG.Logging;
 using System.IO.Compression;
 
-namespace Grille.BeamNG.IO;
+namespace Grille.BeamNG.IO.Resources;
 
 public static class ZipFileManager
 {

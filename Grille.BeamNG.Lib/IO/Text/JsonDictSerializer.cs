@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Grille.BeamNG.IO;
+namespace Grille.BeamNG.IO.Text;
 
 public class JsonDictSerializer
 {

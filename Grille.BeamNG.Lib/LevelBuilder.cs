@@ -1,5 +1,4 @@
-﻿using Grille.BeamNG.IO;
-using Grille.BeamNG.IO.Resources;
+﻿using Grille.BeamNG.IO.Resources;
 using Grille.BeamNG.SceneTree.Art;
 using Grille.BeamNG.SceneTree.Main;
 using System.IO;
@@ -20,8 +19,6 @@ public class LevelBuilder
     public ArtGroupRoot ArtTree { get; set; }
 
     public Resource? Preview { get; set; }
-
-    bool _setup;
 
     public LevelBuilder(string @namespace)
     {

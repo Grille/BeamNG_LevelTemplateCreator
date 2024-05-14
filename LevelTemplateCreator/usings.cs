@@ -4,4 +4,4 @@ global using System.Collections.Generic;
 global using System.Windows.Forms;
 global using System.Drawing;
 
-global using JsonDict = System.Collections.Generic.Dictionary<string, object>;
+global using Grille.BeamNG.IO.Text;

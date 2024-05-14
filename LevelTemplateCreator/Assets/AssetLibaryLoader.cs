@@ -1,5 +1,4 @@
-﻿using Grille.BeamNG.IO;
-using LevelTemplateCreator.IO.Resources;
+﻿using LevelTemplateCreator.IO.Resources;
 using LevelTemplateCreator.Properties;
 using Grille.BeamNG.SceneTree;
 using Grille.BeamNG.SceneTree.Art;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using Grille.BeamNG.Logging;
+using Grille.BeamNG.IO.Resources;
 
 namespace LevelTemplateCreator.Assets;
 
@@ -25,7 +25,6 @@ public class AssetLibaryLoader
 
     const string JsonConstant = "Constant";
     const string JsonInclude = "Include";
-
 
     public int MaxWrongFileCount { get; set; } = 20;
     int _wrongFileCount = 0;
@@ -145,13 +144,6 @@ public class AssetLibaryLoader
     void LoadJsonFile(string path)
     {
         using var stream = new FileStream(path, FileMode.Open, FileAccess.Read);
-        Deserialize(stream);
-    }
-
-    void Deserialize(string text)
-    {
-        var bytes = Encoding.UTF8.GetBytes(text);
-        using var stream = new MemoryStream(bytes);
         Deserialize(stream);
     }
 

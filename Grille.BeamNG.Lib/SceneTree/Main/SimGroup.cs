@@ -1,5 +1,5 @@
-﻿using Grille.BeamNG.Collections;
-using Grille.BeamNG.IO;
+﻿using Grille.BeamNG.IO;
+using Grille.BeamNG.IO.Text;
 using Grille.BeamNG.SceneTree.Art;
 using Grille.BeamNG.SceneTree.Registry;
 

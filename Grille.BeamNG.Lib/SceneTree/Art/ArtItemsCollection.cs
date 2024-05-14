@@ -1,5 +1,4 @@
-﻿using Grille.BeamNG.IO;
-using Grille.BeamNG.SceneTree.Main;
+﻿using Grille.BeamNG.SceneTree.Main;
 using Grille.BeamNG.SceneTree.Registry;
 
 namespace Grille.BeamNG.SceneTree.Art;

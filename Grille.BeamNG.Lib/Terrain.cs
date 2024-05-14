@@ -1,5 +1,4 @@
-﻿using Grille.BeamNG.IO;
-using Grille.BeamNG.IO.Binary;
+﻿using Grille.BeamNG.IO.Binary;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;

@@ -1,12 +1,9 @@
 ﻿using Grille.BeamNG.SceneTree;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Grille.BeamNG.IO;
-public class BeamJsonSerializer
+namespace Grille.BeamNG.IO.Text;
+
+public static class SimItemsJsonSerializer
 {
     public static IEnumerable<JsonDict> Load(string filePath)
     {
@@ -22,40 +19,39 @@ public class BeamJsonSerializer
 
     public static void Serialize(Stream stream, IEnumerable<JsonDictWrapper> items)
     {
-        var dict = new JsonDict();
-
+        using var sw = new StreamWriter(stream);
         foreach (var item in items)
         {
-            dict[item.Name.Value] = item.Dict;
+            JsonDictSerializer.Serialize(stream, item.Dict, false);
+            stream.WriteByte((byte)'\n');
         }
-
-        JsonDictSerializer.Serialize(stream, dict, true);
     }
 
     public static void Serialize(Stream stream, IEnumerable<JsonDict> items)
     {
-        var dict = new JsonDict();
-
+        using var sw = new StreamWriter(stream);
         foreach (var item in items)
         {
-            var name = (string)item["name"];
-            dict[name] = item;
+            JsonDictSerializer.Serialize(stream, item, false);
+            stream.WriteByte((byte)'\n');
         }
-
-        JsonDictSerializer.Serialize(stream, dict, true);
     }
 
     public static IEnumerable<JsonDict> Deserialize(Stream stream)
     {
-        var dict = JsonDictSerializer.Deserialize(stream);
+        using var sr = new StreamReader(stream);
 
-        foreach (var item in dict)
+        while (true)
         {
-            if (item.Value is not JsonDict)
-                continue;
+            var line = sr.ReadLine();
+            if (line == null)
+                break;
 
-            var obj = (JsonDict)item.Value;
-            yield return obj;
+            var bytes = Encoding.UTF8.GetBytes(line);
+            using var linestream = new MemoryStream(bytes);
+            var dict = JsonDictSerializer.Deserialize(linestream);
+
+            yield return dict;
         }
     }
 

@@ -1,8 +1,7 @@
 ﻿using System.Text;
 using Grille.IO;
-using Grille.BeamNG.IO.Binary;
 
-namespace Grille.BeamNG.IO;
+namespace Grille.BeamNG.IO.Binary;
 
 public class TerrainV9Serializer
 {
@@ -124,6 +123,6 @@ public class TerrainV9Serializer
         float height = u16height;
         float u16max = ushort.MaxValue;
 
-        return (height / u16max) * maxHeight;
+        return height / u16max * maxHeight;
     }
 }

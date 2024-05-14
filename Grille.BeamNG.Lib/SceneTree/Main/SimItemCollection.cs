@@ -1,5 +1,4 @@
-﻿using Grille.BeamNG.IO;
-using Grille.BeamNG.SceneTree.Registry;
+﻿using Grille.BeamNG.SceneTree.Registry;
 using System;
 using System.Collections.Generic;
 using System.Linq;

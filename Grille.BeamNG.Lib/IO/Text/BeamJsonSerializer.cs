@@ -1,9 +1,12 @@
 ﻿using Grille.BeamNG.SceneTree;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Grille.BeamNG.IO;
-
-public static class SimItemsJsonSerializer
+namespace Grille.BeamNG.IO.Text;
+public class BeamJsonSerializer
 {
     public static IEnumerable<JsonDict> Load(string filePath)
     {
@@ -19,39 +22,40 @@ public static class SimItemsJsonSerializer
 
     public static void Serialize(Stream stream, IEnumerable<JsonDictWrapper> items)
     {
-        using var sw = new StreamWriter(stream);
+        var dict = new JsonDict();
+
         foreach (var item in items)
         {
-            JsonDictSerializer.Serialize(stream, item.Dict, false);
-            stream.WriteByte((byte)'\n');
+            dict[item.Name.Value] = item.Dict;
         }
+
+        JsonDictSerializer.Serialize(stream, dict, true);
     }
 
     public static void Serialize(Stream stream, IEnumerable<JsonDict> items)
     {
-        using var sw = new StreamWriter(stream);
+        var dict = new JsonDict();
+
         foreach (var item in items)
         {
-            JsonDictSerializer.Serialize(stream, item, false);
-            stream.WriteByte((byte)'\n');
+            var name = (string)item["name"];
+            dict[name] = item;
         }
+
+        JsonDictSerializer.Serialize(stream, dict, true);
     }
 
     public static IEnumerable<JsonDict> Deserialize(Stream stream)
     {
-        using var sr = new StreamReader(stream);
+        var dict = JsonDictSerializer.Deserialize(stream);
 
-        while (true)
+        foreach (var item in dict)
         {
-            var line = sr.ReadLine();
-            if (line == null)
-                break;
+            if (item.Value is not JsonDict)
+                continue;
 
-            var bytes = Encoding.UTF8.GetBytes(line);
-            using var linestream = new MemoryStream(bytes);
-            var dict = JsonDictSerializer.Deserialize(linestream);
-
-            yield return dict;
+            var obj = (JsonDict)item.Value;
+            yield return obj;
         }
     }
 

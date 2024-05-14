@@ -4,6 +4,11 @@ Setting up a new scenario from scratch can be a bit tiresome, especially if you 
 The goal of this project is to provide an easy solution to create empty map templates. 
 I also aimed to make it easily extendable for people with deeper knowledge of BeamNG.
 
+## Links
+- [\[GitHub\] https://github.com/Grille/BeamNG_LevelTemplateCreator](https://github.com/Grille/BeamNG_LevelTemplateCreator)
+- [\[NuGet\] https://www.nuget.org/packages/Grille.BeamNG.Lib](https://www.nuget.org/packages/Grille.BeamNG.Lib)
+- [\[BeamNG Forum\] https://www.beamng.com/threads/beamng_leveltemplatecreator-pbr-v0-2.98334/](https://www.beamng.com/threads/beamng_leveltemplatecreator-pbr-v0-2.98334/)
+
 ## Features
 * Setup of needed level folder structure without manual renaming.
 * Asset System based on BeamNG's Json structure.
@@ -47,14 +52,17 @@ Object material, indirectly added if used by any other object.
 
 ### Paths
 
-* `.`
-Relative path from the folder containing the Json file.
-
 * `/`
 Absolute path either from the local package folder, or alternatively if beginning with `/level` and contains an valid BeamNG-level name e.g `/levels/driver_training/` an pointer to an BeamNG resource.
 
+* `.`
+Relative path from the folder containing the Json file.
+
 * `#`
 Hex color code `#ffffff` used to generate a single-color texture file on export.
+
+* `$`
+Variable
 
 Each part must start with one of the above characters.
 
