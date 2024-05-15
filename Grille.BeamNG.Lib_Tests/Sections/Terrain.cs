@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using Grille.BeamNG;
 using System.IO.Enumeration;
 
-namespace Grille.BeamNgLib_Tests;
+namespace Grille.BeamNG.Lib_Tests.Sections;
 
 static class TerrainSection
 {
-    const string FileName = "terrain.ter";
+    static string FileName = "terrain.ter";
 
     static string[] MaterialNames = ["Material0", "Material1"];
 
@@ -37,7 +37,7 @@ static class TerrainSection
 
         AssertIsEqual(u16height, result.HeightData[0]);
 
-        for (int i = 0;i<result.HeightData.Length;i++)
+        for (int i = 0; i < result.HeightData.Length; i++)
         {
             AssertIsEqual(u16height, result.HeightData[i]);
         }

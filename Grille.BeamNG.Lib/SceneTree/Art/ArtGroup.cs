@@ -63,7 +63,8 @@ public class ArtGroup : ISceneTreeGroup
             var name = Path.GetFileName(item);
             var group = new ArtGroup(name);
             Children.Add(group);
-            group.LoadTree(dirPath, registry);
+            var childPath = Path.Combine(dirPath, name);
+            group.LoadTree(childPath, registry);
         }
 
         MaterialItems.TryLoadFromDirectory(dirPath, registry);

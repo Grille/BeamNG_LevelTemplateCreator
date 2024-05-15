@@ -1,4 +1,6 @@
-﻿namespace Grille.BeamNgLib_Tests;
+﻿using Grille.BeamNG.Lib_Tests.Sections;
+
+namespace Grille.BeamNgLib_Tests;
 
 internal class Program
 {
@@ -7,6 +9,8 @@ internal class Program
         ExecuteImmediately = true;
 
         TerrainSection.Run();
+        SimTreeSection.Run();
+        ArtTreeSection.Run();
 
         RunTestsSynchronously();
     }
