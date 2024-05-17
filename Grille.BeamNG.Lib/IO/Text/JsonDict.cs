@@ -16,6 +16,11 @@ public class JsonDict : IDictionary<string, object>
         _dict = new SortedList<string, object>();
     }
 
+    public JsonDict(IDictionary<string, object> dict)
+    {
+        _dict = new SortedList<string, object>(dict);
+    }
+
     public JsonDict(JsonDict dict)
     {
         _dict = new SortedList<string, object>(dict._dict);

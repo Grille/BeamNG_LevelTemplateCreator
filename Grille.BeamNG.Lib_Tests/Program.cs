@@ -9,6 +9,7 @@ internal class Program
         ExecuteImmediately = true;
 
         TerrainSection.Run();
+        TerrainPaintSection.Run();
         SimTreeSection.Run();
         ArtTreeSection.Run();
 

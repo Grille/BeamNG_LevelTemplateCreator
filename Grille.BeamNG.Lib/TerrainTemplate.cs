@@ -1,8 +1,19 @@
 ﻿using Grille.BeamNG.IO.Binary;
+using Grille.BeamNG.SceneTree.Main;
+
+/* Unmerged change from project 'Grille.BeamNG.Lib (net8)'
+Before:
+using System.Linq;
+After:
+using Grille.BeamNG.Terrain;
+using System.Linq;
+*/
+using Grille.BeamNG;
+using System.Linq;
 
 namespace Grille.BeamNG;
 
-/// <summary>Abstract representation of terrain properties, useful to generate blank terrain files.</summary>
+/// <summary>Abstract lightweight representation of terrain properties, useful to generate blank terrain files.</summary>
 public class TerrainTemplate
 {
     private int resolution;
@@ -62,8 +73,31 @@ public class TerrainTemplate
         MaterialNames = Array.Empty<string>();
     }
 
+    public Terrain ToTerrain()
+    {
+        var terrain = new Terrain(Resolution, MaterialNames.ToArray());
+        var terrainData = terrain.Data;
+        for (int i = 0; i < terrainData.Length; i++)
+        {
+            terrainData[i].Height = Height;
+        }
+        return terrain;
+    }
+
+    public TerrainBlock ToJsonTerrainBlock()
+    {
+        var block = new TerrainBlock(this);
+        return block;
+    }
+
     public void Save(string filePath)
     {
-        TerrainV9Serializer.Save(filePath, this);
+        using var stream = File.Create(filePath);
+        Serialize(stream);
+    }
+
+    public void Serialize(Stream stream)
+    {
+        TerrainV9Serializer.Serialize(stream, this);
     }
 }

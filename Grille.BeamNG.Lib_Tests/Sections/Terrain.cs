@@ -9,7 +9,7 @@ using System.IO.Enumeration;
 
 namespace Grille.BeamNG.Lib_Tests.Sections;
 
-static class TerrainSection
+static class TerrainPaintSection
 {
     static string FileName = "terrain.ter";
 
@@ -17,7 +17,7 @@ static class TerrainSection
 
     public static void Run()
     {
-        Section("Terrain");
+        Section("TerrainPaint");
 
         Test("TerrainTemplate", TestTerrainTemplate);
         Test("TerrainV9Binary", TestTerrain);
@@ -31,9 +31,13 @@ static class TerrainSection
         var terrain = new TerrainTemplate() { Height = height, MaxHeight = maxHeight, MaterialNames = MaterialNames };
         ushort u16height = terrain.U16Height;
 
-        terrain.Save(FileName);
+        using var file = new MemoryStream();
 
-        var result = TerrainV9Serializer.Load(FileName);
+        terrain.Serialize(file);
+
+        file.Position = 0;
+
+        var result = TerrainV9Serializer.Deserialize(file);
 
         AssertIsEqual(u16height, result.HeightData[0]);
 
@@ -58,9 +62,13 @@ static class TerrainSection
             MaterialNames = names
         };
 
-        TerrainV9Serializer.Save(FileName, terrain);
+        using var file = new MemoryStream();
 
-        var result = TerrainV9Serializer.Load(FileName);
+        TerrainV9Serializer.Serialize(file, terrain);
+
+        file.Position = 0;
+
+        var result = TerrainV9Serializer.Deserialize(file);
 
         AssertIListIsEqual(names, result.MaterialNames);
     }
@@ -75,7 +83,7 @@ static class TerrainSection
         terrain1.Save(FileName, maxHeight);
 
 
-        var terrain2 = new Terrain();
+        var terrain2 = new Terrain(0);
         terrain2.Load(FileName, maxHeight);
 
         AssertIsEqual(terrain1.Size, terrain2.Size);

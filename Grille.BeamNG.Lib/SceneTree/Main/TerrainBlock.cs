@@ -24,7 +24,7 @@ public class TerrainBlock : SimItem
     public TerrainBlock(TerrainTemplate info) : this(new JsonDict())
     {
         int offset = (int)info.WorldSize / 2;
-        Position.Value = new System.Numerics.Vector3(-offset, -offset, 0);
+        Position.Value = new Vector3(-offset, -offset, 0);
         MaxHeight.Value = info.MaxHeight;
         SquareSize.Value = info.SquareSize;
     }
