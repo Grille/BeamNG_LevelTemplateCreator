@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Text;
 using Grille.IO;
 
@@ -123,6 +124,24 @@ public static class TerrainV9Serializer
         }
 
         bw.WriteMaterialNames(terrain.MaterialNames);
+    }
+
+    public static ByteSize CalcApproxSize(int resolution)
+    {
+        long head = sizeof(byte) + sizeof(uint);
+        long length = resolution * (long)resolution;
+        long content = length * (sizeof(byte) + sizeof(ushort));
+        return head + content;
+    }
+
+    public static ByteSize CalcApproxSize(int resolution, IReadOnlyCollection<string> names)
+    {
+        long size = CalcApproxSize(resolution);
+        size += sizeof(uint);
+        foreach (string name in names) {
+            size += name.Length + 1;
+        }
+        return size;
     }
 
     public static ushort GetU16Height(float height, float maxHeight)

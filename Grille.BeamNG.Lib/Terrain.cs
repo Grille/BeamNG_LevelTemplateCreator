@@ -25,6 +25,8 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
+using Grille.BeamNG.Imaging;
+
 namespace Grille.BeamNG;
 
 /// <summary>
@@ -64,17 +66,15 @@ public class Terrain
 
     public Terrain(string path, float maxHeight = 1)
     {
-        Data = null!;
-        MaterialNames = null!;
         Load(path, maxHeight);
     }
 
     public Terrain(Stream stream, float maxHeight = 1)
     {
-        Data = null!; 
-        MaterialNames = null!;
         Deserialize(stream, maxHeight);
     }
+
+    public Terrain() : this(0) { }
 
     public Terrain(int size) : this(size, size) { }
 
@@ -92,6 +92,7 @@ public class Terrain
         MaterialNames = materialNames.ToArray();
     }
 
+    [MemberNotNull(nameof(Data), nameof(MaterialNames))]
     public void Load(string path, float maxHeight = 1)
     {
         using var stream = File.OpenRead(path);
@@ -109,9 +110,14 @@ public class Terrain
         TerrainSerializer.Serialize(stream, this, maxHeight);
     }
 
+    [MemberNotNull(nameof(Data), nameof(MaterialNames))]
     public void Deserialize(Stream stream, float maxHeight = 1)
     {
         TerrainSerializer.Deserialize(stream, this, maxHeight);
+        if (Data == null || MaterialNames == null)
+        {
+            throw new NullReferenceException();
+        }
     }
 
     public Terrain Clone()
@@ -121,71 +127,96 @@ public class Terrain
         return terrain;
     }
 
-    public Terrain Resize(int size)
+    public void ResizeDataBuffer(int size)
     {
-        return Resize(size, size);
+        ResizeDataBuffer(size, size);
     }
 
-    public Terrain Resize(int width, int height)
+    public void ResizeDataBuffer(int width, int height)
     {
-        var names = new string[MaterialNames.Length];
-        MaterialNames.CopyTo(names, 0);
-        var terrain = new Terrain(width, names);
-
-        var src = new Rectangle(Point.Empty, new Size(Width, Height));
-        var dst = new Rectangle(Point.Empty, new Size(width, height));
-        terrain.Draw(this, dst, src);
-
-        return terrain;
+        if (width == Width && height == Height)
+            return;
+        
+        Data = new TerrainDataBuffer(width, height);
     }
 
-    public void Draw(Terrain terrain, Point position)
+    public void Clear()
     {
-        var size = new Size(terrain.Width, terrain.Height);
-        var src = new Rectangle(Point.Empty, size);
-        var dst = new Rectangle(position, size);
-        Draw(terrain, dst, src);
+        Data.Clear();
+        MaterialNames = Array.Empty<string>();
     }
 
-    public void Draw(Terrain terrain, Rectangle dstRect, Rectangle srcRect)
+    public void Draw(Terrain terrain, Rectangle dstRect)
     {
-        float srcOffsetX = srcRect.X / terrain.Width;
-        float srcOffsetY = srcRect.Y / terrain.Height;
+        var srcRect = new Rectangle(0,0, terrain.Width, terrain.Height);
+        Draw(terrain, dstRect, srcRect);
+    }
 
-        float srcScaleX = srcRect.Width / terrain.Width;
-        float srcScaleY = srcRect.Height / terrain.Width;
+    public void Draw(Terrain terrain, Rectangle dstRect, Rectangle srcRect, float heightScale = 1)
+    {
+        Draw(this, terrain, dstRect, srcRect, heightScale);
+    }
 
-        for (int iy = 0; iy < dstRect.Height; iy++)
+    public unsafe static void Draw(Terrain dst, Terrain src, Rectangle dstRect, Rectangle srcRect, float heightScale = 1)
+    {
+        var result = CombineNamesAndMapIndices(dst.MaterialNames, src.MaterialNames);
+
+        dst.MaterialNames = result.Names;
+        var materialIndices = result.Indices;
+
+        void Operator(DrawOperatorArguments<TerrainData> args)
         {
-            int dstY = iy + dstRect.Y;
-            float srcY = srcOffsetY + iy * srcScaleY;
-            for (int ix = 0; ix < dstRect.Width; ix++)
-            {
-                int dstX = ix + dstRect.X;
-                float srcX = srcOffsetX + ix * srcScaleX;
+            args.DstPointer->Material = materialIndices[args.SrcPointer->Material];
+            args.DstPointer->Height = args.SrcPointer->Height * heightScale;
+        }
 
-                if (dstX < 0 || dstY < 0 || dstX > Width || dstY > Height)
-                    continue;
+        var args = new DrawArguments<TerrainData>();
 
-                Data[dstX, dstY] = terrain.Data.Sample(srcX, srcY);
-            }
+        args.Operator = Operator;
+
+        args.DstRect = dstRect;
+        args.SrcRect = srcRect;
+
+        args.DstSize = new Size(dst.Width, dst.Height);
+        args.SrcSize = new Size(src.Width, src.Height);
+
+        fixed (TerrainData* dstPtr = dst.Data.RawData, srcPtr = src.Data.RawData)
+        {
+            args.DstBuffer = dstPtr;
+            args.SrcBuffer = srcPtr;
+
+            ImagingUtils.Draw(args);
         }
     }
 
-    public void Draw(TerrainData data, Rectangle dstRect)
+
+    record NameMapingResult(string[] Names, int[] Indices);
+    static NameMapingResult CombineNamesAndMapIndices(string[] baseNames, string[] newNames)
     {
-        for (int iy = 0; iy < dstRect.Height; iy++)
+        var combinedList = new List<string>(baseNames);
+        var indexDict = new Dictionary<string, int>();
+        var indexMap = new int[newNames.Length];
+
+        for (int i = 0; i < baseNames.Length; i++)
         {
-            int dstY = iy + dstRect.Y;
-            for (int ix = 0; ix < dstRect.Width; ix++)
+            indexDict[baseNames[i]] = i;
+        }
+
+        for (int i = 0; i < newNames.Length; i++)
+        {
+            var name = newNames[i];
+
+            if (indexDict.ContainsKey(name))
             {
-                int dstX = ix + dstRect.X;
-
-                if (dstX < 0 || dstY < 0 || dstX > Width || dstY > Height)
-                    continue;
-
-                Data[dstX, dstY] = data;
+                indexMap[i] = indexDict[name];
+            }
+            else
+            {
+                combinedList.Add(name);
+                indexMap[i] = combinedList.Count - 1;
             }
         }
+
+        return new NameMapingResult(combinedList.ToArray(), indexMap);
     }
 }

@@ -7,6 +7,7 @@
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
 		<ApplicationIcon>../Assets/Grille.BeamNG.ico</ApplicationIcon>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -14,10 +15,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Grille.Graphics.Isometric.WinForms" Version="0.2.3" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <ProjectReference Include="..\Grille.BeamNG.Lib\Grille.BeamNG.Lib.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="GUI\LabledNumeric.cs">
+	    <SubType>UserControl</SubType>
+	  </Compile>
 	  <Compile Update="Properties\Resources.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>

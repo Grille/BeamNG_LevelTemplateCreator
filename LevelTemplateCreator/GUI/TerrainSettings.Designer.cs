@@ -66,7 +66,7 @@
             ComboBoxRes.Name = "ComboBoxRes";
             ComboBoxRes.Size = new Size(475, 23);
             ComboBoxRes.TabIndex = 4;
-            ComboBoxRes.SelectedIndexChanged += comboBoxRes_SelectedIndexChanged;
+            ComboBoxRes.TextChanged += ComboBoxRes_TextChanged;
             // 
             // NumericSquareSize
             // 

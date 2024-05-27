@@ -45,6 +45,7 @@
             toolStripMenuItem4 = new ToolStripMenuItem();
             utilsToolStripMenuItem = new ToolStripMenuItem();
             createTexturePackFromLevelToolStripMenuItem = new ToolStripMenuItem();
+            terrainMergerToolStripMenuItem = new ToolStripMenuItem();
             splitContainer1 = new SplitContainer();
             LevelSettings = new GUI.LevelSettings();
             ContentManager = new GUI.ContentManager();
@@ -159,18 +160,25 @@
             // 
             // utilsToolStripMenuItem
             // 
-            utilsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { createTexturePackFromLevelToolStripMenuItem });
-            utilsToolStripMenuItem.Enabled = false;
+            utilsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { createTexturePackFromLevelToolStripMenuItem, terrainMergerToolStripMenuItem });
             utilsToolStripMenuItem.Name = "utilsToolStripMenuItem";
             utilsToolStripMenuItem.Size = new Size(42, 20);
             utilsToolStripMenuItem.Text = "Utils";
             // 
             // createTexturePackFromLevelToolStripMenuItem
             // 
+            createTexturePackFromLevelToolStripMenuItem.Enabled = false;
             createTexturePackFromLevelToolStripMenuItem.Name = "createTexturePackFromLevelToolStripMenuItem";
             createTexturePackFromLevelToolStripMenuItem.Size = new Size(238, 22);
             createTexturePackFromLevelToolStripMenuItem.Text = "Create Texture Pack From Level";
             createTexturePackFromLevelToolStripMenuItem.Click += createTexturePackFromLevelToolStripMenuItem_Click;
+            // 
+            // terrainMergerToolStripMenuItem
+            // 
+            terrainMergerToolStripMenuItem.Name = "terrainMergerToolStripMenuItem";
+            terrainMergerToolStripMenuItem.Size = new Size(238, 22);
+            terrainMergerToolStripMenuItem.Text = "Terrain Merger";
+            terrainMergerToolStripMenuItem.Click += terrainMergerToolStripMenuItem_Click;
             // 
             // splitContainer1
             // 
@@ -249,5 +257,6 @@
         private ToolStripMenuItem toolStripMenuItem4;
         private ToolStripMenuItem reloadToolStripMenuItem;
         private ToolTip ToolTip;
+        private ToolStripMenuItem terrainMergerToolStripMenuItem;
     }
 }

@@ -1,4 +1,4 @@
-﻿# BeamNG.Lib
+# BeamNG.Lib
 
 Library derived of my BeamNG BeamNG_LevelTemplateCreator project.
 
@@ -12,7 +12,6 @@ Credits to this project are appreciated but not necessary.
 - [\[BeamNG Forum\] https://www.beamng.com/threads/c-grille-beamng-lib-v0-1.98413/](https://www.beamng.com/threads/c-grille-beamng-lib-v0-1.98413/)
 
  ## Features
-
  - Read/Write BeamNG terrain binary files (testet againt file version 9 used by 0.32)
  - Parsing/Writing of BeamNG scene-tree json
 

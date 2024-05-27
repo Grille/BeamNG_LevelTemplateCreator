@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,11 @@ namespace Grille.BeamNG;
 
 public struct TerrainData
 {
+    public TerrainData(float height)
+    {
+        Height = height;
+    }
+
     public float Height;
     public int Material;
     public bool IsHole;
@@ -29,8 +35,13 @@ public class TerrainDataBuffer : IReadOnlyCollection<TerrainData>
 
     public int Length { get; }
 
+    readonly Vector2 _fsize;
+
+    public TerrainData[] RawData => _data;
+
     public TerrainDataBuffer(int width, int height, TerrainData[] data)
     {
+        _fsize = new Vector2(width, height);
         Width = width;
         Height = height;
         Length = width * height;
@@ -51,14 +62,14 @@ public class TerrainDataBuffer : IReadOnlyCollection<TerrainData>
         _data = new TerrainData[Length];
     }
 
-    public TerrainData Sample(float x, float y)
+    public void Clear()
     {
-        int ix = (int)(x * Width + 0.5) % Width;
-        int iy = (int)(y * Height + 0.5) % Height;
-        if (ix < 0) ix = Width + ix;
-        if (iy < 0) iy = Height + iy;
+        _data.AsSpan(0, Length).Clear();
+    }
 
-        return this[ix, iy];
+    public int IndexFromNormalized(float x, float y)
+    {
+        return (int)(y * _fsize.Y + 0.5f) * Width + (int)(x * _fsize.X + 0.5f);
     }
 
     public void CopyTo(TerrainDataBuffer data)

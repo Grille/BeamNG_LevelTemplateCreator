@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace LevelTemplateCreator.GUI;
 
@@ -17,18 +19,16 @@ public partial class TerrainSettings : UserControl
 
     bool isUpdating = false;
 
-    internal TerrainTemplate Terrain
+    [Browsable(true)]
+    public event EventHandler? TerrainChanged;
+
+    public TerrainTemplate Terrain
     {
         get => _terrain;
         set
         {
             _terrain = value;
-            ComboBoxRes.SelectedText = _terrain.Resolution.ToString();
-            NumericMaxHeight.Value = (decimal)_terrain.MaxHeight;
-            NumericBaseHeight.Value = (decimal)_terrain.Height;
-            UpdatenumericBaseHeightColor();
-
-            UpdateDisplay();
+            UpdateDisplayFromNewTerrain();
         }
     }
 
@@ -36,18 +36,40 @@ public partial class TerrainSettings : UserControl
     {
         InitializeComponent();
 
-        _terrain = null!;
-
         NumericWorldSize.Maximum = decimal.MaxValue;
         NumericSquareSize.Maximum = decimal.MaxValue;
         NumericMaxHeight.Maximum = decimal.MaxValue;
+
+
+        ComboBoxRes.Items.Clear();
+        int size = 256;
+        for (int i = 0; i < 6; i++)
+        {
+            ComboBoxRes.Items.Add(size);
+            size *= 2;
+        }
+
+        _terrain = new TerrainTemplate();
+        UpdateDisplayFromNewTerrain();
     }
 
-
-
-    public void UpdateDisplay()
+    void UpdateDisplayFromNewTerrain()
     {
         isUpdating = true;
+
+        ComboBoxRes.Text = _terrain.Resolution.ToString();
+        NumericMaxHeight.Value = (decimal)_terrain.MaxHeight;
+        NumericBaseHeight.Value = (decimal)_terrain.Height;
+
+        UpdateDisplay();
+    }
+
+    void UpdateDisplay()
+    {
+        isUpdating = true;
+
+
+        UpdateNumericBaseHeightColor();
 
         NumericWorldSize.Value = (decimal)Terrain.WorldSize;
         NumericSquareSize.Value = (decimal)Terrain.SquareSize;
@@ -55,24 +77,10 @@ public partial class TerrainSettings : UserControl
         isUpdating = false;
     }
 
-    private void comboBoxRes_SelectedIndexChanged(object sender, EventArgs e)
+    protected void OnTerrainChanged()
     {
-        if (isUpdating)
-            return;
-
-        var text = ComboBoxRes.Text;
-        Terrain.Resolution = int.Parse(text);
-
-        if (ComboBoxRes.SelectedIndex == -1)
-        {
-            ComboBoxRes.ForeColor = Color.Red;
-        }
-        else
-        {
-            ComboBoxRes.ForeColor = Color.Black;
-        }
-
         UpdateDisplay();
+        TerrainChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void numericUpDownWorldSize_ValueChanged(object sender, EventArgs e)
@@ -82,7 +90,7 @@ public partial class TerrainSettings : UserControl
 
         Terrain.WorldSize = (float)NumericWorldSize.Value;
 
-        UpdateDisplay();
+        OnTerrainChanged();
     }
 
     private void numericUpDownSquareSize_ValueChanged(object sender, EventArgs e)
@@ -92,23 +100,51 @@ public partial class TerrainSettings : UserControl
 
         Terrain.SquareSize = (float)NumericSquareSize.Value;
 
-        UpdateDisplay();
+        OnTerrainChanged();
     }
 
     private void numericUpDownMaxHeight_ValueChanged(object sender, EventArgs e)
     {
+        if (isUpdating)
+            return;
+
         Terrain.MaxHeight = (float)NumericMaxHeight.Value;
-        UpdatenumericBaseHeightColor();
+
+        OnTerrainChanged();
     }
 
     private void numericBaseHeight_ValueChanged(object sender, EventArgs e)
     {
+        if (isUpdating)
+            return;
+
         Terrain.Height = (float)NumericBaseHeight.Value;
-        UpdatenumericBaseHeightColor();
+
+        OnTerrainChanged();
     }
 
-    void UpdatenumericBaseHeightColor()
+    void UpdateNumericBaseHeightColor()
     {
         NumericBaseHeight.ForeColor = Terrain.Height > Terrain.MaxHeight ? Color.Red : Color.Black;
+    }
+
+    private void ComboBoxRes_TextChanged(object sender, EventArgs e)
+    {
+        if (isUpdating)
+            return;
+
+        var text = ComboBoxRes.Text;
+
+        if (int.TryParse(text, out int res))
+        {
+            Terrain.Resolution = res;
+            ComboBoxRes.ForeColor = Color.Black;
+        }
+        else
+        {
+            ComboBoxRes.ForeColor = Color.Red;
+        }
+
+        OnTerrainChanged();
     }
 }

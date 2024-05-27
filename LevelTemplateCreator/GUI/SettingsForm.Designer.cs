@@ -41,21 +41,23 @@
             // 
             // label2
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(13, 44);
+            label2.Location = new Point(9, 38);
+            label2.Margin = new Padding(0);
             label2.Name = "label2";
-            label2.Size = new Size(80, 15);
+            label2.Size = new Size(100, 29);
             label2.TabIndex = 9;
             label2.Text = "Userdata Path";
+            label2.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label1
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(13, 15);
+            label1.Location = new Point(9, 9);
+            label1.Margin = new Padding(0);
             label1.Name = "label1";
-            label1.Size = new Size(88, 15);
+            label1.Size = new Size(100, 29);
             label1.TabIndex = 7;
             label1.Text = "Gamedata Path";
+            label1.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // buttonCancel
             // 
@@ -81,36 +83,46 @@
             // 
             // label3
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(13, 73);
+            label3.Location = new Point(9, 67);
+            label3.Margin = new Padding(0);
             label3.Name = "label3";
-            label3.Size = new Size(83, 15);
+            label3.Size = new Size(100, 29);
             label3.TabIndex = 17;
             label3.Text = "Packages Path";
+            label3.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // pathBoxPack
             // 
             pathBoxPack.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            pathBoxPack.Location = new Point(132, 70);
+            pathBoxPack.FileFilter = "All files (*.*)|*.*";
+            pathBoxPack.Location = new Point(109, 67);
+            pathBoxPack.Margin = new Padding(0);
             pathBoxPack.Name = "pathBoxPack";
-            pathBoxPack.Size = new Size(340, 23);
+            pathBoxPack.Size = new Size(366, 29);
             pathBoxPack.TabIndex = 19;
+            pathBoxPack.Target = PathBox.TargetType.Folder;
             // 
             // pathBoxUser
             // 
             pathBoxUser.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            pathBoxUser.Location = new Point(132, 41);
+            pathBoxUser.FileFilter = "All files (*.*)|*.*";
+            pathBoxUser.Location = new Point(109, 38);
+            pathBoxUser.Margin = new Padding(0);
             pathBoxUser.Name = "pathBoxUser";
-            pathBoxUser.Size = new Size(340, 23);
+            pathBoxUser.Size = new Size(366, 29);
             pathBoxUser.TabIndex = 20;
+            pathBoxUser.Target = PathBox.TargetType.Folder;
             // 
             // pathBoxGame
             // 
             pathBoxGame.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            pathBoxGame.Location = new Point(132, 12);
+            pathBoxGame.FileFilter = "All files (*.*)|*.*";
+            pathBoxGame.Location = new Point(109, 9);
+            pathBoxGame.Margin = new Padding(0);
             pathBoxGame.Name = "pathBoxGame";
-            pathBoxGame.Size = new Size(340, 23);
+            pathBoxGame.Size = new Size(366, 29);
             pathBoxGame.TabIndex = 21;
+            pathBoxGame.Target = PathBox.TargetType.Folder;
             // 
             // buttonFind
             // 
@@ -141,7 +153,6 @@
             Name = "SettingsForm";
             Text = "Settings";
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion

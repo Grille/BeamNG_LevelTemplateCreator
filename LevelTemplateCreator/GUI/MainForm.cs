@@ -85,6 +85,16 @@ namespace LevelTemplateCreator
 
         void Export(string path)
         {
+            var size = Level.Terrain.CalcApproxSize();
+            if (size.Megabyte > 200)
+            {
+                var message = $"The terrain file you’re trying to export will be larger then {size}, continue anyway?";
+                if (MessageBox.Show(this, message, $"Large file size {size}", MessageBoxButtons.OKCancel, MessageBoxIcon.Stop) == DialogResult.Cancel)
+                {
+                    return;
+                }
+            }
+
             if (!AssertEnvironmentInfo())
                 return;
 
@@ -176,6 +186,11 @@ namespace LevelTemplateCreator
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoadContent();
+        }
+
+        private void terrainMergerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new TerrainMerger().Show();
         }
     }
 }

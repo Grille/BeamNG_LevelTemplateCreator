@@ -100,4 +100,9 @@ public class TerrainTemplate
     {
         TerrainV9Serializer.Serialize(stream, this);
     }
+
+    public ByteSize CalcApproxSize()
+    {
+        return TerrainV9Serializer.CalcApproxSize(Resolution, MaterialNames);
+    }
 }
