@@ -66,11 +66,32 @@ internal partial class ContentManager : UserControl
         TrySelcet(libary.LevelPresets, "Core_Default");
     }
 
+    public void Select(string key)
+    {
+        foreach (var asset in AssetListBoxAvailable.Items)
+        {
+            if (asset.Key == key)
+            {
+                Select(asset);
+                return;
+            }
+        }
+        throw new KeyNotFoundException();
+    }
+
     void TrySelcet<T>(AssetCollection<T> values, string key) where T : Asset
     {
         if (values.TryGetValue(key, out var value))
         {
             Select(value);
+        }
+    }
+
+    public void ClearSelected()
+    {
+        foreach (var asset in AssetListBoxAvailable.Items)
+        {
+            Deselcet(asset);
         }
     }
 

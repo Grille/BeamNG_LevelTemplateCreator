@@ -21,6 +21,8 @@ public partial class TerrainMerger : Form
     {
         InitializeComponent();
 
+        Icon = Properties.Resources.GrilleBeamNgIcon;
+
         _inputs = new TerrainMergerInputControl[10];
         int offset = terrainSettings.Height + 23;
         for (int i = 0; i < _inputs.Length; i++)

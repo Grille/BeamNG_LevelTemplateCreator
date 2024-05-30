@@ -8,6 +8,7 @@ using System.Text;
 using System.Xml.Linq;
 using Grille.BeamNG.Logging;
 using Grille.BeamNG.IO.Resources;
+using LevelTemplateCreator.Scripting;
 
 namespace LevelTemplateCreator.Assets;
 
@@ -246,7 +247,14 @@ public class AssetLibaryLoader
             var obj = (JsonDict)item.Value;
             if (!obj.TryGetValue("name", out var nameObj))
             {
-                throw new Exception("Object has no name.");
+                if (obj.TryGetValue("internalName", out var iNameObj) && obj.TryGetValue("persistentId", out var idObj))
+                {
+                    nameObj = $"{iNameObj}-{idObj}";
+                }
+                else
+                {
+                    throw new Exception("Object has no name.");
+                }
             }
             var name = (string)nameObj;
             if (name != key)
@@ -294,27 +302,26 @@ public class AssetLibaryLoader
 
     public void LoadCfgFile(string path)
     {
-        var lines = File.ReadAllLines(path);
-
-        foreach (var rawline in lines)
+        var cfg = new CfgScript();
+        using (var stream = File.OpenRead(path))
         {
-            var line = rawline.Trim();
+            cfg.Parse(stream);
+        }
 
-            if (line.StartsWith("include"))
+        foreach (var entry in cfg.Entries)
+        {
+            var key = entry.Key;
+            var args = entry.Args;
+
+            if (key == "include")
             {
-                var include = line.Split('<', 2)[1].Split('>', 2)[0];
+                var include = args[0];
                 Include(include);
             }
-            if (line.StartsWith("$"))
+            else if (key == "var")
             {
-                var split = line.Split(' ', 2);
-
-                if (split.Length != 2)
-                    continue;
-
-                var name = split[0].Trim().Substring(1);
-                var value = split[1].Trim();
-
+                var name = args[0];
+                var value = args[1];
                 SetConstant(name, value);
             }
         }

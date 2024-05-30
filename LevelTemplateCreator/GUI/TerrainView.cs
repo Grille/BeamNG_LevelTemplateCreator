@@ -156,5 +156,17 @@ internal class TerrainView : RenderSurface
         info.AppendLine();
 
         base.OnPaint(e);
+
+        foreach (var input in EnumerateInputs())
+        {
+            float offset = Canvas.Size / 2f;
+            float x = (float)input.OffsetXNumeric.Value - offset;
+            float y = (float)input.OffsetYNumeric.Value - offset;
+
+            var begin = new Vector3(x, y, 0);
+
+            GdiRenderer.DrawCoords(begin);
+            GdiRenderer.DrawText(input.InputTitle.Text, Brushes.White, begin);
+        }
     }
 }
