@@ -158,22 +158,6 @@ namespace LevelTemplateCreator
             using var stream = File.Create(path);
             using var writer = new StreamWriter(stream, leaveOpen: true);
 
-            var dict = new Dictionary<string,string>();
-
-            dict["Namespace"] = Level.Namespace;
-            dict["Title"] = Level.Info.Title;
-            dict["Authors"] = Level.Info.Authors;
-
-            dict["Resolution"] = Level.Terrain.Resolution.ToString();
-            dict["SquareSize"] = Level.Terrain.SquareSize.ToString();
-            dict["MaxHeight"] = Level.Terrain.MaxHeight.ToString();
-            dict["Height"] = Level.Terrain.Height.ToString();
-
-            foreach (var pair in dict)
-            {
-                writer.WriteLine($"${pair.Key} {pair.Value}");
-            }
-
             writer.WriteLine($"Assets.Clear()");
 
             foreach (var asset in ContentManager.GetSelectedAssets())
@@ -251,6 +235,25 @@ namespace LevelTemplateCreator
             if (dialog.ShowDialog(this) == DialogResult.OK)
             {
                 SaveAsScript(dialog.FileName);
+            }
+        }
+
+        private void loadPresetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using var dialog = new OpenFileDialog()
+            {
+                Filter = CfgFilter,
+            };
+            if (dialog.ShowDialog(this) == DialogResult.OK)
+            {
+                try
+                {
+                    LoadScript(dialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    ExceptionBox.Show(this, ex);
+                }
             }
         }
     }

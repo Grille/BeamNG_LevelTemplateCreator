@@ -23,7 +23,8 @@ internal partial class ContentManager : UserControl
 
     void Select(Asset a)
     {
-        AssetListBoxAvailable.Items.Remove(a);
+        if (!AssetListBoxAvailable.Items.Remove(a))
+            throw new InvalidOperationException();
         AssetListBoxSelected.Items.Add(a);
 
         ItemsChanged();
@@ -31,7 +32,8 @@ internal partial class ContentManager : UserControl
 
     void Deselcet(Asset a)
     {
-        AssetListBoxSelected.Items.Remove(a);
+        if (!AssetListBoxSelected.Items.Remove(a))
+            throw new InvalidOperationException();
         AssetListBoxAvailable.Items.Add(a);
 
         ItemsChanged();
@@ -76,7 +78,7 @@ internal partial class ContentManager : UserControl
                 return;
             }
         }
-        throw new KeyNotFoundException();
+        throw new KeyNotFoundException($"{key} not found.");
     }
 
     void TrySelcet<T>(AssetCollection<T> values, string key) where T : Asset
@@ -89,7 +91,13 @@ internal partial class ContentManager : UserControl
 
     public void ClearSelected()
     {
-        foreach (var asset in AssetListBoxAvailable.Items)
+        var list = new List<Asset>();
+        foreach (var asset in AssetListBoxSelected.Items)
+        {
+            list.Add(asset);
+        }
+
+        foreach (var asset in list)
         {
             Deselcet(asset);
         }

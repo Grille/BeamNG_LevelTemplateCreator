@@ -9,7 +9,7 @@ internal static class Program
 {
 
 #if DEBUG
-    public const bool Debug = true;
+    public const bool Debug = false;
 #else
     public const bool Debug = false;
 #endif

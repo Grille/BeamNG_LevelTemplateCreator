@@ -34,6 +34,9 @@
             saveToolStripMenuItem = new ToolStripMenuItem();
             saveAsToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator3 = new ToolStripSeparator();
+            savePresetToolStripMenuItem = new ToolStripMenuItem();
+            loadPresetToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator1 = new ToolStripSeparator();
             exitToolStripMenuItem = new ToolStripMenuItem();
             settingsToolStripMenuItem = new ToolStripMenuItem();
             systemToolStripMenuItem = new ToolStripMenuItem();
@@ -50,9 +53,6 @@
             LevelSettings = new GUI.LevelSettings();
             ContentManager = new GUI.ContentManager();
             ToolTip = new ToolTip(components);
-            savePresetToolStripMenuItem = new ToolStripMenuItem();
-            loadPresetToolStripMenuItem = new ToolStripMenuItem();
-            toolStripSeparator1 = new ToolStripSeparator();
             MenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -96,6 +96,25 @@
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
             toolStripSeparator3.Size = new Size(183, 6);
+            // 
+            // savePresetToolStripMenuItem
+            // 
+            savePresetToolStripMenuItem.Name = "savePresetToolStripMenuItem";
+            savePresetToolStripMenuItem.Size = new Size(186, 22);
+            savePresetToolStripMenuItem.Text = "Save Preset";
+            savePresetToolStripMenuItem.Click += savePresetToolStripMenuItem_Click;
+            // 
+            // loadPresetToolStripMenuItem
+            // 
+            loadPresetToolStripMenuItem.Name = "loadPresetToolStripMenuItem";
+            loadPresetToolStripMenuItem.Size = new Size(186, 22);
+            loadPresetToolStripMenuItem.Text = "Load Preset";
+            loadPresetToolStripMenuItem.Click += loadPresetToolStripMenuItem_Click;
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(183, 6);
             // 
             // exitToolStripMenuItem
             // 
@@ -216,24 +235,6 @@
             ContentManager.Name = "ContentManager";
             ContentManager.Size = new Size(985, 558);
             ContentManager.TabIndex = 0;
-            // 
-            // savePresetToolStripMenuItem
-            // 
-            savePresetToolStripMenuItem.Name = "savePresetToolStripMenuItem";
-            savePresetToolStripMenuItem.Size = new Size(186, 22);
-            savePresetToolStripMenuItem.Text = "Save Preset";
-            savePresetToolStripMenuItem.Click += savePresetToolStripMenuItem_Click;
-            // 
-            // loadPresetToolStripMenuItem
-            // 
-            loadPresetToolStripMenuItem.Name = "loadPresetToolStripMenuItem";
-            loadPresetToolStripMenuItem.Size = new Size(186, 22);
-            loadPresetToolStripMenuItem.Text = "Load Preset";
-            // 
-            // toolStripSeparator1
-            // 
-            toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(183, 6);
             // 
             // MainForm
             // 

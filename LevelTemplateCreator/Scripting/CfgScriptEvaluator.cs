@@ -55,6 +55,7 @@ public class CfgScriptEvaluator
             if (key == "var")
             {
                 Variables[eargs[0]] = eargs[1];
+                continue;
             }
             yield return new CfgScript.Entry(entry.Line, key, eargs);
         }
