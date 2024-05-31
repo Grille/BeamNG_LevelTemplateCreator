@@ -9,8 +9,20 @@ public class FileResource : Resource
         Path = path;
     }
 
-    public override Stream Open()
+    protected override bool TryOpen(out Stream stream, bool canThrow)
     {
-        return new FileStream(Path, FileMode.Open);
+        try
+        {
+            stream = new FileStream(Path, FileMode.Open);
+        }
+        catch
+        {
+            if (canThrow)
+                throw;
+            stream = null!;
+            return false;
+        }
+
+        return true;
     }
 }

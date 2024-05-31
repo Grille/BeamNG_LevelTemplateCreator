@@ -36,8 +36,7 @@ namespace LevelTemplateCreator
 
         private void createTexturePackFromLevelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using var fd = new FolderBrowserDialog();
-            fd.ShowDialog();
+
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)

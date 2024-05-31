@@ -15,6 +15,10 @@ namespace LevelTemplateCreator.Assets;
 
 public abstract class Asset : IKeyed
 {
+    public JsonDictWrapper Object { get; }
+
+    public string OriginalName { get; }
+
     public string Key { get; }
 
     public string DisplayName { get; set; } = string.Empty;
@@ -23,7 +27,7 @@ public abstract class Asset : IKeyed
 
     public bool Visible { get; set; }
 
-    public Image Preview { get; }
+    public Image Preview { get; private set; }
 
     public string SourceFile { get; }
 
@@ -35,6 +39,8 @@ public abstract class Asset : IKeyed
 
     public Asset(JsonDictWrapper obj, AssetSource info)
     {
+        Object = obj;
+
         if (!obj.Name.Exists)
         {
             throw new ArgumentException("Object must have a name.", nameof(obj));
@@ -43,26 +49,18 @@ public abstract class Asset : IKeyed
         SourceFile = info.SourceFile;
         Namespace = info.Namespace;
 
+        OriginalName = obj.Name.Value;
+
         obj.ApplyNamespace(Namespace);
         Key = obj.Name.Value;
 
         if (obj.TryPopValue("preview", out string path))
         {
-            try
-            {
-                var resource = PathExpressionEvaluator.Get(path, info);
-                using var stream = resource.Open();
-                var bitmap = new Bitmap(stream);
-                Preview = bitmap;
-            }
-            catch
-            {
-                Preview = Properties.Resources.InvalidPreview;
-            }
+            LoadPreview(path);
         }
         else
         {
-            Preview = Properties.Resources.NoPreview;
+            Preview = Resources.NoPreview;
         }
 
         if (obj.TryPopValue("displayName", out string name))
@@ -88,15 +86,28 @@ public abstract class Asset : IKeyed
         }
 
     }
+
+    public void LoadPreview(string path)
+    {
+        try
+        {
+            var resource = PathExpressionEvaluator.Get(path, Info);
+            using var stream = resource.Open();
+            var bitmap = new Bitmap(stream);
+            Preview = bitmap;
+        }
+        catch
+        {
+            Preview = Resources.InvalidPreview;
+        }
+    }
 }
 
 public abstract class Asset<T> : Asset where T : JsonDictWrapper
 {
-    public T Object { get; }
+    public new T Object => (T)base.Object;
 
-    public Asset(T obj, AssetSource info) : base(obj, info) { 
-        Object = obj;
-    }
+    public Asset(T obj, AssetSource info) : base(obj, info) { }
 
     public abstract T GetCopy();
 }

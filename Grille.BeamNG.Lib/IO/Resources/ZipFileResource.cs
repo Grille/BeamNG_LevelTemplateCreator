@@ -11,7 +11,7 @@ public class ZipFileResource : Resource
         EntryPath = path;
     }
 
-    public override Stream Open()
+    protected override bool TryOpen(out Stream stream, bool canThrow)
     {
         var archive = ZipFileManager.Open(ZipFilePath);
         var entry = archive.GetEntry(EntryPath);
@@ -29,10 +29,24 @@ public class ZipFileResource : Resource
 
         if (entry == null)
         {
-            throw new Exception($"Could not find '{EntryPath}' in '{ZipFilePath}'.");
+            if (canThrow)
+                throw new Exception($"Could not find '{EntryPath}' in '{ZipFilePath}'.");
+            stream = null!;
+            return false;
         }
 
-        return entry.Open();
+        try
+        {
+            stream = entry.Open();
+            return true;
+        }
+        catch
+        {
+            if (canThrow)
+                throw;
+            stream = null!;
+            return false;
+        }
     }
 
     public void Find()

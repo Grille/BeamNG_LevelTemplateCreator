@@ -191,14 +191,14 @@
             // 
             createTexturePackFromLevelToolStripMenuItem.Enabled = false;
             createTexturePackFromLevelToolStripMenuItem.Name = "createTexturePackFromLevelToolStripMenuItem";
-            createTexturePackFromLevelToolStripMenuItem.Size = new Size(238, 22);
-            createTexturePackFromLevelToolStripMenuItem.Text = "Create Texture Pack From Level";
+            createTexturePackFromLevelToolStripMenuItem.Size = new Size(180, 22);
+            createTexturePackFromLevelToolStripMenuItem.Text = "Texture Pack Primer";
             createTexturePackFromLevelToolStripMenuItem.Click += createTexturePackFromLevelToolStripMenuItem_Click;
             // 
             // terrainMergerToolStripMenuItem
             // 
             terrainMergerToolStripMenuItem.Name = "terrainMergerToolStripMenuItem";
-            terrainMergerToolStripMenuItem.Size = new Size(238, 22);
+            terrainMergerToolStripMenuItem.Size = new Size(180, 22);
             terrainMergerToolStripMenuItem.Text = "Terrain Merger";
             terrainMergerToolStripMenuItem.Click += terrainMergerToolStripMenuItem_Click;
             // 

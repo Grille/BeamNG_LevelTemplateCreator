@@ -1,10 +1,15 @@
 ﻿using Grille.BeamNG.Logging;
 using System.IO.Compression;
+using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace Grille.BeamNG.IO.Resources;
 
+
 public static class ZipFileManager
 {
+    static readonly object _locker = new object();
+
     public class ZipArchiveWrapper : IDisposable
     {
         readonly ZipArchive _archive;
@@ -68,14 +73,6 @@ public static class ZipFileManager
         Count = 0;
     }
 
-    public static void BeginPooling()
-    {
-        if (PoolingActive)
-            throw new InvalidOperationException();
-
-        PoolingActive = true;
-    }
-
     static string PathToLower(string path)
     {
         return path.ToLower();
@@ -83,8 +80,7 @@ public static class ZipFileManager
 
     public static ZipArchiveWrapper Open(string path)
     {
-        if (!PoolingActive)
-            throw new InvalidOperationException();
+        AssertIsActive();
 
         var fullpath = Path.GetFullPath(PathToLower(path));
 
@@ -102,26 +98,55 @@ public static class ZipFileManager
         return newwrapper;
     }
 
+    [StructLayout(LayoutKind.Explicit, Size = 0)]
+    public struct PoolingHandle : IDisposable
+    {
+        public void Dispose() => EndPooling();
+    }
+
+    /// <summary>
+    /// fhghg
+    /// </summary>
+    /// <remarks>This method is thread safe. Other calls to <see cref="BeginPooling"/> will wait until this season is closed.</remarks>
+    /// <returns></returns>
+    public static PoolingHandle BeginPooling()
+    {
+        Monitor.Enter(_locker);
+
+        PoolingActive = true;
+
+        return new PoolingHandle();
+
+    }
+
     public static void EndPooling()
     {
-        if (!PoolingActive)
-            throw new InvalidOperationException();
+        AssertIsActive();
+
+        if (Count > 0)
+        {
+            foreach (var pair in _archives)
+            {
+                Logger.WriteLine($"Close {pair.Key}");
+
+                pair.Value.Dispose();
+            }
+            Logger.WriteLine();
+
+            Count = 0;
+
+            _archives.Clear();
+        }
 
         PoolingActive = false;
 
-        if (Count == 0)
-            return;
+        Monitor.Exit(_locker);
+    }
 
-        foreach (var pair in _archives)
-        {
-            Logger.WriteLine($"Close {pair.Key}");
+    static void AssertIsActive()
+    {
+        if (!PoolingActive)
+            throw new InvalidOperationException("Pooling is not active. Please call ZipFileManager.BeginPooling before any operations.");
 
-            pair.Value.Dispose();
-        }
-        Logger.WriteLine();
-
-        Count = 0;
-
-        _archives.Clear();
     }
 }

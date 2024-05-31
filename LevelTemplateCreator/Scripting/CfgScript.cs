@@ -67,6 +67,12 @@ public class CfgScript
         else if (line.Contains('('))
         {
             split('(', 1);
+            var s = args[0].Split(',');
+            args = new string[s.Length];
+            for (int i = 0; i< args.Length; i++)
+            {
+                args[i] = s[i].Trim();
+            }
         }
         else
         {

@@ -65,4 +65,28 @@ public class AssetLibary
         Logger.WriteLine($"- GroundCoverInstances: {GroundCoverInstances.Count}");
         Logger.WriteLine();
     }
+
+    public Asset? Get(string key)
+    {
+        foreach (var item in Enumerate())
+        {
+            if (item.Key == key)
+            {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public IEnumerable<Asset> Enumerate()
+    {
+        foreach (var item in LevelPresets)
+            yield return item;
+        foreach (var item in TerrainMaterials)
+            yield return item;
+        foreach (var item in GroundCoverMaterials)
+            yield return item;
+        foreach (var item in GroundCoverDefinitions)
+            yield return item;
+    }
 }

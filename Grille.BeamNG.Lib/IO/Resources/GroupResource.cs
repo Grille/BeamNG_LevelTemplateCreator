@@ -1,14 +1,24 @@
-﻿namespace Grille.BeamNG.IO.Resources;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Grille.BeamNG.IO.Resources;
 
 internal class GroupResource : Resource
 {
+    readonly Resource[] _resources;
     public GroupResource(string name, bool isGameResource, Resource[] resources) : base(name, isGameResource)
     {
-
+        _resources = resources;
     }
 
-    public override Stream Open()
+    protected override bool TryOpen([MaybeNullWhen(false)] out Stream stream, bool canThrow)
     {
-        throw new NotImplementedException();
+        foreach (var resource in _resources)
+        {
+            if (resource.TryOpen(out stream))
+                return true;
+        }
+
+        stream = null;
+        return false;
     }
 }

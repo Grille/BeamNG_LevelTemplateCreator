@@ -1,4 +1,6 @@
-﻿namespace Grille.BeamNG.IO.Resources;
+﻿using System.Threading;
+
+namespace Grille.BeamNG.IO.Resources;
 
 public static class PathEvaluator
 {

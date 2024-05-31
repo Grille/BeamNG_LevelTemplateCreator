@@ -1,4 +1,6 @@
 ﻿using Grille.BeamNG.Collections;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
 
 namespace Grille.BeamNG.IO.Resources;
 
@@ -20,7 +22,20 @@ public abstract class Resource : IKeyed
         IsGameResource = isGameResource;
     }
 
-    public abstract Stream Open();
+    protected abstract bool TryOpen([MaybeNullWhen(false)] out Stream stream, bool canThrow);
+
+    public bool TryOpen([MaybeNullWhen(false)] out Stream stream)
+    {
+        return TryOpen(out stream, false);
+    }
+
+    public Stream Open()
+    {
+        var result = TryOpen(out var stream, true);
+        if (!result|| stream == null)
+            throw new InvalidOperationException("Could not open stream.");
+        return stream;
+    }
 
     public void SaveToDirectory(string dirPath)
     {

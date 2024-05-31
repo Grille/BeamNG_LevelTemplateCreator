@@ -28,8 +28,9 @@ public class SolidColorResource : Resource
         Bytes = stream.ToArray();
     }
 
-    public override Stream Open()
+    protected override bool TryOpen(out Stream stream, bool canThrow)
     {
-        return new MemoryStream(Bytes);
+        stream = new MemoryStream(Bytes, false);
+        return true;
     }
 }

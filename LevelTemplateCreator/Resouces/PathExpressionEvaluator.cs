@@ -29,7 +29,7 @@ public static class PathExpressionEvaluator
 
     public static Resource Get(string entry, string filePath, string @namespace)
     {
-        if (entry.StartsWith("$"))
+        if (entry.StartsWith('$'))
         {
             return ParseVariable(entry, @namespace);
         }
@@ -79,7 +79,7 @@ public static class PathExpressionEvaluator
         var name = entry.Substring(1);
         var key = '$' + @namespace + name;
 
-        if (Constants.TryGet(key, out var value))
+        if (Variables.TryGet(key, out var value))
         {
             return Get(value);
         }

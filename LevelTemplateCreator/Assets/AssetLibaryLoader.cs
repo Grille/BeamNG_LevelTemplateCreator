@@ -9,10 +9,12 @@ using System.Xml.Linq;
 using Grille.BeamNG.Logging;
 using Grille.BeamNG.IO.Resources;
 using LevelTemplateCreator.Scripting;
+using LevelTemplateCreator.GUI;
+using System.Drawing.Text;
 
 namespace LevelTemplateCreator.Assets;
 
-public class AssetLibaryLoader
+public partial class AssetLibaryLoader
 {
     public record class Error(string File, Exception Exception)
     {
@@ -37,9 +39,15 @@ public class AssetLibaryLoader
 
     public AssetLibary Libary { get; }
 
+    private readonly CfgScriptEvaluator _evaluator;
+
+    private Asset? usedAsset;
+
     string _currentFile = string.Empty;
 
     string _currentNamespace = "";
+
+    public string CurrentNamespace => _currentNamespace;
 
     readonly static HashSet<string> _ignore;
 
@@ -59,6 +67,7 @@ public class AssetLibaryLoader
     {
         Libary = libary;
         Errors = new ErrorLogger();
+        _evaluator = new CfgScriptEvaluator(this);
     }
 
     void LogException(Exception e)
@@ -71,6 +80,14 @@ public class AssetLibaryLoader
     {
         ZipFileManager.BeginPooling();
         LoadDirectory(path, string.Empty);
+        ZipFileManager.EndPooling();
+    }
+
+    public void LoadSingleFile(string path)
+    {
+        ZipFileManager.BeginPooling();
+        _currentNamespace = string.Empty;
+        LoadFile(path);
         ZipFileManager.EndPooling();
     }
 
@@ -184,16 +201,6 @@ public class AssetLibaryLoader
 
         switch (className)
         {
-            case JsonConstant:
-            {
-                ParseConstant(dict);
-                break;
-            }
-            case JsonInclude:
-            {
-                ParseInclude(dict);
-                break;
-            }
             case JsonDictSerializer.ArrayClassName:
             {
                 ParseArray(dict);
@@ -275,20 +282,6 @@ public class AssetLibaryLoader
         }
     }
 
-    void ParseInclude(JsonDict dict)
-    {
-        var path = (string)dict["path"];
-        Include(path);
-    }
-
-    void ParseConstant(JsonDict dict)
-    {
-        var key = (string)dict["key"];
-        var value = (string)dict["value"];
-
-        SetConstant(key, value);
-    }
-
     public void Print()
     {
         Errors.Print();
@@ -308,28 +301,12 @@ public class AssetLibaryLoader
             cfg.Parse(stream);
         }
 
-        foreach (var entry in cfg.Entries)
-        {
-            var key = entry.Key;
-            var args = entry.Args;
-
-            if (key == "include")
-            {
-                var include = args[0];
-                Include(include);
-            }
-            else if (key == "var")
-            {
-                var name = args[0];
-                var value = args[1];
-                SetConstant(name, value);
-            }
-        }
+        _evaluator.Evaluate(cfg);
     }
 
-    void SetConstant(string key, string value)
+    public void SetVariable(string key, string value)
     {
-        Constants.Set('$' + _currentNamespace + key, value);
+        Variables.Set('$' + _currentNamespace + key, value);
     }
 
     const string ItemFile = "items.level.json";

@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LevelTemplateCreator.IO.Resources;
-public static class Constants
+public static class Variables
 {
     readonly static Dictionary<string, string> _dict;
 
-    static Constants()
+    static Variables()
     {
         _dict = new Dictionary<string, string>();
     }
