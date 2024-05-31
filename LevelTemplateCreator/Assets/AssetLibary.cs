@@ -50,8 +50,12 @@ public class AssetLibary
     {
         foreach (var item in instances)
         {
-            item.ApplyNamespace(parent.Namespace);
-            GroundCoverInstances.Add(item);
+            try
+            {
+                item.ApplyNamespace(parent.Namespace);
+                GroundCoverInstances.Add(item);
+            }
+            catch { }
         }
     }
 

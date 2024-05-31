@@ -99,7 +99,9 @@ public class JsonDictWrapper : IKeyed
         if (string.IsNullOrEmpty(@namespace))
             return;
         foreach (var item in EnumerateIdentifiers())
+        {
             item.Value = @namespace + item.Value;
+        }
     }
 
     /// <summary> Enumerates all fields that are used to identify this or other objects.</summary>

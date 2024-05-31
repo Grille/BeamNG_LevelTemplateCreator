@@ -22,4 +22,13 @@ public static class Variables
     public static bool TryGet(string key, out string value) {
         return _dict.TryGetValue(key, out value!);
     }
+
+    public static string Get(string key)
+    {
+        if (TryGet(key, out var value))
+        {
+            return value;
+        }
+        throw new KeyNotFoundException($"Key {key} not found.");
+    }
 }

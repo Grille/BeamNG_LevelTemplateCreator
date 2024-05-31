@@ -86,6 +86,11 @@ public partial class AssetLibaryLoader
                 var ppath = args[0];
                 UsedAsset.LoadPreview(ppath);
             }
+            else if (key == "SquareSize")
+            {
+                var squareSize = float.Parse(Eval(args[0]));
+                ((TerrainMaterialAsset)UsedAsset).SquareSize = squareSize;
+            }
             else if (key == "Export.Terrain_Materials")
             {
                 TexturePackPrimer.Open(Libary, Loader.CurrentNamespace);
@@ -103,6 +108,16 @@ public partial class AssetLibaryLoader
             {
                 throw new InvalidOperationException($"Unknown command {key}().");
             }
+        }
+
+        string Eval(string var)
+        {
+            if (var.StartsWith('$'))
+            {
+                var key = '$' + Loader.CurrentNamespace + var.Substring(1);
+                return Eval(Variables.Get(key));
+            }
+            return var;
         }
 
         public void SetVariable(string key, string value)

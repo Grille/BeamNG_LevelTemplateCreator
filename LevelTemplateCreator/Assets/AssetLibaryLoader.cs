@@ -304,11 +304,6 @@ public partial class AssetLibaryLoader
         _evaluator.Evaluate(cfg);
     }
 
-    public void SetVariable(string key, string value)
-    {
-        Variables.Set('$' + _currentNamespace + key, value);
-    }
-
     const string ItemFile = "items.level.json";
 
     void Include(string path)

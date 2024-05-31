@@ -7,7 +7,7 @@ public class TerrainMaterialAsset : MaterialAsset<TerrainMaterial>
 {
     public const string ClassName = TerrainMaterial.ClassName;
 
-    public float SquareSize { get; }
+    public float SquareSize { get; set; }
 
     public TerrainMaterialAsset(TerrainMaterial item, AssetSource info) : base(item, info)
     {

@@ -61,15 +61,9 @@ public class LevelExporter
 
         foreach (var asset in Content.TerrainMaterials)
         {
-            float squareSize = asset switch
-            {
-                TerrainMaterialAsset tma => tma.SquareSize,
-                _ => 1
-            };
-
             var copy = asset.GetCopy();
             copy.CreatePersistentId();
-            copy.MultiplyMappingScale(squareSize / Terrain.SquareSize);
+            copy.MultiplyMappingScale(asset.SquareSize / Terrain.SquareSize);
             copy.EvalPathExpressions(asset, path, group.Resources, CopyMode);
             materials.Add(copy);
         }
