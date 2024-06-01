@@ -5,6 +5,7 @@ using LevelTemplateCreator.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -87,6 +88,7 @@ public abstract class Asset : IKeyed
 
     }
 
+    [MemberNotNull(nameof(Preview))]
     public void LoadPreview(string path)
     {
         try

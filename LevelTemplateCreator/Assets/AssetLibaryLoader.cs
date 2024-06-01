@@ -41,8 +41,6 @@ public partial class AssetLibaryLoader
 
     private readonly CfgScriptEvaluator _evaluator;
 
-    private Asset? usedAsset;
-
     string _currentFile = string.Empty;
 
     string _currentNamespace = "";
