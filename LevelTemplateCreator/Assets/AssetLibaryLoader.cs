@@ -47,11 +47,13 @@ public partial class AssetLibaryLoader
 
     public string CurrentNamespace => _currentNamespace;
 
-    readonly static HashSet<string> _ignore;
+    readonly static HashSet<string> _ignoredFileExtension;
+
+    readonly HashSet<string> _tempignoredFileNames;
 
     static AssetLibaryLoader()
     {
-        _ignore = new HashSet<string>()
+        _ignoredFileExtension = new HashSet<string>()
         {
             ".txt",
             ".jpg",
@@ -65,6 +67,7 @@ public partial class AssetLibaryLoader
     {
         Libary = libary;
         Errors = new ErrorLogger();
+        _tempignoredFileNames = new HashSet<string>();
         _evaluator = new CfgScriptEvaluator(this);
     }
 
@@ -92,6 +95,7 @@ public partial class AssetLibaryLoader
     void LoadDirectory(string path, string @namespace)
     {
         _currentNamespace = @namespace;
+        _tempignoredFileNames.Clear();
 
         if (_exit)
         {
@@ -100,12 +104,20 @@ public partial class AssetLibaryLoader
 
         foreach (var file in Directory.EnumerateFiles(path))
         {
+            var name = Path.GetFileName(file);
+
+            if (!_tempignoredFileNames.Add(name))
+                continue;
+
             LoadFile(file);
         }
 
         foreach (var dir in Directory.EnumerateDirectories(path))
         {
             var name = Path.GetFileName(dir);
+
+            if (!_tempignoredFileNames.Add(name))
+                continue;
 
             var newNamespace = @namespace + name + "_";
 
@@ -137,7 +149,7 @@ public partial class AssetLibaryLoader
             {
                 LoadCfgFile(path);
             }
-            else if (!_ignore.Contains(ext))
+            else if (!_ignoredFileExtension.Contains(ext))
             {
                 Errors.Add(new Error(path, new Exception("Unsupported file type.")));
                 _wrongFileCount += 1;

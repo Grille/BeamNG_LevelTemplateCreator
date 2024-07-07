@@ -40,7 +40,7 @@ public partial class AssetLibaryLoader
         {
             foreach (var entry in cfg.Entries)
             {
-                var key = entry.Key;
+                var key = entry.Key.ToLower();
                 var args = entry.Args;
 
                 try
@@ -71,7 +71,22 @@ public partial class AssetLibaryLoader
                 var include = args[0];
                 Loader.Include(include);
             }
-            else if (key == "Using")
+            else if (key == "require")
+            {
+                var name = args[0];
+                if (!Loader._tempignoredFileNames.Add(name))
+                    return;
+
+                var path = Loader.CurrentNamespace + "/" + name;
+
+                Loader.LoadFile(path);
+            }
+            else if (key == "ignore")
+            {
+                var name = args[0];
+                Loader._tempignoredFileNames.Add(name);
+            }
+            else if (key == "using")
             {
                 var assetkey = Loader.CurrentNamespace + args[0];
                 var obj = Libary.Get(assetkey);
@@ -81,21 +96,21 @@ public partial class AssetLibaryLoader
                     throw new KeyNotFoundException($"Could not find asset {assetkey}.");
                 }
             }
-            else if (key == "Preview")
+            else if (key == "preview")
             {
                 var ppath = args[0];
                 UsedAsset.LoadPreview(ppath);
             }
-            else if (key == "SquareSize")
+            else if (key == "squaresize")
             {
                 var squareSize = float.Parse(Eval(args[0]));
                 ((TerrainMaterialAsset)UsedAsset).SquareSize = squareSize;
             }
-            else if (key == "Export.Terrain_Materials")
+            else if (key == "export.terrain_materials")
             {
                 TexturePackPrimer.Open(Libary, Loader.CurrentNamespace);
             }
-            else if (key == "Set")
+            else if (key == "set")
             {
                 if (args.Length != 2)
                     throw new InvalidOperationException("Set() takes 2 arguments.");
