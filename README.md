@@ -4,6 +4,9 @@ Setting up a new scenario from scratch can be a bit tiresome, especially if you 
 The goal of this project is to provide an easy solution to create empty map templates. 
 I also aimed to make it easily extendable for people with deeper knowledge of BeamNG.
 
+## Dependencies
+- [.NET Desktop Runtime 6.0 or Later](https://dotnet.microsoft.com/en-us/download/dotnet)
+
 ## Links
 - [\[GitHub\] https://github.com/Grille/BeamNG_LevelTemplateCreator](https://github.com/Grille/BeamNG_LevelTemplateCreator)
 - [\[NuGet\] https://www.nuget.org/packages/Grille.BeamNG.Lib](https://www.nuget.org/packages/Grille.BeamNG.Lib)
