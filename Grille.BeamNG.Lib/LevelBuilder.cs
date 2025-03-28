@@ -1,5 +1,6 @@
 ﻿using Grille.BeamNG.IO.Resources;
 using Grille.BeamNG.SceneTree.Art;
+using Grille.BeamNG.SceneTree.Forest;
 using Grille.BeamNG.SceneTree.Main;
 using System.IO;
 using System.Reflection.Emit;

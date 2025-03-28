@@ -57,4 +57,11 @@ public static class TerrainSerializer
             }
         }
     }
+
+    public static Terrain Deserialize(Stream stream, float maxHeight)
+    {
+        var terrain = new Terrain();
+        Deserialize(stream, terrain, maxHeight);
+        return terrain;
+    }
 }

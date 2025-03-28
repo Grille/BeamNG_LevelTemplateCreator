@@ -18,7 +18,7 @@ public class TerrainTemplate
 {
     private int resolution;
 
-    private float size;
+    private float worldSize;
     private float squareSize;
 
     public int Resolution
@@ -27,7 +27,7 @@ public class TerrainTemplate
         set
         {
             resolution = value;
-            size = squareSize * resolution;
+            worldSize = squareSize * resolution;
         }
     }
 
@@ -37,25 +37,40 @@ public class TerrainTemplate
         set
         {
             squareSize = value;
-            size = squareSize * resolution;
+            worldSize = squareSize * resolution;
         }
     }
 
     public float WorldSize
     {
-        get => size;
+        get => worldSize;
         set
         {
-            size = value;
-            squareSize = size / resolution;
+            worldSize = value;
+            squareSize = worldSize / resolution;
         }
     }
 
+    /// <summary>
+    /// <see cref="Resolution"/>^2
+    /// </summary>
+    public int Length => Resolution * Resolution;
+
+    /// <summary>
+    /// Value used for normalizing absolute <see langword="float"/> heights to a ranged <see langword="ushort"/> value.
+    /// </summary>
     public float MaxHeight { get; set; }
 
+    /// <summary>
+    /// Height value used if <see cref="HeightBuffer"/> is <see langword="null"/>.
+    /// </summary>
     public float Height { get; set; }
 
+    public float[]? HeightBuffer {  get; set; }
+
     public IReadOnlyCollection<string> MaterialNames { get; set; }
+
+    public int MaterialIndex { get; set; }
 
     public ushort U16Height
     {
@@ -66,28 +81,53 @@ public class TerrainTemplate
     public TerrainTemplate()
     {
         resolution = 1024;
-        size = 1024;
+        worldSize = 1024;
         squareSize = 1;
         MaxHeight = 512;
         Height = 10;
         MaterialNames = Array.Empty<string>();
     }
 
+    public TerrainData[] ToTerrainData()
+    {
+        var data = new TerrainData[Length];
+
+        for (int i = 0; i < data.Length; i++)
+        {
+            data[i].Material = MaterialIndex;
+            data[i].Height = GetHeightAt(i);
+        }
+
+        return data;
+    }
+
     public Terrain ToTerrain()
     {
-        var terrain = new Terrain(Resolution, MaterialNames.ToArray());
-        var terrainData = terrain.Data;
-        for (int i = 0; i < terrainData.Length; i++)
-        {
-            terrainData[i].Height = Height;
-        }
-        return terrain;
+        return new Terrain(Resolution, MaterialNames.ToArray(), ToTerrainData());
     }
 
     public TerrainBlock ToJsonTerrainBlock()
     {
         var block = new TerrainBlock(this);
         return block;
+    }
+
+    public float GetHeightAt(int index)
+    {
+        if (HeightBuffer != null)
+        {
+            if (HeightBuffer.Length != Length)
+            {
+                throw new InvalidOperationException("HeightBuffer.Length must be equal ResolutionSquared.");
+            }
+            return HeightBuffer[index];
+        }
+        return Height;
+    }
+
+    public ushort GetU16HeightAt(int index)
+    {
+        return TerrainV9Serializer.GetU16Height(GetHeightAt(index), MaxHeight);
     }
 
     public void Save(string filePath)

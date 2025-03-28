@@ -60,6 +60,9 @@ public partial class AssetLibaryLoader
             ".png",
             ".dds",
             ".dae",
+            ".md",
+            ".gitattributes",
+            ".gitignore",
         };
     }
 

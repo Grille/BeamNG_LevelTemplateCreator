@@ -4,6 +4,10 @@ namespace Grille.BeamNG.IO.Resources;
 
 public static class PathEvaluator
 {
+    public static string[] Split(string entry)
+    {
+        return entry.ToLower().Split([Path.PathSeparator, Path.AltDirectorySeparatorChar]);
+    }
     static public Resource Get(string entry, string gamePath)
     {
         return Get(entry, gamePath, string.Empty);
@@ -19,7 +23,7 @@ public static class PathEvaluator
 
     static Resource ParseAbsolute(string entry, string gamePath, string userPath)
     {
-        var split = entry.ToLower().Split([Path.PathSeparator, Path.AltDirectorySeparatorChar]);
+        var split = Split(entry);
 
         if (split[0] == "levels")
         {

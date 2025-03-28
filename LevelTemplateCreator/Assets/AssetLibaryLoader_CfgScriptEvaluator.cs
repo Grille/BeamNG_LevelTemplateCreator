@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace LevelTemplateCreator.Assets;
 
@@ -18,6 +19,8 @@ public partial class AssetLibaryLoader
         public AssetLibaryLoader Loader { get; }
 
         public AssetLibary Libary { get; }
+
+        Dictionary<string, Action<string[]>> _dict;
 
         Asset UsedAsset
         {

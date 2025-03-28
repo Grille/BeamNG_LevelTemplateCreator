@@ -1,7 +1,11 @@
 using System.Diagnostics;
 using System.Text;
+using System.Numerics;
+
 using Grille.BeamNG;
+using Grille.BeamNG.Collections;
 using Grille.BeamNG.IO;
+using Grille.BeamNG.IO.Binary.Torque3D;
 using Grille.BeamNG.Logging;
 using LevelTemplateCreator.Assets;
 using LevelTemplateCreator.GUI;
@@ -254,6 +258,73 @@ namespace LevelTemplateCreator
                     ExceptionBox.Show(this, ex);
                 }
             }
+        }
+
+        public const string MisDecalFilter = "Decals Files(*.CFG)|*.mis.decals;|All files (*.*)|*.*";
+
+
+        private void misDecalV5ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using var opendialog = new OpenFileDialog()
+            {
+                Filter = MisDecalFilter,
+            };
+            if (opendialog.ShowDialog(this) != DialogResult.OK)
+            {
+                return;
+            }
+
+            using var openstream = File.OpenRead(opendialog.FileName);
+            var decals = MisDecalsV5Serializer.Deserialize(openstream);
+            var dict = MisDecalsV5Serializer.ConvertToV2Dict(decals);
+
+            using var savedialog = new SaveFileDialog();
+            if (savedialog.ShowDialog(this) != DialogResult.OK)
+            {
+                return;
+            }
+
+            using var savestream = File.Create(savedialog.FileName);
+            JsonDictSerializer.Serialize(savestream, dict, true);
+        }
+
+        public const string Forest4JsonFilter = "Decals Files(*.CFG)|*.forest4.json;|All files (*.*)|*.*";
+
+        private void batchEditForest4jsonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using var opendialog = new OpenFileDialog()
+            {
+                Filter = Forest4JsonFilter,
+            };
+            if (opendialog.ShowDialog(this) != DialogResult.OK)
+            {
+                return;
+            }
+
+            var collection = SimItemsJsonSerializer.Load(opendialog.FileName);
+
+            foreach (var item in collection)
+            {
+                /*
+                if ( item.TryGetValue<float[]>("rotationMatrix", out var matrix))
+                {
+                    matrix[3] *= -1;
+                    matrix[4] *= -1;
+                    matrix[5] *= -1;
+
+                    matrix[0] *= -1;
+                    matrix[1] *= -1;
+                    matrix[2] *= -1;
+                }
+                */
+                float scale = (float)item["scale"];
+
+                scale *= 0.75f;
+
+                item["scale"] = scale;
+            }
+
+            SimItemsJsonSerializer.Save(opendialog.FileName, collection);
         }
     }
 }

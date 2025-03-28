@@ -31,6 +31,8 @@ public static class TerrainV9Serializer
         terrain.MaterialData = br.ReadArray<byte>(length);
 
         terrain.MaterialNames = br.ReadMaterialNames();
+
+        br.AssertEndOfFile();
     }
 
     public static void Serialize(Stream stream, TerrainV9Binary terrain, bool validate = true)
@@ -59,8 +61,19 @@ public static class TerrainV9Serializer
         bw.WriteByte(9);
         bw.WriteUInt32((uint)info.Resolution);
 
-        bw.Fill(u16height, size);
-        bw.Fill((byte)0, size);
+        if (info.HeightBuffer != null)
+        {
+            for (int i = 0; i < info.HeightBuffer.Length; i++)
+            {
+                bw.Write(info.GetU16HeightAt(i));
+            }
+        }
+        else
+        {
+            bw.Fill(u16height, size);
+        }
+
+        bw.Fill((byte)info.MaterialIndex, size);
 
         bw.WriteMaterialNames(info.MaterialNames.ToArray());
     }

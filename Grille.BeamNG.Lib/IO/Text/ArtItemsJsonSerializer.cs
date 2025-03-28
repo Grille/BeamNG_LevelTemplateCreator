@@ -6,7 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Grille.BeamNG.IO.Text;
-public class BeamJsonSerializer
+
+/// <summary>
+/// Used for Json files in the level’s art directory.
+/// <code>
+/// FileNames:
+/// main.materials.json
+/// managedItemData.json
+/// </code>
+/// </summary>
+public class ArtItemsJsonSerializer
 {
     public static IEnumerable<JsonDict> Load(string filePath)
     {
@@ -49,14 +58,18 @@ public class BeamJsonSerializer
     {
         var dict = JsonDictSerializer.Deserialize(stream);
 
+        var list = new List<JsonDict>();
+
         foreach (var item in dict)
         {
             if (item.Value is not JsonDict)
                 continue;
 
             var obj = (JsonDict)item.Value;
-            yield return obj;
+            list.Add(obj);
         }
+
+        return list;
     }
 
     public static JsonDict[] DeserializeToArray(Stream stream)

@@ -49,10 +49,12 @@
             utilsToolStripMenuItem = new ToolStripMenuItem();
             createTexturePackFromLevelToolStripMenuItem = new ToolStripMenuItem();
             terrainMergerToolStripMenuItem = new ToolStripMenuItem();
+            misDecalV5ToolStripMenuItem = new ToolStripMenuItem();
             splitContainer1 = new SplitContainer();
             LevelSettings = new GUI.LevelSettings();
             ContentManager = new GUI.ContentManager();
             ToolTip = new ToolTip(components);
+            batchEditForest4jsonToolStripMenuItem = new ToolStripMenuItem();
             MenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -156,7 +158,7 @@
             // 
             itemSizeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem2, toolStripMenuItem3, toolStripMenuItem4 });
             itemSizeToolStripMenuItem.Name = "itemSizeToolStripMenuItem";
-            itemSizeToolStripMenuItem.Size = new Size(121, 22);
+            itemSizeToolStripMenuItem.Size = new Size(180, 22);
             itemSizeToolStripMenuItem.Text = "Item Size";
             // 
             // toolStripMenuItem2
@@ -182,7 +184,7 @@
             // 
             // utilsToolStripMenuItem
             // 
-            utilsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { createTexturePackFromLevelToolStripMenuItem, terrainMergerToolStripMenuItem });
+            utilsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { createTexturePackFromLevelToolStripMenuItem, terrainMergerToolStripMenuItem, misDecalV5ToolStripMenuItem, batchEditForest4jsonToolStripMenuItem });
             utilsToolStripMenuItem.Name = "utilsToolStripMenuItem";
             utilsToolStripMenuItem.Size = new Size(42, 20);
             utilsToolStripMenuItem.Text = "Utils";
@@ -191,16 +193,23 @@
             // 
             createTexturePackFromLevelToolStripMenuItem.Enabled = false;
             createTexturePackFromLevelToolStripMenuItem.Name = "createTexturePackFromLevelToolStripMenuItem";
-            createTexturePackFromLevelToolStripMenuItem.Size = new Size(180, 22);
+            createTexturePackFromLevelToolStripMenuItem.Size = new Size(201, 22);
             createTexturePackFromLevelToolStripMenuItem.Text = "Texture Pack Primer";
             createTexturePackFromLevelToolStripMenuItem.Click += createTexturePackFromLevelToolStripMenuItem_Click;
             // 
             // terrainMergerToolStripMenuItem
             // 
             terrainMergerToolStripMenuItem.Name = "terrainMergerToolStripMenuItem";
-            terrainMergerToolStripMenuItem.Size = new Size(180, 22);
+            terrainMergerToolStripMenuItem.Size = new Size(201, 22);
             terrainMergerToolStripMenuItem.Text = "Terrain Merger";
             terrainMergerToolStripMenuItem.Click += terrainMergerToolStripMenuItem_Click;
+            // 
+            // misDecalV5ToolStripMenuItem
+            // 
+            misDecalV5ToolStripMenuItem.Name = "misDecalV5ToolStripMenuItem";
+            misDecalV5ToolStripMenuItem.Size = new Size(201, 22);
+            misDecalV5ToolStripMenuItem.Text = "Mis.Decal(V5) Converter";
+            misDecalV5ToolStripMenuItem.Click += misDecalV5ToolStripMenuItem_Click;
             // 
             // splitContainer1
             // 
@@ -235,6 +244,13 @@
             ContentManager.Name = "ContentManager";
             ContentManager.Size = new Size(985, 558);
             ContentManager.TabIndex = 0;
+            // 
+            // batchEditForest4jsonToolStripMenuItem
+            // 
+            batchEditForest4jsonToolStripMenuItem.Name = "batchEditForest4jsonToolStripMenuItem";
+            batchEditForest4jsonToolStripMenuItem.Size = new Size(201, 22);
+            batchEditForest4jsonToolStripMenuItem.Text = "Batch Edit Forest4.json";
+            batchEditForest4jsonToolStripMenuItem.Click += batchEditForest4jsonToolStripMenuItem_Click;
             // 
             // MainForm
             // 
@@ -283,5 +299,7 @@
         private ToolStripMenuItem savePresetToolStripMenuItem;
         private ToolStripMenuItem loadPresetToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem misDecalV5ToolStripMenuItem;
+        private ToolStripMenuItem batchEditForest4jsonToolStripMenuItem;
     }
 }

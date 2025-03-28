@@ -37,13 +37,25 @@ internal static class BinaryViewExtensions
 
     public static string[] ReadMaterialNames(this BinaryViewReader br)
     {
-        uint materialCount = br.ReadUInt32();
-        var names = new string[materialCount];
-        for (int i = 0; i < materialCount; i++)
-        {
-            names[i] = br.ReadString(LengthPrefix.Byte, Encoding.UTF8);
-        }
-        return names;
+        return br.ReadStringArray(LengthPrefix.UInt32, LengthPrefix.Byte, Encoding.UTF8);
     }
 
+    public static string[] ReadStringArray(this BinaryViewReader br, LengthPrefix arrayLength, LengthPrefix stringLength, Encoding encoding)
+    {
+        long count = br.ReadLengthPrefix(arrayLength);
+        var array = new string[count];
+        for (int i = 0; i < count; i++)
+        {
+            array[i] = br.ReadString(stringLength, encoding);
+        }
+        return array;
+    }
+
+    public static void AssertEndOfFile(this BinaryViewReader br)
+    {
+        if (br.Position != br.Length)
+        {
+            throw new InvalidDataException("Unexpected data remaining.");
+        }
+    }
 }

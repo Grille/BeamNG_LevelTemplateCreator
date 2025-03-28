@@ -14,12 +14,12 @@ public abstract class ArtItemsCollection<T> : JsonDictWrapperCollection<T> where
 
     public override void Serialize(Stream stream)
     {
-        BeamJsonSerializer.Serialize(stream, this);
+        ArtItemsJsonSerializer.Serialize(stream, this);
     }
 
     public override void Deserialize(Stream stream, ItemClassRegistry registry)
     {
-        foreach (var dict in BeamJsonSerializer.Deserialize(stream))
+        foreach (var dict in ArtItemsJsonSerializer.Deserialize(stream))
         {
             var className = (string)dict["class"];
 

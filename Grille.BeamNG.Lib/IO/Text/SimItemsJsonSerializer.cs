@@ -3,6 +3,14 @@ using System.Text;
 
 namespace Grille.BeamNG.IO.Text;
 
+/// <summary>
+/// Used for Json files in the level’s main and forest directory.
+/// <code>
+/// FileNames:
+/// items.level.json
+/// *.forest4.json
+/// </code>
+/// </summary>
 public static class SimItemsJsonSerializer
 {
     public static IEnumerable<JsonDict> Load(string filePath)
@@ -41,6 +49,8 @@ public static class SimItemsJsonSerializer
     {
         using var sr = new StreamReader(stream);
 
+        var list = new List<JsonDict>();
+
         while (true)
         {
             var line = sr.ReadLine();
@@ -51,8 +61,10 @@ public static class SimItemsJsonSerializer
             using var linestream = new MemoryStream(bytes);
             var dict = JsonDictSerializer.Deserialize(linestream);
 
-            yield return dict;
+            list.Add(dict);
         }
+
+        return list;
     }
 
     public static JsonDict[] DeserializeToArray(Stream stream)

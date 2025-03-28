@@ -21,6 +21,11 @@ public struct ByteSize
     public static implicit operator long(ByteSize value) => Unsafe.As<ByteSize, long>(ref value);
     public static implicit operator ByteSize(long value) => Unsafe.As<long, ByteSize>(ref value);
 
+    public static string ToString(long size)
+    {
+        return ((ByteSize)size).ToString();
+    }
+
     public override string ToString()
     {
         if (Gigabyte >= 10)

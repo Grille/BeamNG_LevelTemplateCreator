@@ -50,7 +50,7 @@ public class ArtGroup : ISceneTreeGroup
             resource.SaveToDirectory(dirPath);
         }
     }
-
+     
     public void LoadTree(string dirPath)
     {
         LoadTree(dirPath, ItemClassRegistry.Instance);

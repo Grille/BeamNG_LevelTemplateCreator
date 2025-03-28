@@ -6,7 +6,7 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        ExecuteImmediately = true;
+        ExecuteImmediately = false;
 
         TerrainSection.Run();
         TerrainPaintSection.Run();
