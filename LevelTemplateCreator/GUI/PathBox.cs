@@ -43,6 +43,9 @@ namespace LevelTemplateCreator
         }
 
         [Browsable(true)]
+        public string LabelText { get => Label.Text; set => Label.Text = value; }
+
+        [Browsable(true)]
         public override string Text
         {
             get => TextBox.Text;

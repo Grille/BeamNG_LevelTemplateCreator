@@ -50,11 +50,12 @@
             createTexturePackFromLevelToolStripMenuItem = new ToolStripMenuItem();
             terrainMergerToolStripMenuItem = new ToolStripMenuItem();
             misDecalV5ToolStripMenuItem = new ToolStripMenuItem();
+            batchEditForest4jsonToolStripMenuItem = new ToolStripMenuItem();
             splitContainer1 = new SplitContainer();
             LevelSettings = new GUI.LevelSettings();
             ContentManager = new GUI.ContentManager();
             ToolTip = new ToolTip(components);
-            batchEditForest4jsonToolStripMenuItem = new ToolStripMenuItem();
+            treeMapBuilderToolStripMenuItem = new ToolStripMenuItem();
             MenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -158,7 +159,7 @@
             // 
             itemSizeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem2, toolStripMenuItem3, toolStripMenuItem4 });
             itemSizeToolStripMenuItem.Name = "itemSizeToolStripMenuItem";
-            itemSizeToolStripMenuItem.Size = new Size(180, 22);
+            itemSizeToolStripMenuItem.Size = new Size(121, 22);
             itemSizeToolStripMenuItem.Text = "Item Size";
             // 
             // toolStripMenuItem2
@@ -184,7 +185,7 @@
             // 
             // utilsToolStripMenuItem
             // 
-            utilsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { createTexturePackFromLevelToolStripMenuItem, terrainMergerToolStripMenuItem, misDecalV5ToolStripMenuItem, batchEditForest4jsonToolStripMenuItem });
+            utilsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { createTexturePackFromLevelToolStripMenuItem, terrainMergerToolStripMenuItem, misDecalV5ToolStripMenuItem, batchEditForest4jsonToolStripMenuItem, treeMapBuilderToolStripMenuItem });
             utilsToolStripMenuItem.Name = "utilsToolStripMenuItem";
             utilsToolStripMenuItem.Size = new Size(42, 20);
             utilsToolStripMenuItem.Text = "Utils";
@@ -210,6 +211,13 @@
             misDecalV5ToolStripMenuItem.Size = new Size(201, 22);
             misDecalV5ToolStripMenuItem.Text = "Mis.Decal(V5) Converter";
             misDecalV5ToolStripMenuItem.Click += misDecalV5ToolStripMenuItem_Click;
+            // 
+            // batchEditForest4jsonToolStripMenuItem
+            // 
+            batchEditForest4jsonToolStripMenuItem.Name = "batchEditForest4jsonToolStripMenuItem";
+            batchEditForest4jsonToolStripMenuItem.Size = new Size(201, 22);
+            batchEditForest4jsonToolStripMenuItem.Text = "Batch Edit Forest4.json";
+            batchEditForest4jsonToolStripMenuItem.Click += batchEditForest4jsonToolStripMenuItem_Click;
             // 
             // splitContainer1
             // 
@@ -245,12 +253,12 @@
             ContentManager.Size = new Size(985, 558);
             ContentManager.TabIndex = 0;
             // 
-            // batchEditForest4jsonToolStripMenuItem
+            // treeMapBuilderToolStripMenuItem
             // 
-            batchEditForest4jsonToolStripMenuItem.Name = "batchEditForest4jsonToolStripMenuItem";
-            batchEditForest4jsonToolStripMenuItem.Size = new Size(201, 22);
-            batchEditForest4jsonToolStripMenuItem.Text = "Batch Edit Forest4.json";
-            batchEditForest4jsonToolStripMenuItem.Click += batchEditForest4jsonToolStripMenuItem_Click;
+            treeMapBuilderToolStripMenuItem.Name = "treeMapBuilderToolStripMenuItem";
+            treeMapBuilderToolStripMenuItem.Size = new Size(201, 22);
+            treeMapBuilderToolStripMenuItem.Text = "TreeMapBuilder";
+            treeMapBuilderToolStripMenuItem.Click += treeMapBuilderToolStripMenuItem_Click;
             // 
             // MainForm
             // 
@@ -301,5 +309,6 @@
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem misDecalV5ToolStripMenuItem;
         private ToolStripMenuItem batchEditForest4jsonToolStripMenuItem;
+        private ToolStripMenuItem treeMapBuilderToolStripMenuItem;
     }
 }

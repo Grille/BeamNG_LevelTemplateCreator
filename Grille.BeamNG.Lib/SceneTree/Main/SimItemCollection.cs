@@ -1,4 +1,5 @@
-﻿using Grille.BeamNG.SceneTree.Registry;
+﻿using Grille.BeamNG.Logging;
+using Grille.BeamNG.SceneTree.Registry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Grille.BeamNG.SceneTree.Main;
-public class SimItemCollection : JsonDictWrapperCollection<SimItem>
+public class SimItemCollection : JsonDictWrapperListCollection<SimItem>
 {
     public SimGroup Owner { get; }
 

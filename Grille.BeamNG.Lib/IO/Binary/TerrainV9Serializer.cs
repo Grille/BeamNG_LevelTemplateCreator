@@ -61,18 +61,7 @@ public static class TerrainV9Serializer
         bw.WriteByte(9);
         bw.WriteUInt32((uint)info.Resolution);
 
-        if (info.HeightBuffer != null)
-        {
-            for (int i = 0; i < info.HeightBuffer.Length; i++)
-            {
-                bw.Write(info.GetU16HeightAt(i));
-            }
-        }
-        else
-        {
-            bw.Fill(u16height, size);
-        }
-
+        bw.Fill(u16height, size);
         bw.Fill((byte)info.MaterialIndex, size);
 
         bw.WriteMaterialNames(info.MaterialNames.ToArray());

@@ -5,6 +5,7 @@ namespace Grille.BeamNG.IO.Text;
 public class JsonDictSerializer
 {
     public const string ArrayClassName = "Template_Array";
+
     public static void Serialize<T>(Stream stream, T value, bool intended = false) where T : IDictionary<string, object>
     {
         var options = new JsonSerializerOptions()
@@ -32,14 +33,31 @@ public class JsonDictSerializer
         };
         var json = JsonSerializer.Deserialize<JsonElement>(stream, options);
 
-        if (json.ValueKind == JsonValueKind.Object)
+        Deserialize(json, dst);
+    }
+
+    public static void Deserialize<T>(ReadOnlySpan<char> text, T dst) where T : IDictionary<string, object>
+    {
+        var options = new JsonSerializerOptions()
         {
-            GetDict(json, dst);
+            ReadCommentHandling = JsonCommentHandling.Skip,
+            AllowTrailingCommas = true,
+        };
+        var json = JsonSerializer.Deserialize<JsonElement>(text, options);
+
+        Deserialize(json, dst);
+    }
+
+    public static void Deserialize<T>(JsonElement element, T dst) where T : IDictionary<string, object>
+    {
+        if (element.ValueKind == JsonValueKind.Object)
+        {
+            GetDict(element, dst);
         }
-        else if (json.ValueKind == JsonValueKind.Array)
+        else if (element.ValueKind == JsonValueKind.Array)
         {
             dst["class"] = ArrayClassName;
-            dst["items"] = GetArray(json);
+            dst["items"] = GetArray(element);
         }
         else
         {

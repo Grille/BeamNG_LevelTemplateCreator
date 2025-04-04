@@ -326,5 +326,10 @@ namespace LevelTemplateCreator
 
             SimItemsJsonSerializer.Save(opendialog.FileName, collection);
         }
+
+        private void treeMapBuilderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new TreeMapBuilder().Show();
+        }
     }
 }

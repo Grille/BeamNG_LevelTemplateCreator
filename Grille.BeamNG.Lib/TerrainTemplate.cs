@@ -21,6 +21,7 @@ public class TerrainTemplate
     private float worldSize;
     private float squareSize;
 
+    /// <remarks>Updates <see cref="WorldSize"/></remarks>
     public int Resolution
     {
         get => resolution;
@@ -31,16 +32,18 @@ public class TerrainTemplate
         }
     }
 
+    /// <remarks>Updates <see cref="WorldSize"/></remarks>
     public float SquareSize
     {
         get => squareSize;
-        set
+        set 
         {
             squareSize = value;
             worldSize = squareSize * resolution;
         }
     }
 
+    /// <remarks>Updates <see cref="SquareSize"/></remarks>
     public float WorldSize
     {
         get => worldSize;
@@ -61,12 +64,7 @@ public class TerrainTemplate
     /// </summary>
     public float MaxHeight { get; set; }
 
-    /// <summary>
-    /// Height value used if <see cref="HeightBuffer"/> is <see langword="null"/>.
-    /// </summary>
     public float Height { get; set; }
-
-    public float[]? HeightBuffer {  get; set; }
 
     public IReadOnlyCollection<string> MaterialNames { get; set; }
 
@@ -95,7 +93,7 @@ public class TerrainTemplate
         for (int i = 0; i < data.Length; i++)
         {
             data[i].Material = MaterialIndex;
-            data[i].Height = GetHeightAt(i);
+            data[i].Height = Height;
         }
 
         return data;
@@ -110,24 +108,6 @@ public class TerrainTemplate
     {
         var block = new TerrainBlock(this);
         return block;
-    }
-
-    public float GetHeightAt(int index)
-    {
-        if (HeightBuffer != null)
-        {
-            if (HeightBuffer.Length != Length)
-            {
-                throw new InvalidOperationException("HeightBuffer.Length must be equal ResolutionSquared.");
-            }
-            return HeightBuffer[index];
-        }
-        return Height;
-    }
-
-    public ushort GetU16HeightAt(int index)
-    {
-        return TerrainV9Serializer.GetU16Height(GetHeightAt(index), MaxHeight);
     }
 
     public void Save(string filePath)

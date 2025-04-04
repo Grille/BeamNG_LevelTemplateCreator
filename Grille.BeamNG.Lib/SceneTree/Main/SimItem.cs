@@ -6,7 +6,7 @@ public class SimItem : JsonDictWrapper
 
     public JsonDictProperty<string> Parent { get; }
 
-    public SimItem(JsonDict dict, string className) : base(dict, className)
+    public SimItem(JsonDict? dict, string className) : base(dict, className)
     {
         if (className == null)
             throw new ArgumentNullException("class");

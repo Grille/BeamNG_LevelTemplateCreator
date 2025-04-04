@@ -21,7 +21,6 @@ static class TerrainPaintSection
 
         Test("TerrainV9Binary", TestTerrainV9Binary);
         Test("TerrainTemplate", TestTerrainTemplate);
-        Test("TerrainTemplate.HeightBuffer", TestTerrainTemplateHeightBuffer);
         Test("TestAbstractTerrain", TestAbstractTerrain);
     }
 
@@ -60,44 +59,6 @@ static class TerrainPaintSection
         var resultTerrain1 = template.ToTerrain();
         AssertIListIsEqual(MaterialNames, resultTerrain1.MaterialNames);
         AssertDistance((i) => height, (i) => resultTerrain1.Data[i].Height, length, "terrain1 ToTerrain");
-    }
-
-    static void TestTerrainTemplateHeightBuffer()
-    {
-        int resolution = 64;
-        int length = resolution * resolution;
-
-        float maxHeight = 512;
-        float[] buffer = new float[length];
-
-        var rnd = new Random(1);
-
-        for (int i = 0; i < length; i++)
-        {
-            buffer[i] = (float)(rnd.NextDouble()*maxHeight);
-        }
-
-        var template = new TerrainTemplate()
-        {
-            HeightBuffer = buffer,
-            MaxHeight = maxHeight,
-            MaterialNames = MaterialNames,
-            Resolution = resolution,
-        };
-
-        using var file = new MemoryStream();
-
-        template.Serialize(file);
-
-        file.Position = 0;
-
-        var resultTerrain0 = TerrainSerializer.Deserialize(file, maxHeight);
-        AssertIListIsEqual(MaterialNames, resultTerrain0.MaterialNames);
-        AssertDistance((i) => buffer[i], (i) => resultTerrain0.Data[i].Height, length, "terrain0 Deserialize");
-
-        var resultTerrain1 = template.ToTerrain();
-        AssertIListIsEqual(MaterialNames, resultTerrain1.MaterialNames);
-        AssertDistance((i) => buffer[i], (i) => resultTerrain1.Data[i].Height, length, "terrain1 ToTerrain");
     }
 
     static void TestTerrainV9Binary()

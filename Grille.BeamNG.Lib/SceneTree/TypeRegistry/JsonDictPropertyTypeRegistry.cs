@@ -21,6 +21,7 @@ public static class JsonDictPropertyTypeRegistry
         Register(Methods.ReadInt32, Methods.WriteInt32);
         Register(Methods.ReadVector2, Methods.WriteVector2);
         Register(Methods.ReadVector3, Methods.WriteVector3);
+        Register(Methods.ReadVector4, Methods.WriteVector4);
     }
 
     public static bool TryRead<T>(JsonDict dict, string key, [MaybeNullWhen(false)] out T value) where T : notnull
@@ -115,5 +116,23 @@ file static class Methods
     {
         var array = (float[])dict[key];
         return new Vector3(array[0], array[1], array[2]);
+    }
+
+    public static void WriteVector4(JsonDict dict, string key, Vector4 vec)
+    {
+        if (dict.TryGetValue<float[]>(key, out var array))
+        {
+            array[0] = vec.X; array[1] = vec.Y; array[2] = vec.Z; array[3] = vec.W;
+        }
+        {
+            var newarray = new float[4] { vec.X, vec.Y, vec.Z, vec.W };
+            dict[key] = newarray;
+        }
+    }
+
+    public static Vector4 ReadVector4(JsonDict dict, string key)
+    {
+        var array = (float[])dict[key];
+        return new Vector4(array[0], array[1], array[2], array[3]);
     }
 }

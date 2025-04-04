@@ -31,6 +31,7 @@
             Button = new Button();
             TextBox = new TextBox();
             tableLayoutPanel1 = new TableLayoutPanel();
+            Label = new Label();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -50,18 +51,20 @@
             // TextBox
             // 
             TextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            TextBox.Location = new Point(3, 3);
+            TextBox.Location = new Point(103, 3);
             TextBox.Name = "TextBox";
-            TextBox.Size = new Size(266, 23);
+            TextBox.Size = new Size(166, 23);
             TextBox.TabIndex = 1;
             // 
             // tableLayoutPanel1
             // 
-            tableLayoutPanel1.ColumnCount = 2;
+            tableLayoutPanel1.ColumnCount = 3;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
-            tableLayoutPanel1.Controls.Add(TextBox, 0, 0);
-            tableLayoutPanel1.Controls.Add(Button, 1, 0);
+            tableLayoutPanel1.Controls.Add(Label, 0, 0);
+            tableLayoutPanel1.Controls.Add(TextBox, 1, 0);
+            tableLayoutPanel1.Controls.Add(Button, 2, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -69,6 +72,16 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 29F));
             tableLayoutPanel1.Size = new Size(305, 29);
             tableLayoutPanel1.TabIndex = 2;
+            // 
+            // Label
+            // 
+            Label.Anchor = AnchorStyles.Left;
+            Label.AutoSize = true;
+            Label.Location = new Point(3, 7);
+            Label.Name = "Label";
+            Label.Size = new Size(32, 15);
+            Label.TabIndex = 2;
+            Label.Text = "label";
             // 
             // PathBox
             // 
@@ -87,5 +100,6 @@
         public Button Button;
         public TextBox TextBox;
         private TableLayoutPanel tableLayoutPanel1;
+        public Label Label;
     }
 }

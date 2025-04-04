@@ -41,6 +41,7 @@ partial class TerrainMergerInputControl
         // 
         InputPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
         InputPath.FileFilter = "All files (*.*)|*.*";
+        InputPath.LabelText = "Terrain";
         InputPath.Location = new Point(0, 23);
         InputPath.Margin = new Padding(3, 0, 3, 0);
         InputPath.Name = "InputPath";

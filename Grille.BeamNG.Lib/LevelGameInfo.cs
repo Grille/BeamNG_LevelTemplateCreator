@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace Grille.BeamNG;
 
-public class LevelInfo : JsonDictWrapper
+public class LevelGameInfo : JsonDictWrapper
 {
     public JsonDictProperty<string> DefaultSpawnPointName { get; }
 
@@ -17,7 +17,7 @@ public class LevelInfo : JsonDictWrapper
 
     public JsonDictProperty<string[]> Previews { get; }
 
-    public LevelInfo(JsonDict json) : base(json)
+    public LevelGameInfo(JsonDict json) : base(json)
     {
         DefaultSpawnPointName = new(this, "defaultSpawnPointName");
         Title = new(this, "title");
@@ -27,7 +27,7 @@ public class LevelInfo : JsonDictWrapper
         Previews = new(this, "previews");
     }
 
-    public LevelInfo() : this(new JsonDict())
+    public LevelGameInfo() : this(new JsonDict())
     {
         DefaultSpawnPointName.Value = "spawn_default";
         Title.Value = "New Level";

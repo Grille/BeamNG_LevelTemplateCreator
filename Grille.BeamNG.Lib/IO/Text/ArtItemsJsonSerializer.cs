@@ -17,7 +17,7 @@ namespace Grille.BeamNG.IO.Text;
 /// </summary>
 public class ArtItemsJsonSerializer
 {
-    public static IEnumerable<JsonDict> Load(string filePath)
+    public static IReadOnlyList<JsonDict> Load(string filePath)
     {
         using var stream = new FileStream(filePath, FileMode.Open);
         return Deserialize(stream);
@@ -54,7 +54,7 @@ public class ArtItemsJsonSerializer
         JsonDictSerializer.Serialize(stream, dict, true);
     }
 
-    public static IEnumerable<JsonDict> Deserialize(Stream stream)
+    public static IReadOnlyList<JsonDict> Deserialize(Stream stream)
     {
         var dict = JsonDictSerializer.Deserialize(stream);
 

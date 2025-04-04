@@ -64,12 +64,12 @@ public class ItemClassRegistry : IReadOnlyCollection<KeyValuePair<string, Type>>
             throw new ArgumentException("Type must be derived from JsonDictWrapper.", nameof(type));
 
         if (type.GetConstructor([typeof(JsonDict)]) == null)
-            throw new ArgumentException();
+            throw new ArgumentException($"Constructor(JsonDict) Missing.");
 
         _types[className] = type;
     }
 
-    void TryRegister(Type type, bool overwrite = false)
+    private void TryRegister(Type type, bool overwrite = false)
     {
         if (!type.IsSubclassOf(typeof(JsonDictWrapper)))
             return;

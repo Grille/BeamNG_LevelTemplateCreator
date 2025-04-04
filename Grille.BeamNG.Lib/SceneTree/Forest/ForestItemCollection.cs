@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Grille.BeamNG.SceneTree.Forest;
-public class ForestItemCollection : JsonDictWrapperCollection<ForestItem>
+public class ForestItemCollection : JsonDictWrapperListCollection<ForestItem>
 {
     public override void Serialize(Stream stream)
     {

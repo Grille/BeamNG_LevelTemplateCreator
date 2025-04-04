@@ -27,7 +27,7 @@ public class LevelExporter
 
     public string Namespace { get; set; }
 
-    public LevelInfo Info { get; }
+    public LevelGameInfo Info { get; }
 
     public TerrainTemplate Terrain { get; }
 
@@ -37,7 +37,7 @@ public class LevelExporter
     {
         Libary = libary;
         Namespace = "new_pbr_template";
-        Info = new LevelInfo();
+        Info = new LevelGameInfo();
         Terrain = new TerrainTemplate();
         Terrain.Resolution = 1024;
         Content = new AssetLibaryContent();
@@ -123,6 +123,7 @@ public class LevelExporter
         BuildSimGroup(level);
         BuildArtGroup(level);
 
+        level.SetupDefaultLevelObjects();
         level.SetupDefaultSpawn();
         level.SetupTerrain();
         level.SetupTerrainMaterialNames();

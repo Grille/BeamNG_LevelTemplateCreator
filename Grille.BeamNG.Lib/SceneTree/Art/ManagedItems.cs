@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Grille.BeamNG.SceneTree.Art;
-public class ManagedItems : ArtItemsCollection<ForestItemData>
+public class ManagedItems : ArtItemsCollection<TSForestItemData>
 {
     public const string FileName = "managedItemData.json";
 

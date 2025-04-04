@@ -21,13 +21,13 @@ public class JsonDictWrapper : IKeyed
 
     string IKeyed.Key => Name.Exists ? Name.Value : string.Empty;
 
-    public JsonDictWrapper(JsonDict dict) : this(dict, null) { }
+    public JsonDictWrapper(JsonDict? dict) : this(dict, null) { }
 
-    public JsonDictWrapper(JsonDict dict, string? className)
+    public JsonDictWrapper(JsonDict? dict, string? className)
     {
         TypeClassName = className;
 
-        Dict = dict;
+        Dict = dict != null ? dict : new JsonDict();
 
         Class = new(this, "class");
         Name = new(this, "name");
@@ -40,7 +40,7 @@ public class JsonDictWrapper : IKeyed
                 Class.Value = TypeClassName;
 
             if (Class.Value != TypeClassName)
-            throw new ArgumentException($"Class '{Class.Value}' does not match expected  value '{TypeClassName}'.");
+            throw new ArgumentException($"Class '{Class.Value}' does not match expected value '{TypeClassName}'.");
         }
     }
 

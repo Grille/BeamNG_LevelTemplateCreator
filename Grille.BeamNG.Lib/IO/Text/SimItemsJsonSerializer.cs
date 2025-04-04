@@ -13,7 +13,7 @@ namespace Grille.BeamNG.IO.Text;
 /// </summary>
 public static class SimItemsJsonSerializer
 {
-    public static IEnumerable<JsonDict> Load(string filePath)
+    public static IReadOnlyList<JsonDict> Load(string filePath)
     {
         using var stream = new FileStream(filePath, FileMode.Open);
         return Deserialize(stream);
@@ -45,7 +45,7 @@ public static class SimItemsJsonSerializer
         }
     }
 
-    public static IEnumerable<JsonDict> Deserialize(Stream stream)
+    public static IReadOnlyList<JsonDict> Deserialize(Stream stream)
     {
         using var sr = new StreamReader(stream);
 
@@ -57,9 +57,8 @@ public static class SimItemsJsonSerializer
             if (line == null)
                 break;
 
-            var bytes = Encoding.UTF8.GetBytes(line);
-            using var linestream = new MemoryStream(bytes);
-            var dict = JsonDictSerializer.Deserialize(linestream);
+            var dict = new JsonDict();
+            JsonDictSerializer.Deserialize(line, dict);
 
             list.Add(dict);
         }

@@ -7,11 +7,17 @@ using System.Reflection.Emit;
 
 namespace Grille.BeamNG;
 
+/// <summary>
+/// Class to help create a level folder structure.
+/// </summary>
+/// <remarks>
+/// Most functions are single use, an instance should not be reused to export multiple levels.
+/// </remarks>
 public class LevelBuilder 
 {
     public string Namespace { get; set; }
 
-    public LevelInfo Info { get; set; }
+    public LevelGameInfo Info { get; set; }
 
     public TerrainTemplate Terrain { get; set; }
 
@@ -21,33 +27,50 @@ public class LevelBuilder
 
     public Resource? Preview { get; set; }
 
+    /// <summary>
+    /// Save <see cref="TerrainTemplate"/> to ".../level/terrain.ter" on <see cref="Save"/>
+    /// </summary>
+    public bool SaveTerrain { get; set; }
+
     public LevelBuilder(string @namespace)
     {
         Namespace = @namespace;
 
-        Info = new LevelInfo();
+        Info = new LevelGameInfo();
         Terrain = new TerrainTemplate();
 
         MainTree = new SimGroupRoot();
         ArtTree = new ArtGroupRoot();
+
+        SaveTerrain = true;
     }
 
-    /// <summary>
-    /// Call all <c>Setup-...</c> methods, 
-    /// </summary>
-    public void Setup()
+    public void SetupDefaultLevelObjects()
     {
-
+        if (MainTree.Items.EnumerateRecursive<ScatterSky>().Count == 0)
+        {
+            MainTree.MissionGroup.LevelObjects.Sky.Items.Add(new ScatterSky());
+        }
+        if (MainTree.Items.EnumerateRecursive<TimeOfDay>().Count == 0)
+        {
+            MainTree.MissionGroup.LevelObjects.Time.Items.Add(new TimeOfDay());
+        }
+        if (MainTree.Items.EnumerateRecursive<LevelInfo>().Count == 0)
+        {
+            MainTree.MissionGroup.LevelObjects.Infos.Items.Add(new LevelInfo());
+        }
     }
 
     /// <summary>Creates default <see cref="SpawnSphere"/> object.</summary>
+    /// <remarks>Should only be called once.</remarks>
     public void SetupDefaultSpawn()
     {
         var spawn = new SpawnSphere(Terrain.Height);
         MainTree.MissionGroup.PlayerDropPoints.Items.Add(spawn);
     }
 
-    /// <summary>Creates <see cref="TerrainBlock"/> and <see cref="TerrainMaterialTextureSet"/> objects.</summary>
+    /// <summary>Creates <see cref="TerrainBlock"/> and <see cref="TerrainMaterialTextureSet"/> objects base on <see cref="Terrain"/> and <see cref="Namespace"/>.</summary>
+    /// <remarks>Should only be called once.</remarks>
     public void SetupTerrain()
     {
         var textureSetName = $"{Namespace}_TerrainMaterialTextureSet";
@@ -61,6 +84,9 @@ public class LevelBuilder
         ArtTree.Terrains.MaterialItems.Add(textureSet);
     }
 
+    /// <summary>
+    /// Find all <see cref="TerrainMaterial"/> items in <see cref="ArtTree"/> and adds them to <see cref="Terrain"/>.
+    /// </summary>
     public void SetupTerrainMaterialNames()
     {
         var names = new List<string>();
@@ -85,9 +111,11 @@ public class LevelBuilder
         var artPath = Path.Combine(dirPath, "art");
         ArtTree.SaveTree(artPath);
 
-        var terrainPath = Path.Combine(dirPath, "terrain.ter");
-        Terrain.Save(terrainPath);
-
+        if (SaveTerrain)
+        {
+            var terrainPath = Path.Combine(dirPath, "terrain.ter");
+            Terrain.Save(terrainPath);
+        }
 
         if (Info.Previews.Exists && Info.Previews.Value.Length > 0 && Preview != null)
         {

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Grille.BeamNG.SceneTree;
 
-public abstract class JsonDictWrapperCollection<TItem> : KeyedCollection<TItem> where TItem : JsonDictWrapper
+public abstract class JsonDictWrapperKeyedCollection<TItem> : KeyedCollection<TItem>, IJsonDictWrapperCollection<TItem> where TItem : JsonDictWrapper
 {
     public void Save(string filePath)
     {
@@ -33,12 +33,12 @@ public abstract class JsonDictWrapperCollection<TItem> : KeyedCollection<TItem> 
 
     public abstract void Deserialize(Stream stream, ItemClassRegistry registry);
 
-    public IEnumerable<TItem> EnumerateRecursive()
+    public IReadOnlyCollection<TItem> EnumerateRecursive()
     {
         return EnumerateRecursive<TItem>();
     }
 
-    public IEnumerable<T> EnumerateRecursive<T>() where T : TItem
+    public IReadOnlyCollection<T> EnumerateRecursive<T>() where T : TItem
     {
         var list = new List<T>();
         EnumerateRecursive(list);

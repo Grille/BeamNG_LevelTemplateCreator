@@ -1,13 +1,16 @@
 ﻿namespace Grille.BeamNG.SceneTree.Art;
 
-public sealed class ForestItemData : ArtItem
+public sealed class TSForestItemData : ArtItem
 {
     public const string ClassName = "TSForestItemData";
 
+    public JsonDictProperty<float> Radius { get; }
+
     public JsonDictProperty<string> ShapeFile { get; }
 
-    public ForestItemData(JsonDict dict) : base(dict, ClassName)
+    public TSForestItemData(JsonDict dict) : base(dict, ClassName)
     {
+        Radius = new(this, "radius");
         ShapeFile = new(this, "shapeFile");
     }
 }

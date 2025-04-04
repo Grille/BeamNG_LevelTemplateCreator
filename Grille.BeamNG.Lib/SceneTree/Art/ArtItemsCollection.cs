@@ -3,7 +3,7 @@ using Grille.BeamNG.SceneTree.Registry;
 
 namespace Grille.BeamNG.SceneTree.Art;
 
-public abstract class ArtItemsCollection<T> : JsonDictWrapperCollection<T> where T : ArtItem
+public abstract class ArtItemsCollection<T> : JsonDictWrapperKeyedCollection<T> where T : ArtItem
 {
     public ArtGroup Owner { get; }
 

@@ -1,5 +1,6 @@
 ﻿using Grille.BeamNG.SceneTree;
 using Grille.BeamNG.SceneTree.Main;
+using Grille.BeamNG.SceneTree.Registry;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,8 +25,16 @@ public class LevelObjectsAsset : Asset<JsonDictWrapper>
 
         foreach (var rawitem in rawitems)
         {
-            var item = new SimItem(rawitem, (string)rawitem["class"]);
-            Items.Add(item);
+            var classname = (string)rawitem["class"];
+            if (ItemClassRegistry.Instance.TryCreate<SimItem>(classname, rawitem, out var item))
+            {
+
+                Items.Add(item);
+            }
+            else
+            {
+                Items.Add(new SimItem(rawitem, classname));
+            }
         }
     }
 
