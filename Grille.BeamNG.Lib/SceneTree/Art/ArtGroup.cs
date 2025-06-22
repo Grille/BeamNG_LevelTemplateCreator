@@ -26,7 +26,7 @@ public class ArtGroup : ISceneTreeGroup
         Name = name;
         Children = new();
         Resources = new(true);
-        MaterialItems = new(this, Resources);
+        MaterialItems = new(this);
         ManagedItems = new(this);
     }
 

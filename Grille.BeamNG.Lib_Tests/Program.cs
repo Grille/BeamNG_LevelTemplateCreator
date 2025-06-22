@@ -8,6 +8,7 @@ internal class Program
     {
         ExecuteImmediately = false;
 
+        MathSection.Run();
         TerrainSection.Run();
         TerrainPaintSection.Run();
         SimTreeSection.Run();

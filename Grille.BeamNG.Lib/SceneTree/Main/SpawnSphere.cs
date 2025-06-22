@@ -1,4 +1,6 @@
-﻿namespace Grille.BeamNG.SceneTree.Main;
+﻿using Grille.BeamNG.Numerics;
+
+namespace Grille.BeamNG.SceneTree.Main;
 
 public class SpawnSphere : SimItem
 {
@@ -6,9 +8,13 @@ public class SpawnSphere : SimItem
 
     public JsonDictProperty<string> DataBlock { get; }
 
+    public JsonDictProperty<RotationMatrix3x3> RotationMatrix { get; }
+
+
     public SpawnSphere(JsonDict dict) : base(dict, ClassName)
     {
         DataBlock = new(this, "dataBlock");
+        RotationMatrix = new(this, "rotationMatrix");
     }
 
     public SpawnSphere(float height) : this(new JsonDict())

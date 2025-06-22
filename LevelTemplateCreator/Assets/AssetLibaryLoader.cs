@@ -99,7 +99,7 @@ public partial class AssetLibaryLoader
     {
         _currentNamespace = @namespace;
         _tempignoredFileNames.Clear();
-
+        
         if (_exit)
         {
             return;
@@ -263,27 +263,38 @@ public partial class AssetLibaryLoader
 
         foreach (var item in dict)
         {
-            var key = item.Key;
-            var obj = (JsonDict)item.Value;
-            if (!obj.TryGetValue("name", out var nameObj))
+            try
             {
-                if (obj.TryGetValue("internalName", out var iNameObj) && obj.TryGetValue("persistentId", out var idObj))
-                {
-                    nameObj = $"{iNameObj}-{idObj}";
-                }
-                else
-                {
-                    throw new Exception("Object has no name.");
-                }
+                ParseBeamGroupItem(item.Key, (JsonDict)item.Value);
             }
-            var name = (string)nameObj;
-            if (name != key)
+            catch (Exception e)
             {
-                throw new Exception($"Key of object:'{key}' and name:'{name}' must be equal.");
+                LogException(e);
             }
-
-            ParseObject(obj);
         }
+    }
+
+    void ParseBeamGroupItem(string key, JsonDict dict)
+    {
+        if (!dict.TryGetValue("name", out var nameObj))
+        {
+            if (dict.TryGetValue("internalName", out var iNameObj) && dict.TryGetValue("persistentId", out var idObj))
+            {
+                nameObj = $"{iNameObj}-{idObj}";
+            }
+            else
+            {
+                throw new Exception("Object has no name.");
+            }
+        }
+
+        var name = (string)nameObj;
+        if (name != key)
+        {
+            throw new Exception($"Key of object:'{key}' and name:'{name}' must be equal.");
+        }
+
+        ParseObject(dict);
     }
 
     void ParseArray(JsonDict array)

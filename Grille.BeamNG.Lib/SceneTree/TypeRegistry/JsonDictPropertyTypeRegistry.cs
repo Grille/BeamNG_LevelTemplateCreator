@@ -1,5 +1,6 @@
 ﻿using Grille.BeamNG.Collections;
 using Grille.BeamNG.IO.Text;
+using Grille.BeamNG.Numerics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -22,6 +23,7 @@ public static class JsonDictPropertyTypeRegistry
         Register(Methods.ReadVector2, Methods.WriteVector2);
         Register(Methods.ReadVector3, Methods.WriteVector3);
         Register(Methods.ReadVector4, Methods.WriteVector4);
+        Register(Methods.ReadMatrix3, Methods.WriteMatrix3);
     }
 
     public static bool TryRead<T>(JsonDict dict, string key, [MaybeNullWhen(false)] out T value) where T : notnull
@@ -82,57 +84,72 @@ file static class Methods
         return (int)(float)dict[key];
     }
 
+    static float[] GetWriteArray(JsonDict dict, string key, int length)
+    {
+        if (dict.TryGetValue<float[]>(key, out var array) && array.Length == length)
+        {
+            return array;
+        }
+        array = new float[length];
+        dict[key] = array;
+        return array;
+    }
+
+    static float[] GetReadArray(JsonDict dict, string key, int length)
+    {
+        var array = (float[])dict[key];
+        if (array.Length != length)
+        {
+            throw new InvalidDataException();
+        }
+        return array;
+    }
+
     public static void WriteVector2(JsonDict dict, string key, Vector2 vec)
     {
-        if (dict.TryGetValue<float[]>(key, out var array))
-        {
-            array[0] = vec.X; array[1] = vec.Y;
-        }
-        {
-            var newarray = new float[2] { vec.X, vec.Y };
-            dict[key] = newarray;
-        }
+        var array = GetWriteArray(dict, key, 2);
+        vec.CopyTo(array);
     }
 
     public static Vector2 ReadVector2(JsonDict dict, string key)
     {
-        var array = (float[])dict[key];
-        return new Vector2(array[0], array[1]);
+        var array = GetReadArray(dict, key, 2);
+        return new Vector2(array);
     }
 
     public static void WriteVector3(JsonDict dict, string key, Vector3 vec)
     {
-        if (dict.TryGetValue<float[]>(key, out var array))
-        {
-            array[0] = vec.X; array[1] = vec.Y; array[2] = vec.Z;
-        }
-        {
-            var newarray = new float[3] { vec.X, vec.Y, vec.Z };
-            dict[key] = newarray;
-        }
+        var array = GetWriteArray(dict, key, 3);
+        vec.CopyTo(array);
     }
 
     public static Vector3 ReadVector3(JsonDict dict, string key)
     {
-        var array = (float[])dict[key];
-        return new Vector3(array[0], array[1], array[2]);
+        var array = GetReadArray(dict, key, 3);
+        return new Vector3(array);
     }
 
     public static void WriteVector4(JsonDict dict, string key, Vector4 vec)
     {
-        if (dict.TryGetValue<float[]>(key, out var array))
-        {
-            array[0] = vec.X; array[1] = vec.Y; array[2] = vec.Z; array[3] = vec.W;
-        }
-        {
-            var newarray = new float[4] { vec.X, vec.Y, vec.Z, vec.W };
-            dict[key] = newarray;
-        }
+        var array = GetWriteArray(dict, key, 4);
+        vec.CopyTo(array);
     }
 
     public static Vector4 ReadVector4(JsonDict dict, string key)
     {
-        var array = (float[])dict[key];
-        return new Vector4(array[0], array[1], array[2], array[3]);
+        var array = GetReadArray(dict, key, 4);
+        return new Vector4(array);
+    }
+
+    public static void WriteMatrix3(JsonDict dict, string key, RotationMatrix3x3 matrix)
+    {
+        var array = GetWriteArray(dict, key, 9);
+        matrix.CopyTo(array);
+    }
+
+    public static RotationMatrix3x3 ReadMatrix3(JsonDict dict, string key)
+    {
+        var array = GetReadArray(dict, key, 9);
+        return new RotationMatrix3x3(array);
     }
 }

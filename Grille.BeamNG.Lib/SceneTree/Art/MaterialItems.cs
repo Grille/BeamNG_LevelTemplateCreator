@@ -10,11 +10,9 @@ public class MaterialItems : ArtItemsCollection<ArtItem>
 {
     public const string FileName = "main.materials.json";
 
-    public ResourceCollection Resources { get; }
-
-    public MaterialItems(ArtGroup owner, ResourceCollection resources) : base(owner)
+    public MaterialItems(ArtGroup? owner) : base(owner)
     {
-        Resources = resources;
+
     }
 
     public string[] GetMaterialNames()
@@ -44,9 +42,12 @@ public class MaterialItems : ArtItemsCollection<ArtItem>
             values.Add(item);
         }
 
-        foreach (var group in Owner.Children)
+        if (Owner != null)
         {
-            group.MaterialItems.EnumerateRecursive(values);
+            foreach (var group in Owner.Children)
+            {
+                group.MaterialItems.EnumerateRecursive(values);
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ public abstract class Resource : IKeyed
 {
     string IKeyed.Key => Name;
 
+    /// <summary>Resource is delivered as part of the game.</summary>
     public bool IsGameResource { get; }
 
     public string Name { get; }
@@ -32,7 +33,7 @@ public abstract class Resource : IKeyed
     public Stream Open()
     {
         var result = TryOpen(out var stream, true);
-        if (!result|| stream == null)
+        if (!result || stream == null)
             throw new InvalidOperationException("Could not open stream.");
         return stream;
     }

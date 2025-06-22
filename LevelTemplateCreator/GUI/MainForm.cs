@@ -10,6 +10,8 @@ using Grille.BeamNG.Logging;
 using LevelTemplateCreator.Assets;
 using LevelTemplateCreator.GUI;
 using LevelTemplateCreator.Scripting;
+using Grille.BeamNG.SceneTree.Forest;
+using Grille.BeamNG.SceneTree.Art;
 
 namespace LevelTemplateCreator
 {
@@ -294,6 +296,7 @@ namespace LevelTemplateCreator
         {
             using var opendialog = new OpenFileDialog()
             {
+                Multiselect = true,
                 Filter = Forest4JsonFilter,
             };
             if (opendialog.ShowDialog(this) != DialogResult.OK)
@@ -301,35 +304,61 @@ namespace LevelTemplateCreator
                 return;
             }
 
-            var collection = SimItemsJsonSerializer.Load(opendialog.FileName);
+            var rnd = new Random(1);
 
-            foreach (var item in collection)
+            foreach (var fileName in opendialog.FileNames)
             {
-                /*
-                if ( item.TryGetValue<float[]>("rotationMatrix", out var matrix))
+                var forest = new ForestItemCollection();
+                forest.Load(fileName);
+
+                foreach (var item in forest)
                 {
-                    matrix[3] *= -1;
-                    matrix[4] *= -1;
-                    matrix[5] *= -1;
 
-                    matrix[0] *= -1;
-                    matrix[1] *= -1;
-                    matrix[2] *= -1;
+                    float angle = rnd.NextSingle() * 2f * MathF.PI;
+                    float cos = MathF.Cos(angle);
+                    float sin = MathF.Sin(angle);
+                    var matrix = item.RotationMatrix.Value;
+                    //matrix[0] = cos; matrix[1] = -sin; matrix[2] = 0;
+                    //matrix[3] = sin; matrix[4] = cos; matrix[5] = 0;
+                    //matrix[6] = 0; matrix[7] = 0; matrix[8] = 1;
+
+                    item.Scale.Value = rnd.NextSingle() * 0.5f + 0.75f;
                 }
-                */
-                float scale = (float)item["scale"];
 
-                scale *= 0.75f;
-
-                item["scale"] = scale;
+                forest.Save(fileName);
             }
-
-            SimItemsJsonSerializer.Save(opendialog.FileName, collection);
         }
 
         private void treeMapBuilderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new TreeMapBuilder().Show();
+        }
+
+        private void enableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using var opendialog = new OpenFileDialog()
+            {
+                Multiselect = true,
+            };
+            if (opendialog.ShowDialog(this) != DialogResult.OK)
+            {
+                return;
+            }
+
+            foreach (var fileName in opendialog.FileNames)
+            {
+                var items = new MaterialItems(null);
+                items.Load(fileName);
+
+                foreach (var item in items.Enumerate<ObjectMaterial>())
+                {
+                    item.Stage0.UseAnisotropic.Value = true;
+                    item.AlphaTest.Value = true;
+                    item.AlphaRef.Value = 127;
+                }
+
+                items.Save(fileName);
+            }
         }
     }
 }

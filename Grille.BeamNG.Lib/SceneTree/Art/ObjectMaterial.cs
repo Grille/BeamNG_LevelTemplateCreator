@@ -8,6 +8,14 @@ public class ObjectMaterial : Material
 
     public JsonDictProperty<float> Version { get; }
 
+    public JsonDictProperty<bool> AlphaTest { get; }
+
+    public JsonDictProperty<int> AlphaRef { get; }
+
+    public JsonDictProperty<string> GroundType { get; }
+
+    public JsonDictProperty<string> TranslucentBlendOp { get; }
+
     public ReadOnlyCollection<ObjectMaterialStage> Stages { get; }
 
     public ObjectMaterialStage Stage0 { get; }
@@ -18,6 +26,11 @@ public class ObjectMaterial : Material
     public ObjectMaterial(JsonDict dict) : base(dict, ClassName)
     {
         Version = new(this, "version");
+
+        AlphaTest = new(this, "alphaTest");
+        AlphaRef = new(this, "alphaRef");
+        GroundType = new(this, "groundType");
+        TranslucentBlendOp = new(this, "translucentBlendOp");
 
         var stages = (JsonDict[])this["Stages"];
 
@@ -60,6 +73,8 @@ public class ObjectMaterialStage : JsonDictWrapper
 
     public JsonDictProperty<string> SpecularMap { get; }
 
+    public JsonDictProperty<bool> UseAnisotropic { get; }
+
     public ReadOnlyCollection<JsonDictProperty<string>> Maps { get; }
 
     public ObjectMaterialStage(JsonDict dict) : base(dict)
@@ -71,6 +86,7 @@ public class ObjectMaterialStage : JsonDictWrapper
         RoughnessMap = new(this, "roughnessMap");
         ColorMap = new(this, "colorMap");
         SpecularMap = new(this, "specularMap");
+        UseAnisotropic = new(this, "useAnisotropic");
 
         Maps = new([AmbientOcclusionMap, BaseColorMap, NormalMap, OpacityMap, RoughnessMap, ColorMap, SpecularMap]);
     }

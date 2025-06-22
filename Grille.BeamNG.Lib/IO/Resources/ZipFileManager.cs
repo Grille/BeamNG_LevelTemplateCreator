@@ -104,9 +104,7 @@ public static class ZipFileManager
         public void Dispose() => EndPooling();
     }
 
-    /// <summary>
-    /// fhghg
-    /// </summary>
+    /// <summary></summary>
     /// <remarks>This method is thread safe. Other calls to <see cref="BeginPooling"/> will wait until this season is closed.</remarks>
     /// <returns></returns>
     public static PoolingHandle BeginPooling()
@@ -116,7 +114,6 @@ public static class ZipFileManager
         PoolingActive = true;
 
         return new PoolingHandle();
-
     }
 
     public static void EndPooling()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Grille.BeamNG.Numerics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ public class ForestItem : JsonDictWrapper
 {
     public JsonDictProperty<int> CtxId { get; }
     public JsonDictProperty<Vector3> Position { get; }
-    public JsonDictProperty<float[]> RotationMatrix { get; }
+    public JsonDictProperty<RotationMatrix3x3> RotationMatrix { get; }
     public JsonDictProperty<float> Scale { get; }
     public JsonDictProperty<string> Type { get; }
 

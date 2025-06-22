@@ -5,9 +5,9 @@ namespace Grille.BeamNG.SceneTree.Art;
 
 public abstract class ArtItemsCollection<T> : JsonDictWrapperKeyedCollection<T> where T : ArtItem
 {
-    public ArtGroup Owner { get; }
+    public ArtGroup? Owner { get; }
 
-    public ArtItemsCollection(ArtGroup owner)
+    public ArtItemsCollection(ArtGroup? owner)
     {
         Owner = owner;
     }

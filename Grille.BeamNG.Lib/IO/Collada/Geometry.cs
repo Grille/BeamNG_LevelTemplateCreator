@@ -7,4 +7,5 @@ using System.Threading.Tasks;
 namespace Grille.BeamNG.IO.Collada;
 internal class Geometry
 {
+
 }
