@@ -105,7 +105,7 @@ public static class ZipFileManager
     }
 
     /// <summary></summary>
-    /// <remarks>This method is thread safe. Other calls to <see cref="BeginPooling"/> will wait until this season is closed.</remarks>
+    /// <remarks>This method is thread safe. Other calls to <see cref="BeginPooling"/> will wait until this session is closed.</remarks>
     /// <returns></returns>
     public static PoolingHandle BeginPooling()
     {

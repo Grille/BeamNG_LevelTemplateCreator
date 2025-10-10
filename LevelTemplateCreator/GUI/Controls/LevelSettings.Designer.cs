@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            Grille.BeamNG.TerrainTemplate terrainTemplate2 = new Grille.BeamNG.TerrainTemplate();
             TerainSettings = new TerrainSettings();
             TextBoxNamespace = new LabledTextbox();
             TextBoxTitle = new LabledTextbox();
@@ -36,7 +37,11 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             label1 = new Label();
             ComboBoxCopyMode = new ComboBox();
+            label2 = new Label();
+            ComboBoxNamingMode = new ComboBox();
+            tableLayoutPanel2 = new TableLayoutPanel();
             tableLayoutPanel1.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
             SuspendLayout();
             // 
             // TerainSettings
@@ -49,6 +54,14 @@
             TerainSettings.Name = "TerainSettings";
             TerainSettings.Size = new Size(517, 145);
             TerainSettings.TabIndex = 0;
+            terrainTemplate2.Height = 9.99234F;
+            terrainTemplate2.MaterialIndex = 0;
+            terrainTemplate2.MaxHeight = 512F;
+            terrainTemplate2.Resolution = 1024;
+            terrainTemplate2.SquareSize = 1F;
+            terrainTemplate2.U16Height = (ushort)1279;
+            terrainTemplate2.WorldSize = 1024F;
+            TerainSettings.Terrain = terrainTemplate2;
             // 
             // TextBoxNamespace
             // 
@@ -104,6 +117,7 @@
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 29F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.Size = new Size(517, 29);
             tableLayoutPanel1.TabIndex = 5;
             // 
@@ -127,10 +141,49 @@
             ComboBoxCopyMode.Size = new Size(411, 23);
             ComboBoxCopyMode.TabIndex = 1;
             // 
+            // label2
+            // 
+            label2.Anchor = AnchorStyles.Left;
+            label2.AutoSize = true;
+            label2.Location = new Point(3, 7);
+            label2.Name = "label2";
+            label2.Size = new Size(84, 15);
+            label2.TabIndex = 0;
+            label2.Text = "Naming Mode";
+            // 
+            // ComboBoxNamingMode
+            // 
+            ComboBoxNamingMode.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            ComboBoxNamingMode.FormattingEnabled = true;
+            ComboBoxNamingMode.Items.AddRange(new object[] { "Namespace_Name", "Name" });
+            ComboBoxNamingMode.Location = new Point(103, 3);
+            ComboBoxNamingMode.Name = "ComboBoxNamingMode";
+            ComboBoxNamingMode.Size = new Size(411, 23);
+            ComboBoxNamingMode.TabIndex = 1;
+            // 
+            // tableLayoutPanel2
+            // 
+            tableLayoutPanel2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            tableLayoutPanel2.ColumnCount = 2;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.Controls.Add(label2, 0, 0);
+            tableLayoutPanel2.Controls.Add(ComboBoxNamingMode, 1, 0);
+            tableLayoutPanel2.Location = new Point(0, 261);
+            tableLayoutPanel2.Margin = new Padding(0);
+            tableLayoutPanel2.MinimumSize = new Size(0, 29);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.RowCount = 1;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 29F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel2.Size = new Size(517, 29);
+            tableLayoutPanel2.TabIndex = 6;
+            // 
             // LevelSettings
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(tableLayoutPanel2);
             Controls.Add(tableLayoutPanel1);
             Controls.Add(ButtonSave);
             Controls.Add(TextBoxAuthor);
@@ -141,6 +194,8 @@
             Size = new Size(517, 535);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
+            tableLayoutPanel2.ResumeLayout(false);
+            tableLayoutPanel2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -153,5 +208,8 @@
         private TableLayoutPanel tableLayoutPanel1;
         private Label label1;
         public ComboBox ComboBoxCopyMode;
+        private Label label2;
+        public ComboBox ComboBoxNamingMode;
+        private TableLayoutPanel tableLayoutPanel2;
     }
 }

@@ -60,6 +60,7 @@ public partial class AssetLibaryLoader
             ".png",
             ".dds",
             ".dae",
+            ".cdae",
             ".md",
             ".gitattributes",
             ".gitignore",

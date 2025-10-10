@@ -63,22 +63,16 @@ public static class EnvironmentInfo
     {
         public string LevelsPath { get; set; } = string.Empty;
 
-        public Version LatestBeamNGVersion { get; private set; } = new Version(0, 0);
-
         protected override bool Validate(string path)
         {
             if (!base.Validate(path))
                 return false;
 
-            var versionpath = System.IO.Path.Combine(path, "version.txt");
-
-            if (!File.Exists(versionpath))
+            var current = System.IO.Path.Combine(path, "current");
+            if (!Directory.Exists(current))
                 return false;
 
-            var versiontext = File.ReadAllText(versionpath);
-            LatestBeamNGVersion = new Version(versiontext);
-
-            LevelsPath = System.IO.Path.Combine(path, LatestBeamNGVersion.ToString(2), "levels");
+            LevelsPath = System.IO.Path.Combine(current, "levels");
 
             return true;
         }
@@ -127,7 +121,7 @@ public static class EnvironmentInfo
     {
         UserData.TryFindValidPath(
         [
-            $"C:\\Users\\{Environment.UserName}\\AppData\\Local\\BeamNG.drive",
+            $"C:\\Users\\{Environment.UserName}\\AppData\\Local\\BeamNG\\BeamNG.drive",
         ]);
     }
 

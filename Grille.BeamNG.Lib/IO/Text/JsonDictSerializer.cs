@@ -2,7 +2,7 @@
 
 namespace Grille.BeamNG.IO.Text;
 
-public class JsonDictSerializer
+public static class JsonDictSerializer
 {
     public const string ArrayClassName = "Template_Array";
 

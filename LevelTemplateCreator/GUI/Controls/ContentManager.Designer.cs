@@ -1,4 +1,6 @@
-﻿namespace LevelTemplateCreator.GUI
+﻿using LevelTemplateCreator.GUI.Controls;
+
+namespace LevelTemplateCreator.GUI
 {
     partial class ContentManager
     {

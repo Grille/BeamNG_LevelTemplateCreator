@@ -8,10 +8,13 @@ public static class PathEvaluator
     {
         return entry.ToLower().Split([Path.PathSeparator, Path.AltDirectorySeparatorChar]);
     }
-    static public Resource Get(string entry, string gamePath)
+
+    /*
+    static public Resource Get(string entry)
     {
-        return Get(entry, gamePath, string.Empty);
+        return Get(entry, BeamEnvironment.Drive.GameDirectory, BeamEnvironment.Drive.CurrentDirectory);
     }
+    */
 
     static public Resource Get(string entry, string gamePath, string userPath)
     {
@@ -29,7 +32,7 @@ public static class PathEvaluator
         {
             var level = split[1];
             var filename = split[split.Length - 1];
-            var key = $"{level}_{filename}";
+            var key = $"{filename}";
             var zippath = $"{gamePath}/content/levels/{level}.zip";
             if (File.Exists(zippath))
             {

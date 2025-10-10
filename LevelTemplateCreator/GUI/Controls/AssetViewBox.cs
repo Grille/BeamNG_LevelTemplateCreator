@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using LevelTemplateCreator.Assets;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace LevelTemplateCreator;
+namespace LevelTemplateCreator.GUI.Controls;
 
 internal class AssetViewBox : Control
 {
@@ -61,7 +61,7 @@ internal class AssetViewBox : Control
         ScrollBar = new VScrollBar();
         ScrollBar.Dock = DockStyle.Right;
         ScrollBar.LargeChange = 200;
-        ScrollBar.ValueChanged += (object? sender, EventArgs e) => { 
+        ScrollBar.ValueChanged += (sender, e) => { 
             Position = ScrollBar.Value;
             Invalidate();
         };

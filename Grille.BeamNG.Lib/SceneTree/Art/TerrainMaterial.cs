@@ -54,7 +54,7 @@ public class TerrainMaterial : Material
         ]);
     }
 
-    public void MultiplyMappingScale(float factor)
+    public void MultiplyByMappingScale(float factor)
     {
         foreach (var level in Levels)
         {

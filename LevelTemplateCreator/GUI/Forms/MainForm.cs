@@ -18,7 +18,7 @@ namespace LevelTemplateCreator
     public partial class MainForm : Form
     {
         AssetLibary AssetLibary { get; set; }
-        LevelExporter Level { get; set; }
+        AssetLevelBuilder Level { get; set; }
 
         public MainForm()
         {
@@ -27,7 +27,7 @@ namespace LevelTemplateCreator
             Icon = Properties.Resources.GrilleBeamNgIcon;
 
             AssetLibary = new AssetLibary();
-            Level = new LevelExporter(AssetLibary);
+            Level = new AssetLevelBuilder(AssetLibary);
 
             LevelSettings.ButtonSave.Click += (object? sender, EventArgs e) =>
             {
@@ -353,8 +353,8 @@ namespace LevelTemplateCreator
                 foreach (var item in items.Enumerate<ObjectMaterial>())
                 {
                     item.Stage0.UseAnisotropic.Value = true;
-                    item.AlphaTest.Value = true;
-                    item.AlphaRef.Value = 127;
+                    //item.AlphaTest.Value = true;
+                    //item.AlphaRef.Value = 127;
                 }
 
                 items.Save(fileName);

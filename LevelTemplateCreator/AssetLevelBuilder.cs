@@ -17,7 +17,7 @@ using Grille.BeamNG.IO.Resources;
 
 namespace LevelTemplateCreator;
 
-public class LevelExporter
+public class AssetLevelBuilder
 {
     public FileCopyMode CopyMode { get; set; }
 
@@ -33,7 +33,7 @@ public class LevelExporter
 
     public ErrorLogger Errors { get; }
 
-    public LevelExporter(AssetLibary libary)
+    public AssetLevelBuilder(AssetLibary libary)
     {
         Libary = libary;
         Namespace = "new_pbr_template";
@@ -63,7 +63,7 @@ public class LevelExporter
         {
             var copy = asset.GetCopy();
             copy.CreatePersistentId();
-            copy.MultiplyMappingScale(asset.SquareSize / Terrain.SquareSize);
+            copy.MultiplyByMappingScale(asset.SquareSize / Terrain.SquareSize);
             copy.EvalPathExpressions(asset, path, group.Resources, CopyMode);
             materials.Add(copy);
         }

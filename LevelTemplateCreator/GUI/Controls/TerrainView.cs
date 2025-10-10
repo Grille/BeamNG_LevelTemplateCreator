@@ -11,7 +11,7 @@ using Grille.Graphics.Isometric.Shading;
 using System.Numerics;
 using Grille.Graphics.Isometric.Diagnostics;
 
-namespace LevelTemplateCreator.GUI;
+namespace LevelTemplateCreator.GUI.Controls;
 
 internal class TerrainView : RenderSurface
 {
@@ -74,7 +74,7 @@ internal class TerrainView : RenderSurface
         if (Renderer.MaxHeight == (int)maxHeight)
             return;
 
-        Renderer.Uniforms.ZScale = maxHeight / (float)ushort.MaxValue;
+        Renderer.Uniforms.ZScale = maxHeight / ushort.MaxValue;
         Renderer.MaxHeight = (int)maxHeight;
         InvalidateRender();
     }

@@ -14,9 +14,9 @@ namespace LevelTemplateCreator.GUI;
 
 internal partial class LevelSettings : UserControl
 {
-    LevelExporter? _level;
+    AssetLevelBuilder? _level;
 
-    public void SetLevel(LevelExporter level)
+    public void SetLevel(AssetLevelBuilder level)
     {
         _level = level;
 
@@ -35,6 +35,7 @@ internal partial class LevelSettings : UserControl
         ComboBoxCopyMode.SelectedIndexChanged += ComboBoxCopyMode_SelectedIndexChanged;
 
         ComboBoxCopyMode.SelectedIndex = 0;
+        ComboBoxNamingMode.SelectedIndex = 0;
     }
 
     public LevelSettings()
