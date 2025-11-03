@@ -6,6 +6,7 @@ I also aimed to make it easily extendable for people with deeper knowledge of Be
 
 ## Dependencies
 - [.NET Desktop Runtime 6.0 or Later](https://dotnet.microsoft.com/en-us/download/dotnet)
+- [Packages](https://github.com/Grille/BeamNG_LevelTemplateCreator_Packages)
 
 ## Links
 - [\[GitHub\] https://github.com/Grille/BeamNG_LevelTemplateCreator](https://github.com/Grille/BeamNG_LevelTemplateCreator)
