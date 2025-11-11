@@ -1,4 +1,5 @@
 ﻿using Grille.BeamNG;
+using Grille.BeamNG.IO;
 using Grille.BeamNG.IO.Resources;
 using LevelTemplateCreator.Assets;
 using System;
@@ -41,7 +42,7 @@ public static class PathExpressionEvaluator
         {
             return ParseRelative(entry, EnvironmentInfo.Packages.Path, filePath);
         }
-        return PathEvaluator.Get(entry, EnvironmentInfo.GameData.Path, EnvironmentInfo.UserData.Path);
+        return ResourceProvider.Get(entry, EnvironmentInfo.GameData.Path, EnvironmentInfo.UserData.Path);
     }
 
     static Resource ParseRelative(string entry, string rootPath, string filePath)

@@ -9,7 +9,7 @@ public abstract class Resource : IKeyed
     string IKeyed.Key => Name;
 
     /// <summary>Resource is delivered as part of the game.</summary>
-    public bool IsGameResource { get; }
+    public bool IsGameResource { get; protected set; }
 
     public string Name { get; }
 

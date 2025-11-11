@@ -68,7 +68,14 @@ public static class BeamEnvironment
             if (!IsUserDirectoryValid())
                 return;
 
-            LoadIni(Path.Combine(UserRootDirectory, $"BeamNG.{Name}.ini"));
+            try
+            {
+                LoadIni(Path.Combine(UserRootDirectory, $"BeamNG.{Name}.ini"));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to load BeamNG.{Name}.ini: {ex.Message}");
+            }
         }
 
     }

@@ -36,6 +36,15 @@ public static class JsonDictSerializer
         Deserialize(json, dst);
     }
 
+    public static JsonDict Deserialize(ReadOnlySpan<char> text) => Deserialize<JsonDict>(text);
+
+    public static T Deserialize<T>(ReadOnlySpan<char> text) where T : IDictionary<string, object>, new()
+    {
+        var result = new T();
+        Deserialize(text, result);
+        return result;
+    }
+
     public static void Deserialize<T>(ReadOnlySpan<char> text, T dst) where T : IDictionary<string, object>
     {
         var options = new JsonSerializerOptions()

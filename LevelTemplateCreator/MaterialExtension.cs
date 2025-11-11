@@ -22,7 +22,7 @@ internal static class MaterialExtension
             if (mode == FileCopyMode.Local && resource.IsGameResource)
                 continue;
             textures.Add(resource);
-            texture.Value = Path.Combine(path, resource.DynamicName);
+            texture.Value = Path.Combine(path, Path.GetFileNameWithoutExtension( resource.Name));
         }
     }
 }

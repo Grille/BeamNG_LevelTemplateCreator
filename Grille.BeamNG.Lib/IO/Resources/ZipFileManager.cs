@@ -75,7 +75,7 @@ public static class ZipFileManager
 
     static string PathToLower(string path)
     {
-        return path.ToLower();
+        return path.TrimStart('/').ToLower();
     }
 
     public static ZipArchiveWrapper Open(string path)
