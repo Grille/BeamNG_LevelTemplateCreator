@@ -1,4 +1,5 @@
-﻿using Grille.BeamNG.IO.Resources;
+﻿using Grille.BeamNG.IO;
+using Grille.BeamNG.IO.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,24 +89,27 @@ public static class EnvironmentInfo
 
     static public string ConfigFilePath { get; set; }
 
+    static public VirtualFileSystem FileSystem { get; }
+
     static EnvironmentInfo()
     {
         ConfigFilePath = "config.json";
         Packages = new Property();
         UserData = new PropertyUser();
         GameData = new PropertyGame();
+        FileSystem = new VirtualFileSystem();
     }
 
     static public void TryFindInvalid()
     {
-        if (!GameData.IsValid)
-        {
-            TryFindGameDir();
-        }
-
         if (!UserData.IsValid)
         {
             TryFindUserDir();
+        }
+
+        if (!GameData.IsValid)
+        {
+            TryFindGameDir();
         }
     }
 
@@ -145,6 +149,13 @@ public static class EnvironmentInfo
         {
             Packages.Path = (string)packages;
         }
+
+        InvalidateFileSystem();
+    }
+
+    public static void InvalidateFileSystem()
+    {
+        FileSystem.Invalidate(UserData.Path, GameData.Path);
     }
 
     static public void Save()

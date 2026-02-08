@@ -1,5 +1,6 @@
 ﻿using Grille.BeamNG.Collections;
 using Grille.BeamNG.IO;
+using Grille.BeamNG.IO.Resources;
 using Grille.BeamNG.SceneTree.Main;
 using Grille.BeamNG.SceneTree.Registry;
 using System;
@@ -24,6 +25,14 @@ public abstract class JsonDictWrapperKeyedCollection<TItem> : KeyedCollection<TI
     public void Load(string filePath) => Load(filePath, ItemClassRegistry.Instance);
 
     public void Deserialize(Stream stream) => Deserialize(stream, ItemClassRegistry.Instance);
+
+    public void Load(Resource resource, ItemClassRegistry registry)
+    {
+        using var stream = resource.Open();
+        Deserialize(stream, registry);
+    }
+
+    public void Load(Resource resource) => Load(resource, ItemClassRegistry.Instance);
 
     public void Load(string filePath, ItemClassRegistry registry)
     {

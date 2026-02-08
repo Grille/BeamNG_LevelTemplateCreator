@@ -51,34 +51,28 @@ public class ArtGroup : ISceneTreeGroup
         }
     }
      
-    public void LoadTree(string dirPath)
+    public void LoadTree(VirtualDirectory vd, ItemClassRegistry registry)
     {
-        LoadTree(dirPath, ItemClassRegistry.Instance);
-    }
-
-    public void LoadTree(string dirPath, ItemClassRegistry registry)
-    {
-        foreach (var item in Directory.EnumerateDirectories(dirPath))
+        foreach (var item in vd.Directories)
         {
-            var name = Path.GetFileName(item);
+            var name = Path.GetFileName(item.Key);
             var group = new ArtGroup(name);
             Children.Add(group);
-            var childPath = Path.Combine(dirPath, name);
-            group.LoadTree(childPath, registry);
+            group.LoadTree(item.Value, registry);
         }
 
-        MaterialItems.TryLoadFromDirectory(dirPath, registry);
-        ManagedItems.TryLoadFromDirectory(dirPath, registry);
+        MaterialItems.TryLoadFromDirectory(vd, registry);
+        ManagedItems.TryLoadFromDirectory(vd, registry);
 
-        foreach (var file in Directory.EnumerateFiles(dirPath))
+        foreach (var file in vd.Files)
         {
-            var ext = Path.GetExtension(file);
+            var ext = Path.GetExtension(file.Key);
             if (ext.ToLower() == ".json")
                 continue;
 
-            var name = Path.GetFileName(file);
+            var name = Path.GetFileName(file.Key);
 
-            var resouce = new FileResource(name, file, false);
+            var resouce = file.Value;
 
             Resources.Add(resouce);
         }

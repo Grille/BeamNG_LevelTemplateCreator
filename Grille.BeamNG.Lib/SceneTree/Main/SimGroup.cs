@@ -46,24 +46,17 @@ public class SimGroup : SimItem, ISceneTreeGroup
         }
     }
 
-    public void LoadTree(string dirPath)
+    public void LoadTree(VirtualDirectory vd, ItemClassRegistry registry)
     {
-        LoadTree(dirPath, ItemClassRegistry.Instance);
-    }
-
-    public void LoadTree(string dirPath, ItemClassRegistry registry)
-    {
-        var filePath = Path.Combine(dirPath, FileName);
-        if (!File.Exists(filePath))
+        if (!vd.TryGetFile(FileName, out var resource))
             return;
-        Items.Load(filePath, registry);
+        using var stream = resource.Open();
+        Items.Deserialize(stream, registry);
 
         foreach (var group  in Items.Enumerate<SimGroup>())
         {
-            var childPath = Path.Combine(dirPath, group.Name.Value);
-            if (!Directory.Exists(childPath))
-                continue;
-            group.LoadTree(childPath, registry);
+            var childVd = vd.GetDirectory(group.Name.Value);
+            group.LoadTree(childVd, registry);
         }
     }
 }

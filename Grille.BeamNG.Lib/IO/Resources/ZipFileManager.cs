@@ -10,7 +10,7 @@ public static class ZipFileManager
 {
     static readonly object _locker = new object();
 
-    public class ZipArchiveWrapper : IDisposable
+    public class ZipArchiveWrapper
     {
         readonly ZipArchive _archive;
 
@@ -58,19 +58,22 @@ public static class ZipFileManager
             return entry;
         }
 
-        public void Dispose() => _archive.Dispose();
+        internal void Dispose() => _archive.Dispose();
+
+        public IEnumerable<ZipArchiveEntry> Entries => _archive.Entries;
     }
 
     static readonly Dictionary<string, ZipArchiveWrapper> _archives;
 
-    public static int Count { get; private set; }
+    public static int Count => _archives.Count;
 
-    public static bool PoolingActive { get; private set; } = false;
+    public static int Scope { get; private set; }
+
+    public static bool PoolingActive => Scope > 0;
 
     static ZipFileManager()
     {
         _archives = new();
-        Count = 0;
     }
 
     static string PathToLower(string path)
@@ -90,7 +93,6 @@ public static class ZipFileManager
         }
 
         Logger.WriteLine($"Open {fullpath}");
-        Count += 1;
 
         var archive = ZipFile.OpenRead(fullpath);
         var newwrapper = new ZipArchiveWrapper(archive);
@@ -109,10 +111,10 @@ public static class ZipFileManager
     /// <returns></returns>
     public static PoolingHandle BeginPooling()
     {
-        Monitor.Enter(_locker);
-
-        PoolingActive = true;
-
+        lock (_locker)
+        {
+            Scope += 1;
+        }
         return new PoolingHandle();
     }
 
@@ -120,30 +122,31 @@ public static class ZipFileManager
     {
         AssertIsActive();
 
-        if (Count > 0)
+        lock (_locker)
         {
-            foreach (var pair in _archives)
+            Scope -= 1;
+
+            if (Count > 0 && Scope == 0)
             {
-                Logger.WriteLine($"Close {pair.Key}");
+                foreach (var pair in _archives)
+                {
+                    Logger.WriteLine($"Close {pair.Key}");
 
-                pair.Value.Dispose();
+                    pair.Value.Dispose();
+                }
+                Logger.WriteLine();
+
+                _archives.Clear();
             }
-            Logger.WriteLine();
 
-            Count = 0;
-
-            _archives.Clear();
         }
-
-        PoolingActive = false;
-
-        Monitor.Exit(_locker);
     }
 
     static void AssertIsActive()
     {
         if (!PoolingActive)
+        {
             throw new InvalidOperationException("Pooling is not active. Please call ZipFileManager.BeginPooling before any operations.");
-
+        }
     }
 }

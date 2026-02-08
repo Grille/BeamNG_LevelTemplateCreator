@@ -18,17 +18,6 @@ public class ZipFileResource : Resource
 
         if (entry == null)
         {
-            var ext = Path.GetExtension(EntryPath).ToLower();
-            if (ext == ".png")
-            {
-                DynamicName = Path.ChangeExtension(Name, ".dds");
-                var path = Path.ChangeExtension(EntryPath, ".dds");
-                entry = archive.GetEntry(path);
-            }
-        }
-
-        if (entry == null)
-        {
             if (canThrow)
                 throw new Exception($"Could not find '{EntryPath}' in '{ZipFilePath}'.");
             stream = null!;
@@ -47,10 +36,5 @@ public class ZipFileResource : Resource
             stream = null!;
             return false;
         }
-    }
-
-    public void Find()
-    {
-
     }
 }

@@ -1,4 +1,6 @@
-﻿using Grille.BeamNG.SceneTree.Registry;
+﻿using Grille.BeamNG.IO;
+using Grille.BeamNG.IO.Resources;
+using Grille.BeamNG.SceneTree.Registry;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -42,33 +44,29 @@ public class ForestGroup : ISceneTreeGroup
         return items;
     }
 
-    public void LoadFile(string filePath, string name)
+    public void LoadFile(string filePath)
+    {
+        var split = SplitPath(filePath);
+        var items = GetCollection(split.FileName);
+        items.Load(filePath);
+    }
+
+    public void LoadFile(Resource filePath, string name)
     {
         var items = GetCollection(name);
         items.Load(filePath);
     }
 
-    public void LoadFile(string filePath)
+    public void LoadTree(VirtualDirectory vd, ItemClassRegistry? registry)
     {
-        var split = SplitPath(filePath);
-        LoadFile(filePath, split.FileName);
-    }
-
-    public void LoadTree(string dirPath, ItemClassRegistry? registry)
-    {
-        foreach (var file in Directory.EnumerateFiles(dirPath))
+        foreach (var file in vd.Files)
         {
-            var split = SplitPath(file);
+            var split = SplitPath(file.Key);
             if (split.Extension.Equals(FileExtension, StringComparison.InvariantCultureIgnoreCase))
             {
-                LoadFile(file, split.FileName);
+                LoadFile(file.Value, split.FileName);
             }
         }
-    }
-
-    public void LoadTree(string dirPath)
-    {
-        LoadTree(dirPath, ItemClassRegistry.Instance);
     }
 
     public void SaveTree(string dirPath, bool ignoreEmpty = true)

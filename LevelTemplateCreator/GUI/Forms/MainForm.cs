@@ -12,6 +12,7 @@ using LevelTemplateCreator.GUI;
 using LevelTemplateCreator.Scripting;
 using Grille.BeamNG.SceneTree.Forest;
 using Grille.BeamNG.SceneTree.Art;
+using LevelTemplateCreator.GUI.Forms;
 
 namespace LevelTemplateCreator
 {
@@ -359,6 +360,11 @@ namespace LevelTemplateCreator
 
                 items.Save(fileName);
             }
+        }
+
+        private void terrainTextureBackerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new TerrainTextureBacker().Show();
         }
     }
 }

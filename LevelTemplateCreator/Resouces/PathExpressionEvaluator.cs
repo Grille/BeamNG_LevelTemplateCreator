@@ -42,7 +42,7 @@ public static class PathExpressionEvaluator
         {
             return ParseRelative(entry, EnvironmentInfo.Packages.Path, filePath);
         }
-        return ResourceProvider.Get(entry, EnvironmentInfo.GameData.Path, EnvironmentInfo.UserData.Path);
+        return EnvironmentInfo.FileSystem.GetFile(entry);
     }
 
     static Resource ParseRelative(string entry, string rootPath, string filePath)

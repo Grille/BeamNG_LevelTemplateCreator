@@ -1,7 +1,9 @@
 using Grille.BeamNG.Logging;
 using Grille.BeamNG.SceneTree;
+using Grille.BeamNG.IO;
 using System.Globalization;
 using System.Threading;
+using Grille.BeamNG.IO.Resources;
 
 namespace LevelTemplateCreator;
 

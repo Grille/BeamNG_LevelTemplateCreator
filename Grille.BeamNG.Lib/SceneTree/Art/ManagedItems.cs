@@ -1,4 +1,5 @@
-﻿using Grille.BeamNG.SceneTree.Registry;
+﻿using Grille.BeamNG.IO;
+using Grille.BeamNG.SceneTree.Registry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,9 @@ public class ManagedItems : ArtItemsCollection<TSForestItemData>
         return TrySaveToDirectory(dirPath, FileName);
     }
 
-    public bool TryLoadFromDirectory(string dirPath, ItemClassRegistry registry)
+    public bool TryLoadFromDirectory(VirtualDirectory vd, ItemClassRegistry registry)
     {
-        return TryLoadFromDirectory(dirPath, FileName, registry);
+        return TryLoadFromDirectory(vd, FileName, registry);
     }
 
     public override void EnumerateRecursive<T>(ICollection<T> values)

@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Grille.BeamNG.IO.Resources;
 
-public class GameResource : Resource
+public class GameResourceX : Resource
 {
     public GameFileType FileType { get; }
     public string FilePath { get; }
     public string? GamePath { get; }
     public string? UserPath { get; }
 
-    public GameResource(string path, string? gamePath, string? userPath = null, bool isGameResource = true) : base(Path.GetFileNameWithoutExtension(path), isGameResource)
+    public GameResourceX(string path, string? gamePath, string? userPath = null, bool isGameResource = true) : base(Path.GetFileNameWithoutExtension(path), isGameResource)
     {
 
         FileType = GameFileType.FromFileExtension(Path.GetExtension(path));
@@ -25,6 +25,7 @@ public class GameResource : Resource
 
     protected override bool TryOpen([MaybeNullWhen(false)] out Stream stream, bool canThrow)
     {
+        /*
         if (FileType.Main == GameFileType.MainType.Texture)
         {
             if (GameFileSystem.TryOpenStream(out var streamInfo, FilePath, GamePath, UserPath, [".dds", ".png"]))
@@ -48,7 +49,7 @@ public class GameResource : Resource
         }
         if (canThrow)
             throw new Exception($"Could not find texture '{FilePath}' in game or user paths.");
-
+        */
         stream = null;
         return false;
     }

@@ -1,4 +1,5 @@
 ﻿using Grille.BeamNG.Collections;
+using Grille.BeamNG.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -16,15 +17,21 @@ public static class BeamEnvironment
         const string NullVersion = "0.0.0";
         const string SteamGameDir = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\BeamNG.drive";
 
-        readonly string Name;
+        public string Name { get; }
 
-        public string UserDirectory { get; private set; } = default!;
+        /// <summary>...user\AppData\Local\BeamNG\BeamNG.drive\current</summary>
+        public string UserCurrentDirectory { get; private set; } = default!;
 
+        /// <summary>...\user\AppData\Local\BeamNG</summary>
+        public string UserRootDirectory { get; private set; } = default!;
+
+        /// <summary>0.38.3.0</summary>
         public string GameVersion { get; private set; } = default!;
 
+        /// <summary>...\steamapps\common\BeamNG.drive</summary>
         public string GameDirectory { get; private set; } = default!;
 
-        internal Product(string name)
+        public Product(string name = "drive")
         {
             Name = name;
         }
@@ -46,83 +53,56 @@ public static class BeamEnvironment
             return true;
         }
 
-        public void LoadIni(string filePath)
+        public record IniInfo(string Version, string InstallPath);
+
+        public static IniInfo LoadIni(string filePath)
         {
             var ini = IniDictSerializer.Load(filePath);
 
-            if (ini.TryGetValue<string>("version", out var version))
-                GameVersion = version;
-            else
-                GameVersion = NullVersion;
-
-            if (ini.TryGetValue<string>("installPath", out var path))
-                GameDirectory = path;
-            else
-                GameDirectory = SteamGameDir;
+            return new IniInfo(
+                ini.TryGetValue<string>("version", out var version) ? version : NullVersion,
+                ini.TryGetValue<string>("installPath", out var path) ? path : SteamGameDir
+            );
         }
 
-        internal void Update(string userDir)
+        public void LoadIni()
         {
-            UserDirectory = Path.Combine(userDir, $"BeamNG.{Name})");
-
-            if (!IsUserDirectoryValid())
-                return;
-
-            try
-            {
-                LoadIni(Path.Combine(UserRootDirectory, $"BeamNG.{Name}.ini"));
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Failed to load BeamNG.{Name}.ini: {ex.Message}");
-            }
+            var ini = LoadIni(Path.Join(UserRootDirectory, $"BeamNG.{Name}.ini"));
+            GameVersion = ini.Version;
+            GameDirectory = ini.InstallPath;
         }
 
-    }
+        public void Update(string? userDir, string? gameDir = null)
+        {
+            if (userDir != null)
+            {
+                UserRootDirectory = userDir;
+                UserCurrentDirectory = Path.Combine(UserRootDirectory, $"BeamNG.{Name}/current");
 
-    private static string _userDirectory;
+                try
+                {
+                    LoadIni();
+                }
+                catch (Exception ex)
+                {
+                    Logger.WriteLine($"Failed to load BeamNG.{Name}.ini: {ex.Message}");
+                }
+            }
+            if (gameDir != null)
+            {
+                GameDirectory = gameDir;
+            }
+        }
+    }
 
     public static Product Drive { get; }
 
     public static Product Tech { get; }
 
-    public static string UserRootDirectory { 
-        get => _userDirectory;
-        [MemberNotNull(nameof(_userDirectory))]
-        set {
-            _userDirectory = value;
-            Drive.Update(_userDirectory);
-            Tech.Update(_userDirectory);
-        }
-    }
-
     static BeamEnvironment()
     {
         Drive = new Product("drive");
         Tech = new Product("tech");
-        UserRootDirectory = GetDefaultUserRootDirectory();
-    }
-
-    [MemberNotNullWhen(true, nameof(UserRootDirectory))]
-    public static bool IsUserDirectoryValid()
-    {
-        if (UserRootDirectory == null)
-            return false;
-
-        if (!Directory.Exists(UserRootDirectory))
-            return false;
-
-        return true;
-    }
-
-    public static string GetDefaultUserRootDirectory()
-    {
-        return GetDefaultUserRootDirectory(Environment.UserName);
-    }
-
-    public static string GetDefaultUserRootDirectory(string userName)
-    {
-        return $"C:\\Users\\{userName}\\AppData\\Local\\BeamNG";
     }
 }
  

@@ -53,6 +53,7 @@ public partial class AssetLibaryLoader
                 catch (Exception e)
                 {
                     Loader.LogException(e);
+                    throw;
                 }
             }
         }

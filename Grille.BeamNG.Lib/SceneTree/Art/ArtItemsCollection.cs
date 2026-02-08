@@ -1,4 +1,5 @@
-﻿using Grille.BeamNG.SceneTree.Main;
+﻿using Grille.BeamNG.IO;
+using Grille.BeamNG.SceneTree.Main;
 using Grille.BeamNG.SceneTree.Registry;
 
 namespace Grille.BeamNG.SceneTree.Art;
@@ -34,7 +35,7 @@ public abstract class ArtItemsCollection<T> : JsonDictWrapperKeyedCollection<T> 
         }
     }
 
-    public bool TrySaveToDirectory(string dirPath, string name)
+    protected bool TrySaveToDirectory(string dirPath, string name)
     {
         if (Count == 0)
             return false;
@@ -44,12 +45,13 @@ public abstract class ArtItemsCollection<T> : JsonDictWrapperKeyedCollection<T> 
         return true;
     }
 
-    public bool TryLoadFromDirectory(string dirPath, string name, ItemClassRegistry registry)
+    protected bool TryLoadFromDirectory(VirtualDirectory vd, string name, ItemClassRegistry registry)
     {
-        var filePath = Path.Combine(dirPath, name);
-        if (!File.Exists(filePath))
-            return false;
-        Load(filePath, registry);
-        return true;
+        if (vd.TryGetFile(name, out var file))
+        {
+            Load(file, registry);
+            return true;
+        }
+        return false;
     }
 }

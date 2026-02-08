@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net6;net8</TargetFrameworks>
-		<LangVersion>12</LangVersion>
+		<LangVersion>14</LangVersion>
 		<Nullable>enable</Nullable>
 		<PackageId>Grille.BeamNG.Lib</PackageId>
 		<Title>Grille.BeamNG.Lib</Title>

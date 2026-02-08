@@ -12,6 +12,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using Grille.BeamNG.IO;
+using Grille.BeamNG.SceneTree.Registry;
+
 namespace LevelTemplateCreator.GUI;
 public partial class TreeMapBuilder : Form
 {
@@ -102,7 +105,9 @@ public partial class TreeMapBuilder : Form
         using var dialog = new FolderBrowserDialog();
         if (dialog.ShowDialog() == DialogResult.OK)
         {
-            forest.LoadTree(dialog.SelectedPath);
+            var vd = new VirtualDirectory();
+            vd.AddDirectory(dialog.SelectedPath, false);
+            forest.LoadTree(vd, ItemClassRegistry.Instance);
         }
     }
 }

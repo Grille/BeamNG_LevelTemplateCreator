@@ -113,6 +113,8 @@ public class AssetLevelBuilder
 
     public void Export(string path)
     {
+        ZipFileManager.BeginPooling();
+
         Content.Preview?.Save(Path.Combine(path, "preview.png"));
 
         var level = new LevelBuilder(Namespace);
@@ -129,5 +131,9 @@ public class AssetLevelBuilder
         level.SetupTerrainMaterialNames();
 
         level.Save(path);
+
+        ZipFileManager.EndPooling();
+
+        EnvironmentInfo.InvalidateFileSystem();
     }
 }

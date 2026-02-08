@@ -28,12 +28,14 @@ namespace LevelTemplateCreator
             pathBoxGame.TextBox.TextChanged += (sender, e) =>
             {
                 EnvironmentInfo.GameData.Path = pathBoxGame.Text;
+                EnvironmentInfo.InvalidateFileSystem();
                 UpdateColor();
 
             };
             pathBoxUser.TextBox.TextChanged += (sender, e) =>
             {
                 EnvironmentInfo.UserData.Path = pathBoxUser.Text;
+                EnvironmentInfo.InvalidateFileSystem();
                 UpdateColor();
             };
             pathBoxPack.TextBox.TextChanged += (sender, e) =>

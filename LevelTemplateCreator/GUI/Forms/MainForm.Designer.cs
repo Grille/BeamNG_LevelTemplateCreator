@@ -52,11 +52,12 @@
             misDecalV5ToolStripMenuItem = new ToolStripMenuItem();
             batchEditForest4jsonToolStripMenuItem = new ToolStripMenuItem();
             treeMapBuilderToolStripMenuItem = new ToolStripMenuItem();
+            enableToolStripMenuItem = new ToolStripMenuItem();
             splitContainer1 = new SplitContainer();
             LevelSettings = new LevelTemplateCreator.GUI.LevelSettings();
             ContentManager = new LevelTemplateCreator.GUI.ContentManager();
             ToolTip = new ToolTip(components);
-            enableToolStripMenuItem = new ToolStripMenuItem();
+            terrainTextureBackerToolStripMenuItem = new ToolStripMenuItem();
             MenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -186,7 +187,7 @@
             // 
             // utilsToolStripMenuItem
             // 
-            utilsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { createTexturePackFromLevelToolStripMenuItem, terrainMergerToolStripMenuItem, misDecalV5ToolStripMenuItem, batchEditForest4jsonToolStripMenuItem, treeMapBuilderToolStripMenuItem, enableToolStripMenuItem });
+            utilsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { createTexturePackFromLevelToolStripMenuItem, terrainMergerToolStripMenuItem, terrainTextureBackerToolStripMenuItem, misDecalV5ToolStripMenuItem, batchEditForest4jsonToolStripMenuItem, treeMapBuilderToolStripMenuItem, enableToolStripMenuItem });
             utilsToolStripMenuItem.Name = "utilsToolStripMenuItem";
             utilsToolStripMenuItem.Size = new Size(42, 20);
             utilsToolStripMenuItem.Text = "Utils";
@@ -227,6 +228,13 @@
             treeMapBuilderToolStripMenuItem.Text = "TreeMapBuilder";
             treeMapBuilderToolStripMenuItem.Click += treeMapBuilderToolStripMenuItem_Click;
             // 
+            // enableToolStripMenuItem
+            // 
+            enableToolStripMenuItem.Name = "enableToolStripMenuItem";
+            enableToolStripMenuItem.Size = new Size(201, 22);
+            enableToolStripMenuItem.Text = "Enable Anisotropic";
+            enableToolStripMenuItem.Click += enableToolStripMenuItem_Click;
+            // 
             // splitContainer1
             // 
             splitContainer1.Dock = DockStyle.Fill;
@@ -261,12 +269,12 @@
             ContentManager.Size = new Size(985, 558);
             ContentManager.TabIndex = 0;
             // 
-            // enableToolStripMenuItem
+            // terrainTextureBackerToolStripMenuItem
             // 
-            enableToolStripMenuItem.Name = "enableToolStripMenuItem";
-            enableToolStripMenuItem.Size = new Size(201, 22);
-            enableToolStripMenuItem.Text = "Enable Anisotropic";
-            enableToolStripMenuItem.Click += enableToolStripMenuItem_Click;
+            terrainTextureBackerToolStripMenuItem.Name = "terrainTextureBackerToolStripMenuItem";
+            terrainTextureBackerToolStripMenuItem.Size = new Size(201, 22);
+            terrainTextureBackerToolStripMenuItem.Text = "Terrain Texture Backer";
+            terrainTextureBackerToolStripMenuItem.Click += terrainTextureBackerToolStripMenuItem_Click;
             // 
             // MainForm
             // 
@@ -319,5 +327,6 @@
         private ToolStripMenuItem batchEditForest4jsonToolStripMenuItem;
         private ToolStripMenuItem treeMapBuilderToolStripMenuItem;
         private ToolStripMenuItem enableToolStripMenuItem;
+        private ToolStripMenuItem terrainTextureBackerToolStripMenuItem;
     }
 }

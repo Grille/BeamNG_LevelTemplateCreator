@@ -1,4 +1,5 @@
 ﻿using Grille.BeamNG.Collections;
+using Grille.BeamNG.IO;
 using Grille.BeamNG.SceneTree.Registry;
 
 namespace Grille.BeamNG.SceneTree;
@@ -9,7 +10,5 @@ public interface ISceneTreeGroup : IKeyed
 
     public void SaveTree(string path, bool ignoreEmpty);
 
-    public void LoadTree(string path);
-
-    public void LoadTree(string path, ItemClassRegistry registry);
+    public void LoadTree(VirtualDirectory vd, ItemClassRegistry registry);
 }

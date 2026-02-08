@@ -30,9 +30,9 @@ public class MaterialItems : ArtItemsCollection<ArtItem>
         return TrySaveToDirectory(dirPath, FileName);
     }
 
-    public bool TryLoadFromDirectory(string dirPath, ItemClassRegistry registry)
+    public bool TryLoadFromDirectory(VirtualDirectory vd, ItemClassRegistry registry)
     {
-        return TryLoadFromDirectory(dirPath, FileName, registry);
+        return TryLoadFromDirectory(vd, FileName, registry);
     }
 
     public override void EnumerateRecursive<T>(ICollection<T> values)
