@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using Grille.BeamNG.Logging;
-using Grille.BeamNG.IO.Resources;
 using LevelTemplateCreator.Scripting;
 using LevelTemplateCreator.GUI;
 using System.Drawing.Text;
+using Grille.BeamNG.IO;
 
 namespace LevelTemplateCreator.Assets;
 

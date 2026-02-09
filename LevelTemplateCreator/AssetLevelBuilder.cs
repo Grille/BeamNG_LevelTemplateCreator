@@ -13,7 +13,6 @@ using Grille.BeamNG.SceneTree.Art;
 using Grille.BeamNG.IO;
 using Grille.BeamNG.Logging;
 using System.Numerics;
-using Grille.BeamNG.IO.Resources;
 
 namespace LevelTemplateCreator;
 

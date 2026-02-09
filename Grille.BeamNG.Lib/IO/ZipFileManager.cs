@@ -3,7 +3,7 @@ using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace Grille.BeamNG.IO.Resources;
+namespace Grille.BeamNG.IO;
 
 
 public static class ZipFileManager
@@ -146,7 +146,7 @@ public static class ZipFileManager
     {
         if (!PoolingActive)
         {
-            throw new InvalidOperationException("Pooling is not active. Please call ZipFileManager.BeginPooling before any operations.");
+            throw new InvalidOperationException("Pooling is not active. Please call Grille.BeamNG.IO.ZipFileManager.BeginPooling() before any operations.");
         }
     }
 }
